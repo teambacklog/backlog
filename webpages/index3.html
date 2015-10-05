@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Backlog</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+<body>
+  <nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">BacklogLogo</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="#">Sign Up</a></li>
+        <li><a href="#">Log In</a></li>
+      </ul>
+
+      <ul id="nav-mobile" class="side-nav">
+        <li><a href="#">Navbar Link</a></li>
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+
+      <h1 class="header center orange-text">Your work: </h1>
+      <div class="row center">
+        <h5 class="header col s12 light"> </h5>
+      </div>
+
+        <table>
+        <thead>
+          <tr>
+              <th data-field="tasks">Tasks</th>
+              <th data-field="priority">Priority</th>
+              <th data-field="duedate">Due Date</th>
+              <th data-field="esttime">Est. Time</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>Math Homework</td>
+            <td>High</td>
+            <td>09/25/2015</td>
+            <td>1.5 hrs</td>
+          </tr>
+          <tr>
+            <td>SD&D Report</td>
+            <td>Medium</td>
+            <td>10/02/2015</td>
+            <td>3 hrs</td>
+          </tr>
+          <tr>
+            <td>Prepare Resume</td>
+            <td>Low</td>
+            <td>N/A</td>
+            <td>0.5 hrs</td>
+          </tr>
+          <tr>
+            <td>Study for Physics Test</td>
+            <td>High</td>
+            <td>10/07/2015</td>
+            <td>4 hrs</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+      <a class="waves-effect waves-light btn"><i class="material-icons left">input</i>show all tasks</a>
+
+      <h5 class="header center orange-text inline">You have: <i class="material-icons left" >query_builder</i></h5>
+        <div class="chip">
+          15mins
+        <i class="material-icons">close</i>
+      </div>
+        <div class="chip">
+          1hour
+        <i class="material-icons">close</i>
+        </div>
+        <div class="chip">
+          30mins
+        <i class="material-icons">close</i>
+        </div>
+        <div class="chip">
+          18mins
+        <i class="material-icons">close</i>
+        </div>
+      </div>
+
+      <br><br>
+
+    </div>
+  </div>
+  </div>
+
+  <footer class="page-footer  orange">
+    <div class="footer-copyright orange">
+      <div class="container">
+      Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Backlog</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="../../bin/materialize.js"></script>
+  <script src="js/init.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('.collapsible').collapsible({
+        accordion : false // A setting that changes the collapsible behavior to //expandable instead of the default accordion style
+      });
+    });
+
+  </script>
+
+  </body>
+</html>
