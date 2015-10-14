@@ -36,7 +36,7 @@
     </div>
   </nav>
 
-  {{ > userFrontPage }} <!--This is used to display the tutorial components-->
+  {{ > taskList }} <!--This is used to display the tutorial components-->
 
   <footer class="page-footer orange">
     <div class="container">
