@@ -1,8 +1,8 @@
 <template name="taskList">
-  <div class="section no-pad-bot" id="index-banner">
+  <div id="taskList">
+    <div class="section no-pad-bot" id="index-banner">
     <div class="container">
       <br><br>
-
       <h1 class="header center orange-text">Your work: </h1>
       <div class="row center">
         <h5 class="header col s12 light"> </h5>
@@ -49,25 +49,30 @@
         </tbody>
       </table>
 
-
-
-      <a class="waves-effect waves-light btn"><i class="material-icons left">input</i>show all tasks</a>
-
-      <h5 class="header center orange-text inline">You have: <i class="material-icons left" >query_builder</i></h5>
-        <a class="waves-effect waves-light btn">15mins</a>
-        <a class="waves-effect waves-light btn">30mins</a>
-        <a class="waves-effect waves-light btn">1hour</a>
-        <div class="chip">
-          18mins
-          <i class="material-icons"></i>
-        </div>
       </div>
 
       <br><br>
 
     </div>
 
+  </div>
+
+
 </template>
+
+
+<template name="row">
+  <tr>
+    <td class="Name">{{Name}}</td>
+    <td class="Priority">{{Priority}}</td>
+    <td class="Date">{{Date}}</td>
+    <td class="Time">{{Est}}</td>
+    <!--<span class="amtTime">Time Left: {{amtTime}}</span>
+    <form class="submitTime"><input type="text" name="submitTime" placeholder="submit time"></form>
+    <button class="delete">&times;</button>-->
+  </tr>
+</template>
+
 
 <template name="example">
   <span>hello</span>

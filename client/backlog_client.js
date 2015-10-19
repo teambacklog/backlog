@@ -11,22 +11,22 @@ Template.body.helpers({
   }
   ,
   // only if the "displayContextMenu" is true is there at most one object in the collection
-  contextMenus: function(){  
+  contextMenus: function(){
     if(Session.get('displayContextMenu')){
       return [{ }];
     } else { return []; }
   }
 });
 
-  
+
 Template.body.events({
   // when clicked on, set "displayContextMenu" to true: meaning, show popup menu
   'click .add-new-task': function(event) {
     event.preventDefault();
-    Session.set('displayContextMenu', true);      
+    Session.set('displayContextMenu', true);
   }
 });
- 
+
 Template.row.events({
   // delete row
   'click .delete': function(event) {
@@ -40,7 +40,7 @@ Template.row.events({
     var timeToTake = event.target.submitTime.value;
     var timeLeft = this.amtTime;
     var timeRemaining = timeLeft - timeToTake;
-      
+
     Meteor.call("submitTime", timeRemaining);
 
     event.target.submitTime.value = "";
@@ -57,12 +57,12 @@ Template.contextMenu.events({
   // submit information for new row
   'click .submit-new-task': function(event, template) {
     //event.stopImmediatePropagation();
-    event.preventDefault(); 
+    event.preventDefault();
     var name = template.find('[name="name"]').value;
     var time = template.find('[name="time"]').value;
     Meteor.call("addTask", name, time);
     Session.set('displayContextMenu', false);
-      
+
   }
 });
 
