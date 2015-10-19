@@ -27,16 +27,20 @@
       <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
     </li>
   </ul>
-
-  <div id="switchBoard">
-    <label id="">
-      Off
-      <input type="checkbox">
-      <span class="lever"></span>
-      On
-    </label>
+  <div id="taskBoard">
+    <div class="switch">
+      <label>
+        Off
+        <input type="checkbox">
+        <span class="lever"></span>
+        On
+      </label>
+    </div>
+    {{ > taskList }}
 
   </div>
+
+
 
   <div id="addBoard">
     <a class="btn-floating btn-large waves-effect waves-light red right" id="add-task-button">
@@ -54,6 +58,7 @@
       18mins
       <i class="material-icons"></i>
     </div>
+
   </div>
 
   </div>
