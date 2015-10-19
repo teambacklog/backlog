@@ -47,25 +47,30 @@ Template.row.events({
   }
 });
 
+// allows addTask.html to add tasks
 Template.contextMenu.events({
-  // "collapse" popup menu
-  'click .remove-new-task': function(event) {
-    //event.preventDefault();
-    Session.set('displayContextMenu', false);
-  }
-  ,
   // submit information for new row
-  'click .submit-new-task': function(event, template) {
-    //event.stopImmediatePropagation();
+  'click #submit-new-task': function(event, template) {
     event.preventDefault();
+    //alert("called");
+    // unique Meteor variable
+    var user = Meteor.user();
+    // text from text fields
     var name = template.find('[name="name"]').value;
-    var time = template.find('[name="time"]').value;
-    Meteor.call("addTask", name, time);
-    Session.set('displayContextMenu', false);
 
+    var priorityField = template.find('[name="priority"]');
+    var priority = priorityField.options[priorityField.selectedIndex].text;
+ 
+    var date = template.find('[name="date"]').value;
+    var time = template.find('[name="est"]').value;
+
+    Meteor.call("addTask", user, name, priority, date, time);
+    //Session.set('showAddTask', false);
+    //Session.set('showFrontPage', true);
   }
 });
 
+// Find tasks specific to this user
 Template.taskList.rows = function(){
-  return Rows.find({});
+  return Rows.find({ User: Meteor.user() });
 }
