@@ -2,15 +2,16 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
   <title>Backlog</title>
-  <link rel="stylesheet" href="stylesheets/materialize.css">
-
-  <script src="client/materialize.js"/>
-
-  <!-- Compiled and minified CSS -->
-  <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">-->
+   <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
 
   <!-- Compiled and minified JavaScript -->
-  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+
+  <!-- JQuery CDN -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+  <script type="text/javascript" src="javascripts/backlog_app.js"></script>
 
 </head>
 
@@ -20,13 +21,13 @@
     <a id="logo-container" href="#" class="brand-logo">BacklogLogo</a>
       <ul class="right hide-on-med-and-down">
         <li>{{> loginButtons}}</li>
-      </ul> 
+      </ul>
 
-      <!-- May not be needed since we are using a package that manages the accounts 
+      <!-- May not be needed since we are using a package that manages the accounts
       <ul class="right hide-on-med-and-down">
         <li><a href="#">Sign Up</a></li>
         <li><a href="#">Log In</a></li>
-      </ul> 
+      </ul>
       -->
 
       <ul id="nav-mobile" class="side-nav">
@@ -35,6 +36,7 @@
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
   </nav>
+
 
   {{ > userFrontPage }} <!--This is used to display the tutorial components-->
 
