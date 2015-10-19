@@ -1,0 +1,55 @@
+<template name="userFrontPage">
+
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+      <h1 class="header center orange-text">Your work: </h1>
+      <div class="row center">
+        <h5 class="header col s12 light"> </h5>
+      </div>
+  <!--Gonna figure out how to do the collaposible later -bo-->
+
+   <ul class="collapsible popout" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header"><i class="material-icons"></i>Tasks 4</div>
+      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons"></i>Earliest Due Date: 2 DAYS</div>
+      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons"></i>Est. work load for the day: 2 hrs</div>
+      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons"></i>Est. work load for the week: 14 hrs</div>
+      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+    </li>
+  </ul>
+
+  <div class="switch">
+    <label>
+      Off
+      <input type="checkbox">
+      <span class="lever"></span>
+      On
+    </label>
+    <a class="btn-floating btn-large waves-effect waves-light red right">
+      <i class="material-icons">add</i>
+    </a>
+
+    <h5 class="header center orange-text inline">You have: <i class="material-icons left" >query_builder</i></h5>
+      <a class="waves-effect waves-light btn">15mins</a>
+      <a class="waves-effect waves-light btn">30mins</a>
+      <a class="waves-effect waves-light btn">1hour</a>
+      <div class="chip">
+        18mins
+        <i class="material-icons"></i>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</template>

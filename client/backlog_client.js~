@@ -65,7 +65,3 @@ Template.contextMenu.events({
       
   }
 });
-
-Template.taskList.rows = function(){
-  return Rows.find({});
-}

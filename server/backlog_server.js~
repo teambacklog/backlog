@@ -1,3 +1,5 @@
+
+
 Meteor.publish("rows", function() {
   return Rows.find();
 });

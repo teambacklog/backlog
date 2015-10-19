@@ -1,0 +1,12 @@
+Use the retainAll() method of Set:
+
+Set<String> s1;
+Set<String> s2;
+s1.retainAll(s2); // s1 now contains only elements in both sets
+If you want to preserve the sets, create a new set to hold the intersection:
+
+Set<String> intersection = new HashSet<String>(s1); // use the copy constructor
+intersection.retainAll(s2);
+The javadoc of retainAll() says it's exactly what you want:
+
+Retains only the elements in this set that are contained in the specified collection (optional operation). In other words, removes from this set all of its elements that are not contained in the specified collection. If the specified collection is also a set, this operation effectively modifies this set so that its value is the intersection of the two sets.
