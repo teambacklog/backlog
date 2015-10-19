@@ -27,6 +27,7 @@
       <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
     </li>
   </ul>
+
   <div id="taskBoard">
     <div class="switch">
       <label>
@@ -43,9 +44,11 @@
 
 
   <div id="addBoard">
-    <a class="btn-floating btn-large waves-effect waves-light red right" id="add-task-button">
-      <i class="material-icons">add</i>
+    <a class="btn-floating btn-large waves-effect waves-light red right">
+      <i class="material-icons" id="add-task-button">add</i>
     </a>
+
+    {{ > contextMenu }}
   </div>
 
   <div id="timeSlotBoard">
