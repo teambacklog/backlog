@@ -4,24 +4,47 @@
     <form class="col s12">
       <div class="row">
         <div class="input-field col s6">
-          <input placeholder="Task Name" id="first_name" type="text" class="validate">
-          <label for="first_name">Task Name</label>
+          <input type="text" name="name" id="task_name"  placeholder="add task name" class="validate">
+          <label for="task_name">Task Name</label>
         </div>
-        <div class="input-field col s6">
-          <input type="date" class="datepicker" id="datepicker">
-          <label for="datepicker">Last Name</label>
-        </div>
+
       </div>
+
       <div class="row">
         <label>Priority</label>
-        <div class="input-field col s12">
+        <div class="input-field col s6">
           <select class="browser-default">
-            <option value="" disabled selected>Choose your option</option>
+            <option value="" disabled selected>Choose your priority</option>
             <option value="1">Low</option>
             <option value="2">Medium</option>
             <option value="3">High</option>
           </select>
         </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s6">
+          <input type="date" class="datepicker" id="datepicker">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s6">
+            <p class="range-field">
+              <input type="range" id="test5" min="0" max="300" />
+            </p>
+        </div>
+      </div>
+
+      <div class="row">
+        <button class="btn waves-effect waves-light" id="submit-new-task" type="submit" name="submit-new-task">Submit
+          <i class="material-icons right">send</i>
+        </button>
+
+        <button class="btn waves-effect waves-light" id="remove-new-task" type="submit" name="remove-new-task">Clear
+          <i class="material-icons right">clear_all</i>
+        </button>
+
       </div>
 
     </form>
