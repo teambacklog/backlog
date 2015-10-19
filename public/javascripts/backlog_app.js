@@ -12,10 +12,11 @@ $(document).ready(function(){
     if ($this.is(':checked')) {
         // the checkbox was checked
         $('#taskList').show('slow');
-
+        $('#taskSummaryBoard').hide('slow');
     } else {
         // the checkbox was unchecked
         $('#taskList').hide('slow');
+        $('#taskSummaryBoard').show('slow');
     }
   });
 
