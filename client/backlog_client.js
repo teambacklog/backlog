@@ -1,76 +1,57 @@
-Meteor.subscribe("rows");
+Meteor.subscribe('rows');
 
-Rows = new Mongo.Collection("rows");
+Rows = new Mongo.Collection('rows');
 
-Meteor.startup( function(){  });
+Meteor.startup( function start() {  });
 
 // defines what 'rows' and 'contextMenus' are when referenced in the HTML doc
 Template.body.helpers({
-  rows: function(){
-      return Rows.find({});
-  }
-  ,
-  // only if the "displayContextMenu" is true is there at most one object in the collection
-  contextMenus: function(){
-    if(Session.get('displayContextMenu')){
-      return [{ }];
-    } else { return []; }
-  }
-});
-
-
-Template.body.events({
-  // when clicked on, set "displayContextMenu" to true: meaning, show popup menu
-  'click .add-new-task': function(event) {
-    event.preventDefault();
-    Session.set('displayContextMenu', true);
-  }
+  rows: function getTasks() {
+    return Rows.find({});
+  },
 });
 
 Template.row.events({
   // delete row
-  'click .delete': function(event) {
+  'click .delete': function deleteTask() {
     //event.preventDefault();
-    Meteor.call("deleteTask", this._id);
+    Meteor.call('deleteTask', this._id);
   },
   // change time remaining on task by user input
-  'submit .submitTime': function(event, template) {
-    //event.preventDefault();
+  'submit .submitTime': function submitTime(event) {
+    const timeToTake = event.target.submitTime.value;
+    const timeLeft = this.amtTime;
+    const timeRemaining = timeLeft - timeToTake;
 
-    var timeToTake = event.target.submitTime.value;
-    var timeLeft = this.amtTime;
-    var timeRemaining = timeLeft - timeToTake;
+    Meteor.call('submitTime', timeRemaining);
 
-    Meteor.call("submitTime", timeRemaining);
-
-    event.target.submitTime.value = "";
-  }
+    event.target.submitTime.value = '';
+  },
 });
 
 // allows addTask.html to add tasks
 Template.contextMenu.events({
   // submit information for new row
-  'click #submit-new-task': function(event, template) {
+  'click #submit-new-task': function addTask(event, template) {
     event.preventDefault();
-    //alert("called");
     // unique Meteor variable
-    var user = Meteor.user();
+    const user = Meteor.user();
     // text from text fields
-    var name = template.find('[name="name"]').value;
+    const name = template.find('[name="name"]').value;
 
-    var priorityField = template.find('[name="priority"]');
-    var priority = priorityField.options[priorityField.selectedIndex].text;
- 
-    var date = template.find('[name="date"]').value;
-    var time = template.find('[name="est"]').value;
+    const priorityField = template.find('[name="priority"]');
+    const priority = priorityField.options[priorityField.selectedIndex].text;
 
-    Meteor.call("addTask", user, name, priority, date, time);
+    const date = template.find('[name="date"]').value;
+    const time = template.find('[name="est"]').value;
+
+    Meteor.call('addTask', user, name, priority, date, time);
     //Session.set('showAddTask', false);
     //Session.set('showFrontPage', true);
-  }
+  },
 });
 
 // Find tasks specific to this user
-Template.taskList.rows = function(){
+Template.taskList.rows = function getRows() {
   return Rows.find({ User: Meteor.user() });
-}
+};

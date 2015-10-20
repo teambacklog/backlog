@@ -1,11 +1,12 @@
 
-// (Justin) Not sure what the scope is, but I assume 'this' means the user. The user must have an id before receiving info
-Meteor.publish("rows", function() {
-  if (this.userId) {
-    return Rows.find();
-  } else {
+// (Justin) Not sure what the scope is, but I assume 'this' means the user.
+//  The user must have an id before receiving info
+Meteor.publish('rows', function getTasks() {
+  if (!this.userId) {
     // (Justin) read api, not sure
     this.ready();
+  } else {
+    return Rows.find();
   }
 });
 
@@ -21,34 +22,34 @@ Rows.allow({
 // Methods the client can call
 Meteor.methods({
   // adds a task to the 'rows' collection
-  addTask: function(user, name, priority, date, time) {
+  addTask: function addTask(user, name, priority, date, time) {
     Rows.insert({
-	  User: user,
+      User: user,
       Name: name,
       Priority: priority,
-      Date: date, 
-      Est: time
-    }, function(error, result){  }
+      Date: date,
+      Est: time,
+    }, function addTaskError() {  }
     );
   },
   // deletes task from 'rows'
-  deleteTask: function(taskId) {
+  deleteTask: function deleteTask(taskId) {
     Rows.remove(taskId);
   },
   // submits time
-  submitTime: function(timeRemaining) {
+  submitTime: function submitTime(timeRemaining) {
     // if no time left, delete row
-    if( timeRemaining <= 0){
+    if (timeRemaining <= 0) {
       Rows.remove(this._id);
     } else {
       Rows.update(this._id, {
-      $set: { amtTime: timeRemaining }
+        $set: { amtTime: timeRemaining },
       });
     }
-  }
+  },
 });
 
-Meteor.startup(function () {
+Meteor.startup(function start() {
   // code to run on server at startup
 
 });
