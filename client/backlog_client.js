@@ -14,7 +14,7 @@ Template.body.helpers({
 Template.row.events({
   // delete row
   'click .delete': function deleteTask() {
-    //event.preventDefault();
+    // event.preventDefault();
     Meteor.call('deleteTask', this._id);
   },
   // change time remaining on task by user input
@@ -46,8 +46,8 @@ Template.contextMenu.events({
     const time = template.find('[name="est"]').value;
 
     Meteor.call('addTask', user, name, priority, date, time);
-    //Session.set('showAddTask', false);
-    //Session.set('showFrontPage', true);
+    // Session.set('showAddTask', false);
+    // Session.set('showFrontPage', true);
   },
 });
 
