@@ -1,13 +1,13 @@
-Meteor.subscribe('rows');
+Meteor.subscribe('tasks');
 
-Rows = new Mongo.Collection('rows');
+//Tasks = new Mongo.Collection('tasks');
 
 Meteor.startup( function start() {  });
 
-// defines what 'rows' and 'contextMenus' are when referenced in the HTML doc
+// defines what 'tasks' and 'contextMenus' are when referenced in the HTML doc
 Template.body.helpers({
-  rows: function getTasks() {
-    return Rows.find({});
+  tasks: function getTasks() {
+    return Tasks.find({});
   },
 });
 
@@ -52,6 +52,6 @@ Template.contextMenu.events({
 });
 
 // Find tasks specific to this user
-Template.taskList.rows = function getRows() {
-  return Rows.find({ User: Meteor.user() });
+Template.taskList.tasks = function getTasks() {
+  return Tasks.find({ User: Meteor.user() });
 };

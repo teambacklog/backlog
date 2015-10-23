@@ -1,6 +1,3 @@
-/*** TaskService.js ***/
-// current version: merely uses Meteor methods to perform server functions
-
 // Methods the client can call
 Meteor.methods({
   // adds a task to the 'Tasks' collection

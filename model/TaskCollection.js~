@@ -1,6 +1,3 @@
-/*** TaskCollection.js ***/
-// current version: merely holds global Task collection
-
 Tasks = new Mongo.Collection('tasks');
 
 // (Justin) Not sure what the scope is, but I assume 'this' means the user.

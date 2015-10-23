@@ -1,12 +1,8 @@
-/*** TaskCollection.js ***/
-// current version: merely holds global Task collection
-
-Tasks = new Mongo.Collection('tasks');
+/**** TaskScheduler.js ***/
+// current version: merely uses the 'publish' to give the user the set of their data
 
 // (Justin) Not sure what the scope is, but I assume 'this' means the user.
 //  The user must have an id before receiving info
-
-/*
 Meteor.publish('tasks', function getTasks() {
   if (!this.userId) {
     // (Justin) read api, not sure
@@ -15,13 +11,3 @@ Meteor.publish('tasks', function getTasks() {
     return Tasks.find();
   }
 });
-*/
-
-// maybe useful one day
-/*
-Tasks.allow({
-  insert: function(userId, doc) {
-    return true;
-  }
-});
-*/
