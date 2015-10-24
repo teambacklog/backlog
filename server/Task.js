@@ -1,19 +1,20 @@
 // Todo: Validation
-Task = function(/*id,*/ id, priority, deadline, estTime) {
-  //this._id = id;
-  this._id = id;
-  this._priority = priority;
+Task = function(taskId, priority, deadline, estTime, taskDetails) {
+  this._taskId = taskId;
+  // this._userId = ownerId;
+  this._priority = priority
   this._deadline = deadline;
   this._estTime = estTime;
+  this._taskDetails = taskDetails;
 };
 
 Task.prototype = {
-  getId() {
-    return this._id;
+  getTaskId() {
+    return this._taskId;
   },
-  /*getOwnerId() {
+  getOwnerId() {
     return this._ownerId;
-  },*/
+  },
   getPriority() {
     return this._priority;
   },
@@ -23,4 +24,7 @@ Task.prototype = {
   getEstTime() {
     return this._estTime;
   },
+  getTaskDetails() {
+    return this._taskDetails;
+  }
 };

@@ -4,15 +4,10 @@
 // Methods the client can call
 Meteor.methods({
   // adds a task to the 'Tasks' collection
-  addTask: function addTask(user, name, priority, date, time) {
+  addTask: function addTask(userId, taskId, priority, date, estTime, taskDetails) {
     Tasks.insert({
-      /*User: user,
-      Name: name,
-      Priority: priority,
-      Date: date,
-      Est: time,*/
-      User: user, 
-      Task: new Task(name, priority, date, time),
+      User: userId,
+      Task: new Task(taskId, priority, date, estTime, taskDetails),
       }, function addTaskError() {  }
     );
   },
