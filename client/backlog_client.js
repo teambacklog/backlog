@@ -11,7 +11,8 @@ Template.body.helpers({
   },
 });
 
-Template.row.events({
+/*
+Template.tasks.events({
   // delete row
   'click .delete': function deleteTask() {
     // event.preventDefault();
@@ -28,6 +29,7 @@ Template.row.events({
     event.target.submitTime.value = '';
   },
 });
+*/
 
 // allows addTask.html to add tasks
 Template.contextMenu.events({
@@ -44,7 +46,6 @@ Template.contextMenu.events({
 
     const date = template.find('[name="date"]').value;
     const time = template.find('[name="est"]').value;
-
     Meteor.call('addTask', user, name, priority, date, time);
     // Session.set('showAddTask', false);
     // Session.set('showFrontPage', true);

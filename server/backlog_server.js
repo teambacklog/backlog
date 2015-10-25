@@ -1,5 +1,5 @@
 Meteor.publish('tasks', function getTasks() {
-  return Tasks.find({ User: this.userId });
+  return Tasks.find({ user: this.userId });
 });
 
 Meteor.startup(function start() {
