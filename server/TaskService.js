@@ -1,8 +1,9 @@
-/* TaskService.js */
-// current version: merely uses Meteor methods to perform server functions
+/*
+TaskService.js
+Function: Task related server functions that the client can call
+*/
 
-// Methods the client can call
-Meteor.methods({
+TaskService = {
   // adds a task to the 'Tasks' collection
   addTask: function addTask(userId, taskId, priority, date, estTime,
                             taskDetails) {
@@ -28,8 +29,4 @@ Meteor.methods({
       });
     }
   },
-  getUserTaskCount: function getUserTaskCount() {
-    return 5;
-  },
-});
-
+};

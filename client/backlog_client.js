@@ -11,26 +11,6 @@ Template.body.helpers({
   },
 });
 
-/*
-Template.tasks.events({
-  // delete row
-  'click .delete': function deleteTask() {
-    // event.preventDefault();
-    Meteor.call('deleteTask', this._id);
-  },
-  // change time remaining on task by user input
-  'submit .submitTime': function submitTime(event) {
-    const timeToTake = event.target.submitTime.value;
-    const timeLeft = this.amtTime;
-    const timeRemaining = timeLeft - timeToTake;
-
-    Meteor.call('submitTime', timeRemaining);
-
-    event.target.submitTime.value = '';
-  },
-});
-*/
-
 // allows addTask.html to add tasks
 Template.contextMenu.events({
   // submit information for new row
