@@ -25,8 +25,11 @@
 <body>
   {{ > navbar }}
 
-
-  {{ > userFrontPage }} <!--This is used to display the tutorial components-->
+  {{#if currentUser}}
+    {{ > userSummary }}
+  {{else}}
+    {{ > tutorial }}
+  {{/if}}
 
   {{ > footer }}
 </body>

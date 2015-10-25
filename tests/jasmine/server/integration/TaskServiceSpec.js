@@ -1,24 +1,21 @@
 describe('TaskService', function() {
-
-  beforeEach(function() {
+  beforeEach(function beforeEach() {
     MeteorStubs.install();
     // Need to sign up and sign up w/ a temporary user
-    var userId = Accounts.createUser({
+    let userId = Accounts.createUser({
       username: 'UnitTester',
-      password: 'P125jT!@25'
+      password: 'P125jT!@25',
     });
   });
 
-  afterEach(function() {
+  afterEach(function afterEach() {
     MeteorStubs.uninstall();
   });
 
-function(taskId, priority, deadline, estTime, taskDetails)
-
-  describe('addTask', function() {
+  describe('addTask', function TestAddTask() {
     it('should add a task to the user', function() {
       // SETUP
-      spyOn(Tasks, "insert");
+      spyOn(Tasks, 'insert');
       // EXECUTE
       TaskService.addTask(userId, 'high', '2015-02-15', 100, 'Math hw#5');
       // VERIFY

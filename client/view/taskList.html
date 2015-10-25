@@ -17,12 +17,10 @@
               <th data-field="esttime">Est. Time</th>
           </tr>
         </thead>
-
         <tbody>
           {{ #each tasks }}
-            {{ > row }}
+            {{ > taskInfo }}
           {{ /each }}
-
         </tbody>
       </table>
 
@@ -31,19 +29,17 @@
       <br><br>
 
     </div>
-
   </div>
-
 
 </template>
 
 
-<template name="row">
+<template name="taskInfo">
   <tr>
-    <td class="Name">{{Task._id}}</td>
-    <td class="Priority">{{Task._priority}}</td>
-    <td class="Date">{{Task._deadline}}</td>
-    <td class="Time">{{Task._estTime}}</td>
+    <td class="Name">{{ Task.taskId }}</td>
+    <td class="Priority">{{ Task.priority }}</td>
+    <td class="Date">{{ Task.deadline }}</td>
+    <td class="Time">{{ Task.estTime }}</td>
     <!--<span class="amtTime">Time Left: {{amtTime}}</span>
     <form class="submitTime"><input type="text" name="submitTime" placeholder="submit time"></form>
     <button class="delete">&times;</button>-->

@@ -1,13 +1,13 @@
 Meteor.subscribe('tasks');
 
-//Tasks = new Mongo.Collection('tasks');
+// Tasks = new Mongo.Collection('tasks');
 
 Meteor.startup( function start() {  });
 
 // defines what 'tasks' and 'contextMenus' are when referenced in the HTML doc
 Template.body.helpers({
   tasks: function getTasks() {
-    return Tasks.find({});
+    return Tasks.find();
   },
 });
 
@@ -35,7 +35,7 @@ Template.contextMenu.events({
   'click #submit-new-task': function addTask(event, template) {
     event.preventDefault();
     // unique Meteor variable
-    const user = Meteor.user();
+    const user = Meteor.userId();
     // text from text fields
     const name = template.find('[name="name"]').value;
 
@@ -53,5 +53,12 @@ Template.contextMenu.events({
 
 // Find tasks specific to this user
 Template.taskList.tasks = function getTasks() {
-  return Tasks.find({ User: Meteor.user() });
+  return Tasks.find();
 };
+
+// Find tasks specific to this user
+Template.userSummary.helpers({
+  taskCount: function getTaskCounts() {
+    return Tasks.find().count();
+  },
+});
