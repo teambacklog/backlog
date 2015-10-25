@@ -17,7 +17,6 @@ Template.contextMenu.events({
   'click #submit-new-task': function addTask(event, template) {
     event.preventDefault();
     // unique Meteor variable
-    const user = Meteor.userId();
     // text from text fields
     const name = template.find('[name="name"]').value;
 
@@ -26,7 +25,7 @@ Template.contextMenu.events({
 
     const date = template.find('[name="date"]').value;
     const time = template.find('[name="est"]').value;
-    Meteor.call('addTask', user, name, priority, date, time);
+    Meteor.call('addTask', name, priority, date, time);
     // Session.set('showAddTask', false);
     // Session.set('showFrontPage', true);
   },
