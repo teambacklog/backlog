@@ -1,28 +1,42 @@
 <template name="taskList">
-  <div id="taskList">
     <div class="section no-pad-bot" id="index-banner">
-    <div class="container">
+    <div class="container"  id="taskList">
       <br><br>
       <h1 class="header center orange-text">Your work: </h1>
-      <div class="row center">
-        <h5 class="header col s12 light"> </h5>
-      </div>
+      <div class="scroll">
 
         <table>
-        <thead>
-          <tr>
+          <thead>
+            <tr>
               <th data-field="tasks">Tasks</th>
               <th data-field="priority">Priority</th>
               <th data-field="duedate">Due Date</th>
               <th data-field="esttime">Est. Time</th>
-          </tr>
-        </thead>
-
-        <tbody>
+            </tr>
+          </thead>
+          <tbody>
           {{ #each rows }}
             {{ > row }}
           {{ /each }}
-          <!--<tr>
+          <tr>
+            <td>Math Homework</td>
+            <td>High</td>
+            <td>09/25/2015</td>
+            <td>1.5 hrs</td>
+          </tr>
+          <tr>
+            <td>SD&D Report</td>
+            <td>Medium</td>
+            <td>10/02/2015</td>
+            <td>3 hrs</td>
+          </tr>
+          <tr>
+            <td>Prepare Resume</td>
+            <td>Low</td>
+            <td>N/A</td>
+            <td>0.5 hrs</td>
+          </tr>
+          <tr>
             <td>Math Homework</td>
             <td>High</td>
             <td>09/25/2015</td>
@@ -45,15 +59,15 @@
             <td>High</td>
             <td>10/07/2015</td>
             <td>4 hrs</td>
-          </tr>-->
+          </tr>
         </tbody>
-      </table>
 
+
+      </table>
+      </div>
       </div>
 
       <br><br>
-
-    </div>
 
   </div>
 

@@ -1,6 +1,11 @@
-$(document).ready(function start() {
+
+$(window).load(function() {
+
   $('#contextMenu').hide();
   $('#taskList').hide();
+  $('.scroll').slimScroll({
+        height: '250px'
+    });
 
   $('#add-task-button').click(function toggleContextMenu() {
     $('#contextMenu').toggle('slow');
@@ -20,12 +25,28 @@ $(document).ready(function start() {
     }
   });
 
-  $('.datepicker').pickadate({
-    selectMonths: true, // Creates a dropdown to control month
-    selectYears: 15, // Creates a dropdown of 15 years to control year
+  $('#remove-new-task').click(function() {
+    $('#contextMenu').hide();
   });
 
-  $('input#input_text, textarea#textarea1').characterCounter();
 
-  $('select').material_select();
+  $(".modal-trigger").leanModal();
+
+  // $('.datepicker').pickadate({
+  //   selectMonths: true, // Creates a dropdown to control month
+  //   selectYears: 15, // Creates a dropdown of 15 years to control year
+  // });
+
+  // $('input#input_text, textarea#textarea1').characterCounter();
+
+  // $('select').material_select();
+  // $('.modal-trigger').leanModal({
+  //     dismissible: true, // Modal can be dismissed by clicking outside of the modal
+  //     opacity: .5, // Opacity of modal background
+  //     in_duration: 300, // Transition in duration
+  //     out_duration: 200, // Transition out duration
+  //     ready: function() { alert('Ready'); }, // Callback for Modal open
+  //     complete: function() { alert('Closed'); } // Callback for Modal close
+  //   }
+  // );
 });
