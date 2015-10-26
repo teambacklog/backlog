@@ -1,2 +1,9 @@
 .DS_Store
+<<<<<<< HEAD
 *.*~
+=======
+*.*~
+.meteor/local
+.meteor/meteorite
+
+>>>>>>> bc9593c84bdcf9feffd6f58c92ad3d1237777030

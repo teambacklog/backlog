@@ -1,31 +1,13 @@
-Meteor.subscribe('rows');
+Meteor.subscribe('tasks');
 
-Rows = new Mongo.Collection('rows');
+// Tasks = new Mongo.Collection('tasks');
 
 Meteor.startup( function start() {  });
 
-// defines what 'rows' and 'contextMenus' are when referenced in the HTML doc
+// defines what 'tasks' and 'contextMenus' are when referenced in the HTML doc
 Template.body.helpers({
-  rows: function getTasks() {
-    return Rows.find({});
-  },
-});
-
-Template.row.events({
-  // delete row
-  'click .delete': function deleteTask() {
-    // event.preventDefault();
-    Meteor.call('deleteTask', this._id);
-  },
-  // change time remaining on task by user input
-  'submit .submitTime': function submitTime(event) {
-    const timeToTake = event.target.submitTime.value;
-    const timeLeft = this.amtTime;
-    const timeRemaining = timeLeft - timeToTake;
-
-    Meteor.call('submitTime', timeRemaining);
-
-    event.target.submitTime.value = '';
+  tasks: function getTasks() {
+    return Tasks.find();
   },
 });
 
@@ -35,7 +17,6 @@ Template.contextMenu.events({
   'click #submit-new-task': function addTask(event, template) {
     event.preventDefault();
     // unique Meteor variable
-    const user = Meteor.user();
     // text from text fields
     const name = template.find('[name="name"]').value;
 
@@ -44,14 +25,20 @@ Template.contextMenu.events({
 
     const date = template.find('[name="date"]').value;
     const time = template.find('[name="est"]').value;
-
-    Meteor.call('addTask', user, name, priority, date, time);
+    Meteor.call('addTask', name, priority, date, time);
     // Session.set('showAddTask', false);
     // Session.set('showFrontPage', true);
   },
 });
 
 // Find tasks specific to this user
-Template.taskList.rows = function getRows() {
-  return Rows.find({ User: Meteor.user() });
+Template.taskList.tasks = function getTasks() {
+  return Tasks.find();
 };
+
+// Find tasks specific to this user
+Template.userSummary.helpers({
+  taskCount: function getTaskCounts() {
+    return Tasks.find().count();
+  },
+});

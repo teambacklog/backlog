@@ -17,35 +17,10 @@
               <th data-field="esttime">Est. Time</th>
           </tr>
         </thead>
-
         <tbody>
-          {{ #each rows }}
-            {{ > row }}
+          {{ #each tasks }}
+            {{ > taskInfo }}
           {{ /each }}
-          <!--<tr>
-            <td>Math Homework</td>
-            <td>High</td>
-            <td>09/25/2015</td>
-            <td>1.5 hrs</td>
-          </tr>
-          <tr>
-            <td>SD&D Report</td>
-            <td>Medium</td>
-            <td>10/02/2015</td>
-            <td>3 hrs</td>
-          </tr>
-          <tr>
-            <td>Prepare Resume</td>
-            <td>Low</td>
-            <td>N/A</td>
-            <td>0.5 hrs</td>
-          </tr>
-          <tr>
-            <td>Study for Physics Test</td>
-            <td>High</td>
-            <td>10/07/2015</td>
-            <td>4 hrs</td>
-          </tr>-->
         </tbody>
       </table>
 
@@ -54,19 +29,17 @@
       <br><br>
 
     </div>
-
   </div>
-
 
 </template>
 
 
-<template name="row">
+<template name="taskInfo">
   <tr>
-    <td class="Name">{{Name}}</td>
-    <td class="Priority">{{Priority}}</td>
-    <td class="Date">{{Date}}</td>
-    <td class="Time">{{Est}}</td>
+    <td class="Name">{{ task.taskId }}</td>
+    <td class="Priority">{{ task.priority }}</td>
+    <td class="Date">{{ task.deadline }}</td>
+    <td class="Time">{{ task.estTime }}</td>
     <!--<span class="amtTime">Time Left: {{amtTime}}</span>
     <form class="submitTime"><input type="text" name="submitTime" placeholder="submit time"></form>
     <button class="delete">&times;</button>-->
