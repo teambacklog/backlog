@@ -12,6 +12,19 @@ $(window).load(function() {
   });
   $("#datepicker").datepicker();
 
+  $( "#slider" ).slider({
+      range: "min",
+      value: 15,
+      min: 15,
+      max: 300,
+      step: 15,
+      slide: function( event, ui ) {
+        $( "#task_est_time" ).val( ui.value );
+      }
+  });
+
+  $( "#amount" ).val( "$" + $( "#slider" ).slider( "value" ));
+
   $('#switchBox').click(function switchTaskDisplay() {
     const $this = $(this);
     // $this will contain a reference to the checkbox
