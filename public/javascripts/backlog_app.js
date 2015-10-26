@@ -10,6 +10,7 @@ $(window).load(function() {
   $('#add-task-button').click(function toggleContextMenu() {
     $('#contextMenu').toggle('slow');
   });
+  $("#datepicker").datepicker();
 
   $('#switchBox').click(function switchTaskDisplay() {
     const $this = $(this);

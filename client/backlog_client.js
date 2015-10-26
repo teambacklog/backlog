@@ -2,7 +2,22 @@ Meteor.subscribe('rows');
 
 Rows = new Mongo.Collection('rows');
 
-Meteor.startup( function start() {  });
+Meteor.startup( function start() {
+  // window.addEventListener('resize', function(){
+  //   Session.set("resize", new Date());
+  // });
+});
+
+// Session.set("resize", null);
+
+// Template.userFrontPage.resized = function(){
+//   var width = $(window).width();
+//   var height = $(window).height();
+
+//   // doSomethingCool(width, height);
+
+//   return Session.get('resize');
+// };
 
 // defines what 'rows' and 'contextMenus' are when referenced in the HTML doc
 Template.body.helpers({
