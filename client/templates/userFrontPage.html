@@ -27,7 +27,14 @@
     {{ > contextMenu }}
   </div>
 
-
+  <div class="switch">
+    <label>
+      Off
+      <input type="checkbox" id="switchBox">
+      <span class="lever"></span>
+      On
+    </label>
+  </div>
 
   <div id="taskSummaryBoard">
           <br><br>
@@ -61,14 +68,7 @@
 
 
   <div id="taskBoard">
-    <div class="switch">
-      <label>
-        Off
-        <input type="checkbox" id="switchBox">
-        <span class="lever"></span>
-        On
-      </label>
-    </div>
+
     {{ > taskList }}
 
   </div>
