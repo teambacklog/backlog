@@ -42,6 +42,4 @@ $(window).load(function() {
   });
 
   $(".modal-trigger").leanModal();
-  console.log("test i1");
-  
 });
