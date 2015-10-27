@@ -3,6 +3,7 @@ Meteor.subscribe('tasks');
 // Tasks = new Mongo.Collection('tasks');
 
 Meteor.startup( function start() {
+  Session.setDefault('displayTaskSummary', true);
   // window.addEventListener('resize', function(){
   //   Session.set("resize", new Date());
   // });
@@ -27,7 +28,7 @@ Template.body.helpers({
 });
 
 // allows addTask.html to add tasks
-Template.contextMenu.events({
+Template.addTaskDisplay.events({
   // submit information for new row
   'click #submit-new-task': function addTask(event, template) {
     event.preventDefault();
@@ -47,13 +48,26 @@ Template.contextMenu.events({
 });
 
 // Find tasks specific to this user
-Template.taskList.tasks = function getTasks() {
-  return Tasks.find();
-};
+Template.taskList.helpers({
+  tasks: function getTasks() {
+    return Tasks.find();
+  },
+});
 
 // Find tasks specific to this user
-Template.userSummary.helpers({
+Template.taskSummaryBoard.helpers({
   taskCount: function getTaskCounts() {
     return Tasks.find().count();
   },
+});
+
+Template.userSummary.events({
+  'change #switchBox': function toggleSummary(event) {
+    event.preventDefault();
+    Session.set('displayTaskSummary', !Session.get('displayTaskSummary'));
+  },
+});
+
+Template.registerHelper('displayTaskSummary', function() {
+  return Session.get('displayTaskSummary');
 });

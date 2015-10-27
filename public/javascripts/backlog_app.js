@@ -1,5 +1,4 @@
 $(window).load(function() {
-  console.log("fuck this fuck this.");
   $('#contextMenu').hide();
   $('#taskList').hide();
   $('.scroll').slimScroll({
@@ -25,7 +24,6 @@ $(window).load(function() {
   $( "#amount" ).val( "$" + $( "#slider" ).slider( "value" ));
 
   $('#switchBox').click(function switchTaskDisplay() {
-    console.log("fuck this");
     const $this = $(this);
     // $this will contain a reference to the checkbox
     if ($this.is(':checked')) {
@@ -43,7 +41,7 @@ $(window).load(function() {
     $('#contextMenu').hide();
   });
 
-
   $(".modal-trigger").leanModal();
-
+  console.log("test i1");
+  
 });
