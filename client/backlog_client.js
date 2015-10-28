@@ -42,3 +42,11 @@ Template.userSummary.helpers({
     return Tasks.find().count();
   },
 });
+
+// Return days until soonest due date
+Template.userSummary.helpers({
+  earliestDue: function getEarliestDue() {
+    var dueDate = Tasks.findOne({}, { sort: { "task.deadline": 1 }}).task.deadline
+    return Math.ceil((dueDate - Date.now()) / 86400000);
+  },
+});

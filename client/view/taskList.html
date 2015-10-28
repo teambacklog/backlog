@@ -38,7 +38,7 @@
   <tr>
     <td class="Name">{{ task.taskId }}</td>
     <td class="Priority">{{ task.priority }}</td>
-    <td class="Date">{{ task.deadline }}</td>
+    <td class="Date">{{ task.deadline.toDateString }}</td>
     <td class="Time">{{ task.estTime }}</td>
     <!--<span class="amtTime">Time Left: {{amtTime}}</span>
     <form class="submitTime"><input type="text" name="submitTime" placeholder="submit time"></form>
