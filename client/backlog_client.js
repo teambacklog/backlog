@@ -50,3 +50,14 @@ Template.userSummary.helpers({
     return Math.ceil((dueDate - Date.now()) / 86400000);
   },
 });
+
+// Return total work load
+Template.userSummary.helpers({
+  workLoad: function getWorkLoad() {
+    var total = 0;
+    Tasks.find().map(function(item) {
+      total += item.task.estTime;
+    });
+    return total / 60
+  },
+});

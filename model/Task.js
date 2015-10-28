@@ -5,7 +5,7 @@ Task = function TaskConstructor(taskId, priority, deadline, estTime,
   // this._userId = ownerId;
   this._priority = priority;
   this._deadline = new Date(deadline);
-  this._estTime = estTime;
+  this._estTime = Number(estTime);
   this._taskDetails = taskDetails;
 };
 
