@@ -28,7 +28,7 @@ Template.body.helpers({
 });
 
 Template.userSummary.onRendered( function renderFrontPage() {
-  $('#contextMenu').hide();
+  $('[name="addTaskDisplay"]').hide();
   $('#taskList').hide();
   $(".modal-trigger").leanModal();
 });
@@ -49,7 +49,7 @@ Template.userSummary.events({
     }
   },
   'click #add-task-button': function showContextMenu() {
-    $('#contextMenu').toggle('slow');
+    $('#addTaskModal').show('slow');
   },
 });
 
@@ -90,12 +90,13 @@ Template.addTaskDisplay.events({
     const time = template.find('[name="est"]').value;
 
     Meteor.call('addTask', name, priority, date, time, null);
+    $('#addTaskModal').hide('slow');
     // Session.set('showAddTask', false);
     // Session.set('showFrontPage', true);
   },
   'click #remove-new-task': function shrinkContextMenu(event) {
     event.preventDefault();
-    $('#contextMenu').hide('slow');
+    $('#addTaskModal').hide('slow');
   },
   'change #slider': function moveSlider(event) {
     event.preventDefault();
