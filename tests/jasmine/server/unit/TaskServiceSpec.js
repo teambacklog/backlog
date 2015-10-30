@@ -15,7 +15,7 @@ describe('TaskService', function() {
       const user = Meteor.userId();
       // text from text fields
       const name = 'Math hw#5';
-      const priority = "High";
+      const priority = 'High';
       const date = '2015-05-21';
       const time = 100;
       // EXECUTE

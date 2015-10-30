@@ -1,34 +1,31 @@
 <template name="taskList">
-  <div id="taskList">
     <div class="section no-pad-bot" id="index-banner">
-    <div class="container">
+    <div class="container"  id="taskList">
       <br><br>
       <h1 class="header center orange-text">Your work: </h1>
-      <div class="row center">
-        <h5 class="header col s12 light"> </h5>
-      </div>
+      <div class="scroll">
 
         <table>
-        <thead>
-          <tr>
+          <thead>
+            <tr>
               <th data-field="tasks">Tasks</th>
               <th data-field="priority">Priority</th>
               <th data-field="duedate">Due Date</th>
               <th data-field="esttime">Est. Time</th>
-          </tr>
-        </thead>
+            </tr>
+          </thead>
         <tbody>
           {{ #each tasks }}
             {{ > taskInfo }}
           {{ /each }}
         </tbody>
-      </table>
 
+
+      </table>
+      </div>
       </div>
 
       <br><br>
-
-    </div>
   </div>
 
 </template>
@@ -44,9 +41,4 @@
     <form class="submitTime"><input type="text" name="submitTime" placeholder="submit time"></form>
     <button class="delete">&times;</button>-->
   </tr>
-</template>
-
-
-<template name="example">
-  <span>hello</span>
 </template>

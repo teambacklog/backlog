@@ -1,0 +1,25 @@
+<template name="taskSummary">
+  <div id="taskSummary">
+      <br><br>
+      <h1 class="header center orange-text">Your Work Summary </h1>
+      <div class="row center">
+        <h5 class="header col s12 light"> </h5>
+      </div>
+  <!--Gonna figure out how to do the collaposible later -bo-->
+
+   <ul class="collapsible popout" data-collapsible="accordion">
+      <li>
+        <div class="collapsible-header"><i class="material-icons"></i>Total Tasks: {{ taskCount }}</div>
+        <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+      </li>
+      <li>
+        <div class="collapsible-header"><i class="material-icons"></i>Earliest Due Date: {{ earliestDue }} days</div>
+        <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+      </li>
+      <li>
+        <div class="collapsible-header"><i class="material-icons"></i>Total work load: {{ workLoad }} hrs</div>
+        <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+      </li>
+    </ul>
+  </div>
+</template>

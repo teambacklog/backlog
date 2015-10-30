@@ -1,0 +1,68 @@
+<template name="addTaskDisplay">
+  <a class="btn-floating btn-large waves-effect waves-light red right modal-trigger" href="#addTaskModal">
+    <i class="material-icons" id="add-task-button">add</i>
+  </a>
+
+  <div id="addTaskModal" class="modal">
+    <div class="modal-content">
+         <div class="row">
+    <form>
+
+      <div class="row">
+        <div class="input-field col s6 center">
+          <input type="text" name="name" id="task_name"  placeholder="add task name" class="validate">
+          <label for="task_name">Task Name</label>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <label>Priority</label>
+        <div class="input-field col s6">
+          <select name= "priority" class="browser-default">
+            <option value="" disabled selected>Choose your priority</option>
+            <option value="1">Low</option>
+            <option value="2">Medium</option>
+            <option value="3">High</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s6">
+          <label>Due Date</label> <input type="text" name="date" id="datepicker" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s6">
+            <p class="range-field">
+              <!-- <input name="est" type="range" id="task_est_time" min="0" max="300" /> -->
+              <p>
+                <label for="amount">Estimated Time</label>
+                <input type="text"  name="est" id="task_est_time" readonly style="border:0; color:#f6931f; font-weight:bold;">
+              </p>
+              <div id="slider"></div>
+
+            </p>
+        </div>
+      </div>
+
+        <div class="row">
+          <button class="btn waves-effect waves-light" id="submit-new-task" type="submit" name="submit-new-task">Submit
+            <i class="material-icons right">send</i>
+          </button>
+
+          <button class="btn waves-effect waves-light" id="remove-new-task" type="submit" name="remove-new-task">Cancel
+            <i class="material-icons right">clear_all</i>
+          </button>
+
+        </div>
+
+      </form>
+
+      </div>
+    </div>
+
+  </div>
+</template>
