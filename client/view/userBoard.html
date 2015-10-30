@@ -1,4 +1,4 @@
-<template name="userSummary">
+<template name="userBoard">
 
 <div class="section no-pad-bot" id="index-banner">
   <div class="container">
@@ -8,7 +8,7 @@
     </div>
 
     {{#if displayTaskSummary}}
-      {{ > taskSummaryBoard }}
+      {{ > taskSummary }}
     {{else}}
       {{ > taskList }}
     {{/if}}
