@@ -130,3 +130,11 @@ Template.userBoard.onRendered(function renderFrontPage() {
 Template.registerHelper('displayTaskSummary', function() {
   return Session.get('displayTaskSummary');
 });
+
+// Row of task list
+Template.taskInfo.events({
+  // Click delete task
+  'click #delete-task': function () {
+    Meteor.call('deleteTask', this._id);
+  }
+});
