@@ -1,30 +1,17 @@
 Meteor.subscribe('tasks');
 
-// Tasks = new Mongo.Collection('tasks');
-
 Meteor.startup( function start() {
-  Session.setDefault('displayTaskSummary', true);
-  // window.addEventListener('resize', function(){
-  //   Session.set("resize", new Date());
-  // });
+  Session.set('displayTaskSummary', true);
+  Session.set('addError', false);
 });
-
-// Session.set("resize", null);
-
-// Template.userFrontPage.resized = function(){
-//   var width = $(window).width();
-//   var height = $(window).height();
-
-//   // doSomethingCool(width, height);
-
-//   return Session.get('resize');
-// };
 
 // allows addTask.html to add tasks
 Template.addTaskDisplay.events({
   // submit information for new row
   'click #submit-new-task': function addTask(event, template) {
     event.preventDefault();
+    Session.set('addError', false);
+
     const name = template.find('[name="name"]').value;
 
     const priorityField = template.find('[name="priority"]');
@@ -33,10 +20,14 @@ Template.addTaskDisplay.events({
     const date = template.find('[name="date"]').value;
     const time = template.find('[name="est"]').value;
 
-    Meteor.call('addTask', name, priority, date, time, null);
+    if (name === '' || priority.localeCompare('Choose your priority') === 0
+      || date === null || time === '') {
+      Session.set('addError', true);
+    } else {
+      Meteor.call('addTask', name, priority, date, time, null);
+    }
+
     $('#addTaskModal').hide('slow');
-    // Session.set('showAddTask', false);
-    // Session.set('showFrontPage', true);
   },
   'click #remove-new-task': function shrinkContextMenu(event) {
     event.preventDefault();
@@ -49,20 +40,29 @@ Template.addTaskDisplay.events({
 });
 
 Template.addTaskDisplay.onRendered(function renderContextMenu() {
-  // $(".modal-content").leanModal();
-  $('#datepicker').datepicker();
+  $('#datepicker').datepicker({
+    minDate: 0,
+    maxDate: +100,
+  });
   $( '#slider').slider({
     range: 'min',
     value: 15,
     min: 15,
     max: 300,
     step: 15,
-    slide: function(event, ui) {
+    slide: function sliderValue(event, ui) {
       $('#task_est_time').val( ui.value );
     },
   });
 
-  // $('select').material_select();
+});
+
+// Row of task list
+Template.taskInfo.events({
+  // Click delete task
+  'click #delete-task': function deleteTask() {
+    Meteor.call('deleteTask', this._id);
+  },
 });
 
 // Find tasks specific to this user
@@ -84,35 +84,23 @@ Template.taskSummary.helpers({
     return Tasks.find().count();
   },
   earliestDue: function getEarliestDue() {
-    var dueDate = Tasks.findOne({}, { sort: { "task.deadline": 1 }}).task.deadline
+    const dueDate =
+      Tasks.findOne({}, { sort: { 'task.deadline': 1 }}).task.deadline;
     return Math.ceil((dueDate - Date.now()) / 86400000);
   },
   workLoad: function getWorkLoad() {
-    var total = 0;
-    Tasks.find().map(function(item) {
+    let total = 0;
+    Tasks.find().map(function sumTimes(item) {
       total += item.task.estTime;
     });
-    return total / 60
+    return total / 60;
   },
 });
 
 Template.userBoard.events({
-  /*
-  'change #switchBox': function switchTaskDisplay(event) {
-    const box = event.target;
-    // $this will contain a reference to the checkbox
-    if ( box.checked ) {
-      // the checkbox was checked
-      $('#taskList').show('slow');
-      $('#taskSummary').hide('slow');
-    } else {
-      // the checkbox was unchecked
-      $('#taskList').hide('slow');
-      $('#taskSummary').show('slow');
-    }
-  },*/
   'change #switchBox': function toggleSummary(event) {
     event.preventDefault();
+    Session.set('addError', false);
     Session.set('displayTaskSummary', !Session.get('displayTaskSummary'));
   },
   'click #add-task-button': function showContextMenu() {
@@ -127,14 +115,9 @@ Template.userBoard.onRendered(function renderFrontPage() {
 });
 
 // Global function
-Template.registerHelper('displayTaskSummary', function() {
+Template.registerHelper('displayTaskSummary', function displayTaskSummary() {
   return Session.get('displayTaskSummary');
 });
-
-// Row of task list
-Template.taskInfo.events({
-  // Click delete task
-  'click #delete-task': function () {
-    Meteor.call('deleteTask', this._id);
-  }
+Template.registerHelper('addError', function addError() {
+  return Session.get('addError');
 });
