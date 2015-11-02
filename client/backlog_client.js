@@ -1,8 +1,7 @@
 Meteor.subscribe('tasks');
 
 Meteor.startup( function start() {
-  Session.set('displayTaskSummary', true);
-  Session.set('addError', false);
+
 });
 
 // allows addTask.html to add tasks
@@ -26,6 +25,10 @@ Template.addTaskDisplay.events({
     } else {
       Meteor.call('addTask', name, priority, date, time, null);
     }
+
+    template.find('[name="name"]').value = "";
+    template.find('[name="date"]').value = "";
+    template.find('[name="est"]').value = "";
 
     $('#addTaskModal').hide('slow');
   },
@@ -109,6 +112,8 @@ Template.userBoard.events({
 });
 
 Template.userBoard.onRendered(function renderFrontPage() {
+  Session.set('displayTaskSummary', true);
+  Session.set('addError', false);
   $('[name="addTaskDisplay"]').hide();
   $('#taskList').hide();
   $('.modal-trigger').leanModal();
