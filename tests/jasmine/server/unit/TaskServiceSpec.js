@@ -21,6 +21,7 @@ describe('TaskService', function() {
       // EXECUTE
       TaskService.addTask(user, name, priority, date, time);
       // VERIFY
+      // TODO: More things to expect
       expect(Tasks.insert).toHaveBeenCalled();
     });
   });

@@ -4,17 +4,17 @@ Meteor.publish('tasks', function getTasks() {
 
 // Expose TaskService functions to the client
 Meteor.methods({
-  // adds a task to the 'Tasks' collection
+  // Adds a task to the 'Tasks' collection
   addTask: function addTask(taskId, priority, date, estTime,
                             taskDetails) {
     const user = Meteor.userId();
     TaskService.addTask(user, taskId, priority, date, estTime, taskDetails);
   },
-  // deletes task from 'tasks'
+  // Deletes task from 'tasks'
   deleteTask: function deleteTask(taskId) {
     TaskService.deleteTask(taskId);
   },
-  // submits time
+  // Submits time
   submitTime: function submitTime(timeRemaining) {
     TaskService.submitTime(timeRemaining);
   },

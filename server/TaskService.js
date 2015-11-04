@@ -7,6 +7,7 @@ TaskService = {
   // adds a task to the 'Tasks' collection
   addTask: function addTask(userId, taskId, priority, date, estTime,
                             taskDetails) {
+    // TODO: Input validation
     Tasks.insert({
       user: userId,
       task: new Task(taskId, priority, date, estTime, taskDetails),
@@ -14,13 +15,13 @@ TaskService = {
       // TODO: Work on exceptions
     });
   },
-  // deletes task from 'tasks'
+  // Deletes task from 'tasks'
   deleteTask: function deleteTask(taskId) {
     Tasks.remove(taskId);
   },
-  // submits time
+  // Submits time
   submitTime: function submitTime(timeRemaining) {
-    // if no time left, delete row
+    // If no time left, delete row
     if (timeRemaining <= 0) {
       Tasks.remove(this._id);
     } else {
