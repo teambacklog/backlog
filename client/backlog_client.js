@@ -33,15 +33,18 @@ Template.addTaskDisplay.events({
 });
 
 Template.addTaskDisplay.onRendered(function renderContextMenu() {
-  $('#datepicker').datepicker();
+  $('#datepicker').datepicker({
+    minDate: 0,
+    maxDate: +100,
+  });
   $('#slider').slider({
     range: 'min',
     value: 15,
     min: 15,
     max: 300,
     step: 15,
-    slide: function(event, ui) {
-      $('#task_est_time').val( ui.value );
+    slide: function updateSlider(event, ui) {
+      $('#task_est_time').val(ui.value);
     },
   });
 });
@@ -63,9 +66,9 @@ Template.taskList.onRendered(function taskListOnDisplay() {
 // Functions relating to a specific row in task list
 Template.taskInfo.events({
   // Delete button of task
-  'click #delete-task': function deleteTask () {
+  'click #delete-task': function deleteTask() {
     Meteor.call('deleteTask', this._id);
-  }
+  },
 });
 
 // Find tasks specific to this user
@@ -74,7 +77,9 @@ Template.taskSummary.helpers({
     return Tasks.find().count();
   },
   earliestDue: function getEarliestDue() {
-    var dueDate = Tasks.findOne({}, { sort: { "task.deadline": 1 }}).task.deadline
+    let dueDate = Tasks.findOne({},
+                                { sort: {'task.deadline': 1 }}).task.deadline;
+    // TODO: Replace magic number w/ const?
     return Math.ceil((dueDate - Date.now()) / 86400000);
   },
   workLoad: function getWorkLoad() {
