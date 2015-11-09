@@ -102,6 +102,7 @@ Template.userBoard.events({
 });
 
 Template.userBoard.onRendered(function renderFrontPage() {
+  console.log("fuck off.");
   $('[name="addTaskDisplay"]').hide();
   $('#taskList').hide();
   $('.modal-trigger').leanModal();
