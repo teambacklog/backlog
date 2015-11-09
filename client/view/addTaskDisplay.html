@@ -3,22 +3,21 @@
     <i class="material-icons" id="add-task-button">add</i>
   </a>
 
-  <div id="addTaskModal" class="modal">
+  <div id="addTaskModal" class="modal s3 center">
     <div class="modal-content">
-         <div class="row">
-    <form>
+      <div class="row offset-s3 s6 center">
+        <form id="addTaskForm">
+
+          <div class="row">
+            <div class="input-field col offset-s3 s6 center">
+              <input type="text" name="name" id="task_name" class="validate">
+              <label for="task_name">Task Name</label>
+            </div>
+          </div>
 
       <div class="row">
-        <div class="input-field col s6 center">
-          <input type="text" name="name" id="task_name" class="validate">
-          <label for="task_name">Task Name</label>
-        </div>
 
-      </div>
-
-      <div class="row">
-
-        <div class="input-field col s6">
+        <div class="input-field col offset-s3 s6">
           <select name= "priority" id="task_priority" class="browser-default">
             <option value="" disabled selected>Choose your priority</option>
             <option value="1">Low</option>
@@ -30,14 +29,14 @@
       </div>
 
       <div class="row">
-        <div class="input-field col s6">
+        <div class="input-field col offset-s3 s6">
           <label class="active">Due Date</label>
           <input type="date" name="date" class="datepicker" />
         </div>
       </div>
 
       <div class="row">
-        <div class="input-field col s6">
+        <div class="input-field col offset-s3 s6">
             <p class="range-field">
               <!-- <input name="est" type="range" id="task_est_time" min="0" max="300" /> -->
               <p>

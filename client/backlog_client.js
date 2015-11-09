@@ -97,7 +97,8 @@ Template.userBoard.events({
     Session.set('displayTaskSummary', !Session.get('displayTaskSummary'));
   },
   'click #add-task-button': function showContextMenu() {
-    $('#addTaskModal').show('slow');
+    $('#addTaskForm').trigger("reset");
+    $('#addTaskModal').openModal();
   },
 });
 
