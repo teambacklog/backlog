@@ -1,15 +1,13 @@
 Meteor.subscribe('tasks');
 
 Meteor.startup( function start() {
-
 });
 
 // allows addTask.html to add tasks
 Template.addTaskDisplay.events({
   // submit information for new row
-  'click #submit-new-task': function addTask(event, template) {
+  /*'click #submit-new-task'*/'submit form': function addTask(event, template) {
     event.preventDefault();
-    Session.set('addError', false);
 
     const name = template.find('[name="name"]').value;
 
@@ -19,12 +17,7 @@ Template.addTaskDisplay.events({
     const date = template.find('[name="date"]').value;
     const time = template.find('[name="est"]').value;
 
-    if (name === '' || priority.localeCompare('Choose your priority') === 0
-      || date === null || time === '') {
-      Session.set('addError', true);
-    } else {
-      Meteor.call('addTask', name, priority, date, time, null);
-    }
+    Meteor.call('addTask', name, priority, date, time, null);
 
     template.find('[name="name"]').value = "";
     template.find('[name="date"]').value = "";
@@ -42,11 +35,12 @@ Template.addTaskDisplay.events({
   },
 });
 
-Template.addTaskDisplay.onRendered(function renderContextMenu() {
+Template.addTaskDisplay.onRendered(function renderAddTaskMenu() {
   $('#datepicker').datepicker({
     minDate: 0,
     maxDate: +100,
   });
+
   $( '#slider').slider({
     range: 'min',
     value: 15,
@@ -58,6 +52,14 @@ Template.addTaskDisplay.onRendered(function renderContextMenu() {
     },
   });
 
+  $('#addTaskForm').validate({
+    rules: {
+      name: {required: true,},
+      date: {required: true,},
+      priority: {required: true,},
+      est: {required: true,},
+    },
+  });
 });
 
 // Row of task list
@@ -103,7 +105,6 @@ Template.taskSummary.helpers({
 Template.userBoard.events({
   'change #switchBox': function toggleSummary(event) {
     event.preventDefault();
-    Session.set('addError', false);
     Session.set('displayTaskSummary', !Session.get('displayTaskSummary'));
   },
   'click #add-task-button': function showContextMenu() {
@@ -113,7 +114,6 @@ Template.userBoard.events({
 
 Template.userBoard.onRendered(function renderFrontPage() {
   Session.set('displayTaskSummary', true);
-  Session.set('addError', false);
   $('[name="addTaskDisplay"]').hide();
   $('#taskList').hide();
   $('.modal-trigger').leanModal();
@@ -122,7 +122,4 @@ Template.userBoard.onRendered(function renderFrontPage() {
 // Global function
 Template.registerHelper('displayTaskSummary', function displayTaskSummary() {
   return Session.get('displayTaskSummary');
-});
-Template.registerHelper('addError', function addError() {
-  return Session.get('addError');
 });
