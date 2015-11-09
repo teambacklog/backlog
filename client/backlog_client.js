@@ -97,11 +97,13 @@ Template.userBoard.events({
     Session.set('displayTaskSummary', !Session.get('displayTaskSummary'));
   },
   'click #add-task-button': function showContextMenu() {
-    $('#addTaskModal').show('slow');
+    $('#addTaskForm').trigger("reset");
+    $('#addTaskModal').openModal();
   },
 });
 
 Template.userBoard.onRendered(function renderFrontPage() {
+  console.log("fuck off.");
   $('[name="addTaskDisplay"]').hide();
   $('#taskList').hide();
   $('.modal-trigger').leanModal();

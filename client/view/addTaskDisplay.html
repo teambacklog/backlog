@@ -3,43 +3,44 @@
     <i class="material-icons" id="add-task-button">add</i>
   </a>
 
-  <div id="addTaskModal" class="modal">
+  <div id="addTaskModal" class="modal center">
     <div class="modal-content">
-         <div class="row">
-    <form>
+      <div class="row offset-s3 s6 center">
+        <form id="addTaskForm">
+
+          <div class="row">
+            <div class="input-field col offset-s1 s10 center">
+              <input type="text" name="name" id="task_name" class="validate">
+              <label for="task_name">Task Name</label>
+            </div>
+          </div>
 
       <div class="row">
-        <div class="input-field col s6 center">
-          <input type="text" name="name" id="task_name"  placeholder="add task name" class="validate">
-          <label for="task_name">Task Name</label>
-        </div>
 
-      </div>
-
-      <div class="row">
-        <label>Priority</label>
-        <div class="input-field col s6">
-          <select name= "priority" class="browser-default">
+        <div class="input-field col offset-s1 s10 ">
+          <select name= "priority" id="task_priority" class="browser-default">
             <option value="" disabled selected>Choose your priority</option>
             <option value="1">Low</option>
             <option value="2">Medium</option>
             <option value="3">High</option>
           </select>
+          <label for="task_priority" class="active">Priority</label>
         </div>
       </div>
 
       <div class="row">
-        <div class="input-field col s6">
-          <label>Due Date</label> <input type="text" name="date" id="datepicker" />
+        <div class="input-field col offset-s1 s10">
+          <label class="active">Due Date</label>
+          <input type="date" name="date" class="datepicker" />
         </div>
       </div>
 
       <div class="row">
-        <div class="input-field col s6">
+        <div class="input-field col offset-s1 s10">
             <p class="range-field">
               <!-- <input name="est" type="range" id="task_est_time" min="0" max="300" /> -->
               <p>
-                <label for="amount">Estimated Time</label>
+                <label for="task_est_time">Estimated Time</label>
                 <input type="text"  name="est" id="task_est_time" readonly style="border:0; color:#f6931f; font-weight:bold;">
               </p>
               <div id="slider"></div>
