@@ -1,7 +1,7 @@
 // Todo: Validation
-Task = function TaskConstructor (doc) {
+Task = function TaskConstructor(doc) {
   _.extend(this, doc);
-}
+};
 /*
 Task = function TaskConstructor(taskId, priority, deadline, estTime,
                                 taskDetails) {
@@ -40,11 +40,10 @@ Task.prototype = {
     // I don't think we need to parseInt, time should already be an int
     // const timeToAdd = parseInt(time);
     // this._allottedTime+=timeToAdd
-    this._allottedTime += time;
 
     // If by it doesn't work, you may mean that the database isn't updated. It
     // isn't. We need to manually do that ourselves. May want a helper function
     // for that. The task object is changed, but not the database info.
-
+    this._allottedTime += time;
   },
 };
