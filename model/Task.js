@@ -1,7 +1,6 @@
 // Todo: Validation
 Task = function TaskConstructor (doc) {
   _.extend(this, doc);
-  console.log(this);
 }
 /*
 Task = function TaskConstructor(taskId, priority, deadline, estTime,
@@ -38,6 +37,7 @@ Task.prototype = {
     return this._allottedTime;
   },
   incAllottedTime(time) {
+    console.log(time);
     const timeToAdd = parseInt(time);
     this._allottedTime+=timeToAdd
     console.log(this._allottedTime);

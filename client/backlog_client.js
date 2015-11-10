@@ -91,10 +91,12 @@ Template.taskSummary.helpers({
     return Tasks.find().count();
   },
   earliestDue: function getEarliestDue() {
-    let dueDate = Tasks.findOne({},
-                                { sort: {'deadline': 1 }}).deadline;
+    let earliestTask = Tasks.findOne({}, { sort: {'deadline': 1 }});
     // TODO: Replace magic number w/ const?
-    return Math.ceil((dueDate - Date.now()) / 86400000);
+    if (typeof earliestTask === 'undefined') {
+      return 0;
+    }
+    return Math.ceil((earliestTask.deadline - Date.now()) / 86400000);
   },
   workLoad: function getWorkLoad() {
     let total = 0;
