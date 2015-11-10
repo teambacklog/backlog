@@ -40,10 +40,11 @@ TaskService = {
       });
     }
     */
-  
-    var topTask = Tasks.findOne();
-    if( topTask != null ) {
-      topTask.incAllottedTime(timeToAdd);
+    // let topTask = Tasks.findOne();
+    // Easier to test than any random old task.
+    let earliestTask = Tasks.findOne({}, { sort: {deadline: 1 }});
+    if (earliestTask !== null ) {
+      earliestTask.incAllottedTime(timeToAdd);
     }
   },
 };
