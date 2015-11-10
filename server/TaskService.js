@@ -28,23 +28,12 @@ TaskService = {
   },
   // Submits time
   submitTime: function TaskService$submitTime(timeToAdd) {
-    // If no time left, delete row
 
-    // not useful for Justin's implementation (feel free to discuss with me)
-    /*
-    if (timeRemaining <= 0) {
-      Tasks.remove(this._id);
-    } else {
-      Tasks.update(this._id, {
-        $set: { amtTime: timeRemaining },
-      });
-    }
-    */
-    // let topTask = Tasks.findOne();
-    // Easier to test than any random old task.
+    const time = parseInt(timeToAdd);
+   
     let earliestTask = Tasks.findOne({}, { sort: {deadline: 1 }});
-    if (earliestTask !== null ) {
-      earliestTask.incAllottedTime(timeToAdd);
+    if (earliestTask !== undefined ) {
+      Tasks.update( { _id: earliestTask._id }, { $inc: { 'task._allottedTime': time } } );
     }
   },
 };
