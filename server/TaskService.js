@@ -11,11 +11,12 @@ TaskService = {
     Tasks.insert({
       user: userId,
       task: {
-        taskId: taskId,
-        priority: priority,
-        date: date,
-        estTime: estTime,
-        taskDetails: taskDetails,
+        _taskId: taskId,
+        _priority: priority,
+        _deadline: new Date(date),
+        _estTime: Number(estTime),
+        _taskDetails: taskDetails,
+        _allottedTime: 0,
       },
     }, function addTaskError() {
       // TODO: Work on exceptions
@@ -41,7 +42,6 @@ TaskService = {
     */
   
     var topTask = Tasks.findOne();
-    console.log(topTask.estTime);
     if( topTask != null ) {
       topTask.incAllottedTime(timeToAdd);
     }
