@@ -10,7 +10,13 @@ TaskService = {
     // TODO: Input validation
     Tasks.insert({
       user: userId,
-      task: new Task(taskId, priority, date, estTime, taskDetails),
+      task: {
+        taskId: taskId,
+        priority: priority,
+        date: date,
+        estTime: estTime,
+        taskDetails: taskDetails,
+      },
     }, function addTaskError() {
       // TODO: Work on exceptions
     });
@@ -20,14 +26,24 @@ TaskService = {
     Tasks.remove(taskId);
   },
   // Submits time
-  submitTime: function submitTime(timeRemaining) {
+  submitTime: function TaskService$submitTime(timeToAdd) {
     // If no time left, delete row
+
+    // not useful for Justin's implementation (feel free to discuss with me)
+    /*
     if (timeRemaining <= 0) {
       Tasks.remove(this._id);
     } else {
       Tasks.update(this._id, {
         $set: { amtTime: timeRemaining },
       });
+    }
+    */
+  
+    var topTask = Tasks.findOne();
+    console.log(topTask.estTime);
+    if( topTask != null ) {
+      topTask.incAllottedTime(timeToAdd);
     }
   },
 };

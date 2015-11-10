@@ -37,6 +37,7 @@ Template.addTaskDisplay.onRendered(function renderContextMenu() {
     minDate: 0,
     maxDate: +100,
   });
+
   $('#slider').slider({
     range: 'min',
     value: 15,
@@ -47,6 +48,19 @@ Template.addTaskDisplay.onRendered(function renderContextMenu() {
       $('#task_est_time').val(ui.value);
     },
   });
+
+});
+
+Template.timeSlotBoard.events({
+  'click #Fifteen-Min-Opt': function addFifteenMinutes() {
+    Meteor.call('submitTime', 15);
+  },
+  'click #Thirty-Min-Opt': function addThirtyMinutes() {
+    Meteor.call('submitTime', 30); 
+  },
+  'click #One-Hour-Opt': function addOneHour() {
+    Meteor.call('submitTime', 60);
+  },
 });
 
 // Get a list of task that belong to this user
@@ -78,14 +92,14 @@ Template.taskSummary.helpers({
   },
   earliestDue: function getEarliestDue() {
     let dueDate = Tasks.findOne({},
-                                { sort: {'task.deadline': 1 }}).task.deadline;
+                                { sort: {'deadline': 1 }}).deadline;
     // TODO: Replace magic number w/ const?
     return Math.ceil((dueDate - Date.now()) / 86400000);
   },
   workLoad: function getWorkLoad() {
     let total = 0;
     Tasks.find().map(function sumTimes(item) {
-      total += item.task.estTime;
+      total += item.estTime;
     });
     return total / 60;
   },
@@ -110,4 +124,10 @@ Template.userBoard.onRendered(function renderFrontPage() {
 // Global function
 Template.registerHelper('displayTaskSummary', function displayTaskSummary() {
   return Session.get('displayTaskSummary');
+});
+
+
+
+Template.registerHelper("log", function(something) {
+  console.log(something);
 });

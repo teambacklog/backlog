@@ -12,6 +12,7 @@
               <th data-field="priority">Priority</th>
               <th data-field="duedate">Due Date</th>
               <th data-field="esttime">Est. Time</th>
+              <th date-field="allottedtime">Time Spent</th>
               <th data-field="delete"></th>
             </tr>
           </thead>
@@ -34,10 +35,11 @@
 
 <template name="taskInfo">
   <tr>
-    <td class="Name">{{ task.taskId }}</td>
-    <td class="Priority">{{ task.priority }}</td>
-    <td class="Date">{{ task.deadline.toDateString }}</td>
-    <td class="Time">{{ task.estTime }}</td>
+    <td class="Name">{{ taskId }}</td>
+    <td class="Priority">{{ priority }}</td>
+    <td class="Date">{{ deadline.toDateString }}</td>
+    <td class="Time">{{ estTime }}</td>
+    <td class="Allotted-Time">{{ allottedTime }}</td>
     <td class="Delete"><a class="waves-effect waves-teal btn-flat" id="delete-task">
       <i class="material-icons">delete</i>
     </a></td>
