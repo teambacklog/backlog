@@ -101,12 +101,11 @@ Template.userBoard.events({
   },
   'click #add-task-button': function showContextMenu() {
     $('#addTaskForm').trigger("reset");
-    $('#addTaskModal').openModal();
+    // $('#addTaskModal').openModal();
   },
 });
 
 Template.userBoard.onRendered(function renderFrontPage() {
-  console.log("fuck off.");
   $('[name="addTaskDisplay"]').hide();
   $('#taskList').hide();
   $('.modal-trigger').leanModal();
