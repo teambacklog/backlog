@@ -40,11 +40,13 @@ TaskService = {
   timeSpent: function TaskService$timeSpent(timeToAdd) {
     const time = parseInt(timeToAdd, 10);
 
-    let earliestTask = Tasks.findOne({}, { sort: { deadline: -1 }});
-
-    if (earliestTask !== undefined ) {
-      Tasks.update({ _id: earliestTask._id },
-                   { $inc: { 'task._allottedTime': time } });
+    let allTasks = Tasks.find({}, { sort: { 'task._deadline': 1 } }).fetch();
+    if (allTasks.length === 0) {
+      return 0;
     }
+    let earliestTask = allTasks[0];
+
+    Tasks.update({ _id: earliestTask._id },
+                 { $inc: { 'task._allottedTime': time } });
   },
 };

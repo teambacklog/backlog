@@ -27,8 +27,8 @@ Meteor.startup(function start() {
   // code to run on server at startup
   // Prevents the user from modifying user information
   Meteor.users.deny({
-    update: function() {
+    update: function Server$denyUpdate() {
       return true;
-    }
+    },
   });
 });

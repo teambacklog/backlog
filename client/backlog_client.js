@@ -66,7 +66,7 @@ Template.timeSlotBoard.events({
 // (server only publish user specific task collection)
 Template.taskList.helpers({
   tasks: function getTasks() {
-    return Tasks.find({}, { sort: { _deadline: -1 }});
+    return Tasks.find({}, { sort: { 'task._deadline': 1 } });
   },
 });
 
@@ -94,13 +94,11 @@ Template.taskSummary.helpers({
   },
   earliestDue: function getEarliestDue() {
     const MILLI_SEC_PER_DAY = 86400000;
-    // there is no sort in findOne, it is only sorted by "natural order" :p
-    // let earliestTask = Tasks.findOne({}, { sort: { _deadline: -1 }});
-    let allTasks = Tasks.find({}, { sort: { "task._deadline": 1 } }).fetch();
-    console.log(allTasks);
-    //if (typeof earliestTask === 'undefined') {
-      //return 0;
-    //}
+
+    let allTasks = Tasks.find({}, { sort: { 'task._deadline': 1 } }).fetch();
+    if (allTasks.length === 0) {
+      return 0;
+    }
     let earliestTask = allTasks[0];
     return Math.ceil((earliestTask.deadline - Date.now()) / MILLI_SEC_PER_DAY);
   },
