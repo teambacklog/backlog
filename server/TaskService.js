@@ -28,12 +28,12 @@ TaskService = {
   },
   // Submits time
   submitTime: function TaskService$submitTime(timeToAdd) {
+    const time = parseInt(timeToAdd, 10);
 
-    const time = parseInt(timeToAdd);
-   
     let earliestTask = Tasks.findOne({}, { sort: {deadline: 1 }});
     if (earliestTask !== undefined ) {
-      Tasks.update( { _id: earliestTask._id }, { $inc: { 'task._allottedTime': time } } );
+      Tasks.update({ _id: earliestTask._id },
+                   { $inc: { 'task._allottedTime': time } });
     }
   },
 };

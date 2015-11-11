@@ -2,17 +2,6 @@
 Task = function TaskConstructor(doc) {
   _.extend(this, doc);
 };
-/*
-Task = function TaskConstructor(taskId, priority, deadline, estTime,
-                                taskDetails) {
-  this._taskId = taskId;
-  this._priority = priority;
-  this._deadline = new Date(deadline);
-  this._estTime = Number(estTime);
-  this._taskDetails = taskDetails;
-  this._allottedTime = 0;
-};
-*/
 
 Task.prototype = {
   constructor: Task,
@@ -37,13 +26,7 @@ Task.prototype = {
     return this._allottedTime;
   },
   incAllottedTime(time) {
-    // I don't think we need to parseInt, time should already be an int
-    // const timeToAdd = parseInt(time);
-    // this._allottedTime+=timeToAdd
-
-    // If by it doesn't work, you may mean that the database isn't updated. It
-    // isn't. We need to manually do that ourselves. May want a helper function
-    // for that. The task object is changed, but not the database info.
+    // Not used right now
     this._allottedTime += time;
   },
 };

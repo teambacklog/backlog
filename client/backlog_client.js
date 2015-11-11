@@ -51,13 +51,13 @@ Template.addTaskDisplay.onRendered(function renderContextMenu() {
 });
 
 Template.timeSlotBoard.events({
-  'click #Fifteen-Min-Opt': function addFifteenMinutes() {
+  'click #fifteen-min-opt': function addFifteenMinutes() {
     Meteor.call('submitTime', 15);
   },
-  'click #Thirty-Min-Opt': function addThirtyMinutes() {
+  'click #thirty-min-opt': function addThirtyMinutes() {
     Meteor.call('submitTime', 30);
   },
-  'click #One-Hour-Opt': function addOneHour() {
+  'click #one-hour-opt': function addOneHour() {
     Meteor.call('submitTime', 60);
   },
 });
@@ -90,12 +90,12 @@ Template.taskSummary.helpers({
     return Tasks.find().count();
   },
   earliestDue: function getEarliestDue() {
+    const MILLI_SEC_PER_DAY = 86400000;
     let earliestTask = Tasks.findOne({}, { sort: {deadline: 1 }});
-    // TODO: Replace magic number w/ const?
     if (typeof earliestTask === 'undefined') {
       return 0;
     }
-    return Math.ceil((earliestTask.deadline - Date.now()) / 86400000);
+    return Math.ceil((earliestTask.deadline - Date.now()) / MILLI_SEC_PER_DAY);
   },
   workLoad: function getWorkLoad() {
     let total = 0;
