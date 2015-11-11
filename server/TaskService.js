@@ -5,13 +5,13 @@ Function: Task related server functions that the client can call
 
 TaskService = {
   // adds a task to the 'Tasks' collection
-  addTask: function addTask(userId, taskId, priority, date, estTime,
+  addTask: function addTask(userId, taskName, priority, date, estTime,
                             taskDetails) {
     // TODO: Input validation
     Tasks.insert({
       user: userId,
       task: {
-        _taskId: taskId,
+        _taskName: taskName,
         _priority: priority,
         _deadline: new Date(date),
         _estTime: Number(estTime),
@@ -40,7 +40,8 @@ TaskService = {
   timeSpent: function TaskService$timeSpent(timeToAdd) {
     const time = parseInt(timeToAdd, 10);
 
-    let earliestTask = Tasks.findOne({}, { sort: {deadline: 1 }});
+    let earliestTask = Tasks.findOne({}, { sort: { deadline: -1 }});
+
     if (earliestTask !== undefined ) {
       Tasks.update({ _id: earliestTask._id },
                    { $inc: { 'task._allottedTime': time } });

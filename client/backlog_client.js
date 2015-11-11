@@ -66,7 +66,7 @@ Template.timeSlotBoard.events({
 // (server only publish user specific task collection)
 Template.taskList.helpers({
   tasks: function getTasks() {
-    return Tasks.find();
+    return Tasks.find({}, { sort: { _deadline: -1 }});
   },
 });
 
@@ -94,7 +94,7 @@ Template.taskSummary.helpers({
   },
   earliestDue: function getEarliestDue() {
     const MILLI_SEC_PER_DAY = 86400000;
-    let earliestTask = Tasks.findOne({}, { sort: {deadline: 1 }});
+    let earliestTask = Tasks.findOne({}, { sort: { _deadline: -1 }});
     if (typeof earliestTask === 'undefined') {
       return 0;
     }
