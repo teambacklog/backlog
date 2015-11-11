@@ -15,8 +15,11 @@ Meteor.methods({
     TaskService.deleteTask(taskId);
   },
   // Submits time
-  submitTime: function submitTime(taskId, timeRemaining) {
+  submitTime: function Server$submitTime(taskId, timeRemaining) {
     TaskService.submitTime(taskId, timeRemaining);
+  },
+  timeSpent: function Server$timeSpent(timeToAdd) {
+    TaskService.timeSpent(timeToAdd);
   },
 });
 

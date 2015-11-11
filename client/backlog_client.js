@@ -37,6 +37,7 @@ Template.addTaskDisplay.onRendered(function renderContextMenu() {
     minDate: 0,
     maxDate: +100,
   });
+
   $('#slider').slider({
     range: 'min',
     value: 15,
@@ -47,6 +48,18 @@ Template.addTaskDisplay.onRendered(function renderContextMenu() {
       $('#task_est_time').val(ui.value);
     },
   });
+});
+
+Template.timeSlotBoard.events({
+  'click #fifteen-min-opt': function addFifteenMinutes() {
+    Meteor.call('timeSpent', 15);
+  },
+  'click #thirty-min-opt': function addThirtyMinutes() {
+    Meteor.call('timeSpent', 30);
+  },
+  'click #one-hour-opt': function addOneHour() {
+    Meteor.call('timeSpent', 60);
+  },
 });
 
 // Get a list of task that belong to this user
@@ -80,15 +93,17 @@ Template.taskSummary.helpers({
     return Tasks.find().count();
   },
   earliestDue: function getEarliestDue() {
-    let dueDate = Tasks.findOne({},
-                                { sort: {'task.deadline': 1 }}).task.deadline;
-    // TODO: Replace magic number w/ const?
-    return Math.ceil((dueDate - Date.now()) / 86400000);
+    const MILLI_SEC_PER_DAY = 86400000;
+    let earliestTask = Tasks.findOne({}, { sort: {deadline: 1 }});
+    if (typeof earliestTask === 'undefined') {
+      return 0;
+    }
+    return Math.ceil((earliestTask.deadline - Date.now()) / MILLI_SEC_PER_DAY);
   },
   workLoad: function getWorkLoad() {
     let total = 0;
     Tasks.find().map(function sumTimes(item) {
-      total += item.task.estTime;
+      total += item.estTime;
     });
     return total / 60;
   },
@@ -100,8 +115,7 @@ Template.userBoard.events({
     Session.set('displayTaskSummary', !Session.get('displayTaskSummary'));
   },
   'click #add-task-button': function showContextMenu() {
-    $('#addTaskForm').trigger("reset");
-    // $('#addTaskModal').openModal();
+    $('#addTaskForm').trigger('reset');
   },
 });
 
@@ -120,9 +134,13 @@ Template.registerHelper('displayTaskSummary', function displayTaskSummary() {
 Template.taskInfo.helpers({
   taskStyle: function taskStyle(task) {
     if (task.deadline < new Date()) {
-      return "background-color:tomato;font-weight:bold"
-    } else {
-      return ""
+      return 'background-color:tomato;font-weight:bold';
     }
+    return '';
   },
+});
+
+// For debugging purposes only
+Template.registerHelper('log', function client$template$log(something) {
+  console.log(something);
 });

@@ -10,7 +10,14 @@ TaskService = {
     // TODO: Input validation
     Tasks.insert({
       user: userId,
-      task: new Task(taskId, priority, date, estTime, taskDetails),
+      task: {
+        _taskId: taskId,
+        _priority: priority,
+        _deadline: new Date(date),
+        _estTime: Number(estTime),
+        _taskDetails: taskDetails,
+        _allottedTime: 0,
+      },
     }, function addTaskError() {
       // TODO: Work on exceptions
     });
@@ -28,6 +35,15 @@ TaskService = {
       Tasks.update(taskId, {
         $set: { estTime: timeRemaining },
       });
+    }
+  },
+  timeSpent: function TaskService$timeSpent(timeToAdd) {
+    const time = parseInt(timeToAdd, 10);
+
+    let earliestTask = Tasks.findOne({}, { sort: {deadline: 1 }});
+    if (earliestTask !== undefined ) {
+      Tasks.update({ _id: earliestTask._id },
+                   { $inc: { 'task._allottedTime': time } });
     }
   },
 };

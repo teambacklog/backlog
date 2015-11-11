@@ -1,8 +1,8 @@
 TaskScheduler = {
-  bestTaskToWorkOn: function() {
+  bestTaskToWorkOn: function TaskScheduler$bestTaskToWorkOn() {
     return _earliestDueDate();
   },
-  _earliestDueDate: function() {
+  _earliestDueDate: function TaskScheduler$earliestDueDate() {
     return Tasks.find({ deadline: -1 });
   },
 };
