@@ -20,13 +20,13 @@ TaskService = {
     Tasks.remove(taskId);
   },
   // Submits time
-  submitTime: function submitTime(timeRemaining) {
+  submitTime: function submitTime(taskId, timeRemaining) {
     // If no time left, delete row
     if (timeRemaining <= 0) {
-      Tasks.remove(this._id);
+      Tasks.remove(taskId);
     } else {
-      Tasks.update(this._id, {
-        $set: { amtTime: timeRemaining },
+      Tasks.update(taskId, {
+        $set: { estTime: timeRemaining },
       });
     }
   },
