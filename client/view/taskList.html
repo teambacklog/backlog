@@ -7,7 +7,7 @@
 
         <table class="responsive-table highlight centered">
           <thead>
-            <tr>
+          <tr>
               <th data-field="tasks">Tasks</th>
               <th data-field="priority">Priority</th>
               <th data-field="duedate">Due Date</th>
@@ -35,7 +35,7 @@
 
 
 <template name="taskInfo">
-  <tr>
+  <tr class="taskRow {{ taskStyle(this) }}">
     <td class="Name">{{ taskId }}</td>
     <td class="Priority">{{ priority }}</td>
     <td class="Date">{{ deadline.toDateString }}</td>

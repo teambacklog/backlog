@@ -132,9 +132,9 @@ Template.registerHelper('displayTaskSummary', function displayTaskSummary() {
 
 // Style overdue tasks in task list
 Template.taskInfo.helpers({
-  taskStyle: function taskStyle(task) {
+  taskStyle: function client$taskStyle(task) {
     if (task.deadline < new Date()) {
-      return 'background-color:tomato;font-weight:bold';
+      return 'overdue';
     }
     return '';
   },
