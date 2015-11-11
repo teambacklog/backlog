@@ -69,6 +69,9 @@ Template.taskInfo.events({
   'click #delete-task': function deleteTask() {
     Meteor.call('deleteTask', this._id);
   },
+  'click #complete-task': function completeTask() {
+    Meteor.call('submitTime', this._id, 0);
+  },
 });
 
 // Find tasks specific to this user
@@ -112,4 +115,15 @@ Template.userBoard.onRendered(function renderFrontPage() {
 // Global function
 Template.registerHelper('displayTaskSummary', function displayTaskSummary() {
   return Session.get('displayTaskSummary');
+});
+
+// Style overdue tasks in task list
+Template.taskInfo.helpers({
+  taskStyle: function taskStyle(task) {
+    if (task.deadline < new Date()) {
+      return "background-color:tomato;font-weight:bold"
+    } else {
+      return ""
+    }
+  },
 });
