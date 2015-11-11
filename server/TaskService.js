@@ -46,7 +46,7 @@ TaskService = {
     }
     let earliestTask = allTasks[0];
 
-    Tasks.update({ _id: earliestTask._id },
+    Tasks.update({ _id: earliestTask.taskId },
                  { $inc: { 'task._allottedTime': time } });
   },
 };
