@@ -94,10 +94,14 @@ Template.taskSummary.helpers({
   },
   earliestDue: function getEarliestDue() {
     const MILLI_SEC_PER_DAY = 86400000;
-    let earliestTask = Tasks.findOne({}, { sort: { _deadline: -1 }});
-    if (typeof earliestTask === 'undefined') {
-      return 0;
-    }
+    // there is no sort in findOne, it is only sorted by "natural order" :p
+    // let earliestTask = Tasks.findOne({}, { sort: { _deadline: -1 }});
+    let allTasks = Tasks.find({}, { sort: { "task._deadline": 1 } }).fetch();
+    console.log(allTasks);
+    //if (typeof earliestTask === 'undefined') {
+      //return 0;
+    //}
+    let earliestTask = allTasks[0];
     return Math.ceil((earliestTask.deadline - Date.now()) / MILLI_SEC_PER_DAY);
   },
   workLoad: function getWorkLoad() {
