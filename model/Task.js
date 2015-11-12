@@ -1,17 +1,17 @@
 // Todo: Validation
-Task = function TaskConstructor(taskId, priority, deadline, estTime,
-                                taskDetails) {
-  this._taskId = taskId;
-  this._priority = priority;
-  this._deadline = new Date(deadline);
-  this._estTime = Number(estTime);
-  this._taskDetails = taskDetails;
+Task = function TaskConstructor(doc) {
+  _.extend(this, doc);
 };
 
 Task.prototype = {
+  constructor: Task,
+
   get taskId() {
     // Read only
-    return this._taskId;
+    return this._id;
+  },
+  get taskName() {
+    return this._taskName;
   },
   get priority() {
     return this._priority;
@@ -24,5 +24,12 @@ Task.prototype = {
   },
   get taskDetails() {
     return this._taskDetails;
+  },
+  get allottedTime() {
+    return this._allottedTime;
+  },
+  incAllottedTime(time) {
+    // Not used right now
+    this._allottedTime += time;
   },
 };

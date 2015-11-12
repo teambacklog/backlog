@@ -1,4 +1,4 @@
-describe('TaskService', function() {
+describe('TaskService', function TaskServiceSpec() {
   beforeEach(function beforeEach() {
     MeteorStubs.install();
     // Need to sign up and sign up w/ a temporary user
@@ -8,8 +8,8 @@ describe('TaskService', function() {
     MeteorStubs.uninstall();
   });
 
-  describe('addTask', function TestAddTask() {
-    it('should add a task to the user', function() {
+  describe('addTask', function TaskServiceSpec$addTask() {
+    it('should add a task to the user', function TaskServiceSpec$addTask$1() {
       // SETUP
       spyOn(Tasks, 'insert');
       const user = Meteor.userId();

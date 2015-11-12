@@ -26,6 +26,11 @@ choosing between tasks to do as well as keep track of their overall activity.
     meteor reset
 
 ## Set heroku branch to master: 
+
+    git checkout heroku
     git fetch origin
     git reset --hard origin/master
 
+## Delete branch:
+
+    git push origin --delete <branchName>

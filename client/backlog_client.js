@@ -37,6 +37,7 @@ Template.addTaskDisplay.onRendered(function renderContextMenu() {
     minDate: 0,
     maxDate: +100,
   });
+
   $('#slider').slider({
     range: 'min',
     value: 15,
@@ -49,11 +50,23 @@ Template.addTaskDisplay.onRendered(function renderContextMenu() {
   });
 });
 
+Template.timeSlotBoard.events({
+  'click #fifteen-min-opt': function addFifteenMinutes() {
+    Meteor.call('timeSpent', 15);
+  },
+  'click #thirty-min-opt': function addThirtyMinutes() {
+    Meteor.call('timeSpent', 30);
+  },
+  'click #one-hour-opt': function addOneHour() {
+    Meteor.call('timeSpent', 60);
+  },
+});
+
 // Get a list of task that belong to this user
 // (server only publish user specific task collection)
 Template.taskList.helpers({
   tasks: function getTasks() {
-    return Tasks.find();
+    return Tasks.find({}, { sort: { 'task._deadline': 1 } });
   },
 });
 
@@ -69,6 +82,9 @@ Template.taskInfo.events({
   'click #delete-task': function deleteTask() {
     Meteor.call('deleteTask', this._id);
   },
+  'click #complete-task': function completeTask() {
+    Meteor.call('submitTime', this._id, 0);
+  },
 });
 
 // Find tasks specific to this user
@@ -77,15 +93,19 @@ Template.taskSummary.helpers({
     return Tasks.find().count();
   },
   earliestDue: function getEarliestDue() {
-    let dueDate = Tasks.findOne({},
-                                { sort: {'task.deadline': 1 }}).task.deadline;
-    // TODO: Replace magic number w/ const?
-    return Math.ceil((dueDate - Date.now()) / 86400000);
+    const MILLI_SEC_PER_DAY = 86400000;
+
+    let allTasks = Tasks.find({}, { sort: { 'task._deadline': 1 } }).fetch();
+    if (allTasks.length === 0) {
+      return 0;
+    }
+    let earliestTask = allTasks[0];
+    return Math.ceil((earliestTask.deadline - Date.now()) / MILLI_SEC_PER_DAY);
   },
   workLoad: function getWorkLoad() {
     let total = 0;
     Tasks.find().map(function sumTimes(item) {
-      total += item.task.estTime;
+      total += item.estTime;
     });
     return total / 60;
   },
@@ -97,13 +117,11 @@ Template.userBoard.events({
     Session.set('displayTaskSummary', !Session.get('displayTaskSummary'));
   },
   'click #add-task-button': function showContextMenu() {
-    $('#addTaskForm').trigger("reset");
-    $('#addTaskModal').openModal();
+    $('#addTaskForm').trigger('reset');
   },
 });
 
 Template.userBoard.onRendered(function renderFrontPage() {
-  console.log("fuck off.");
   $('[name="addTaskDisplay"]').hide();
   $('#taskList').hide();
   $('.modal-trigger').leanModal();
@@ -112,4 +130,19 @@ Template.userBoard.onRendered(function renderFrontPage() {
 // Global function
 Template.registerHelper('displayTaskSummary', function displayTaskSummary() {
   return Session.get('displayTaskSummary');
+});
+
+// Style overdue tasks in task list
+Template.taskInfo.helpers({
+  taskStyle: function client$taskStyle(task) {
+    if (task.deadline < new Date()) {
+      return 'overdue';
+    }
+    return '';
+  },
+});
+
+// For debugging purposes only
+Template.registerHelper('log', function client$template$log(something) {
+  console.log(something);
 });

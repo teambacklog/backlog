@@ -2,17 +2,19 @@
   <div class="section no-pad-bot s12" id="index-banner">
     <div class="container"  id="taskList">
       <br><br>
-      <h1 class="header center orange-text">Your work: </h1>
+      <h1 class="header center orange-text">Your Work</h1>
       <div class="scroll">
 
         <table class="responsive-table highlight centered">
           <thead>
-            <tr>
+          <tr>
               <th data-field="tasks">Tasks</th>
               <th data-field="priority">Priority</th>
               <th data-field="duedate">Due Date</th>
               <th data-field="esttime">Est. Time</th>
-              <th data-field="delete"></th>
+              <th date-field="allottedtime">Time Spent</th>
+              <th data-field="delete">Delete Task</th>
+              <th data-field="completion">Completion</th>
             </tr>
           </thead>
         <tbody>
@@ -33,15 +35,23 @@
 
 
 <template name="taskInfo">
-  <tr>
-    <td class="Name">{{ task.taskId }}</td>
-    <td class="Priority">{{ task.priority }}</td>
-    <td class="Date">{{ task.deadline.toDateString }}</td>
-    <td class="Time">{{ task.estTime }}</td>
+  <tr class="taskRow {{ taskStyle(this) }}">
+    <td class="Name">{{ taskName }}</td>
+    <td class="Priority">{{ priority }}</td>
+    <td class="Date">{{ deadline.toDateString }}</td>
+    <td class="Time">{{ estTime }}</td>
+    <td class="Allotted-Time">{{ allottedTime }}</td>
     <td class="Delete">
       <a class="waves-effect waves-teal btn-flat" id="delete-task">
         <i class="material-icons">delete</i>
       </a>
+    </td>
+    <td class="Edit">
+      <a class="waves-effect waves-teal btn-flat" id="complete-task">
+        <i class="material-icons">done</i>
+      </a>
+      <!--<a class="waves-effect waves-teal btn-flat" id="delete-task">
+        <i class="material-icons">delete</i></a>-->
     </td>
     <!--<span class="amtTime">Time Left: {{amtTime}}</span>
     <form class="submitTime"><input type="text" name="submitTime" placeholder="submit time"></form>
