@@ -18,8 +18,8 @@ Meteor.methods({
   submitTime: function Server$submitTime(taskId, timeRemaining) {
     TaskService.submitTime(taskId, timeRemaining);
   },
-  timeSpent: function Server$timeSpent(timeToAdd) {
-    TaskService.timeSpent(timeToAdd);
+  timeSpent: function Server$timeSpent(task, timeToAdd) {
+    TaskService.timeSpent(task, timeToAdd);
   },
 });
 

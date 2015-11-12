@@ -1,8 +1,7 @@
 Meteor.subscribe('tasks');
 
 Meteor.startup( function start() {
-  Session.set('displayTaskSummary', true);
-  //Session.set('onTask', false);
+  
 });
 
 // Allows addTask.html to add tasks
@@ -18,7 +17,7 @@ Template.addTaskDisplay.events({
     const date = template.find('[name="date"]').value;
     const time = template.find('[name="est"]').value;
 
-    Meteor.call('addTask', name, priority, date, time, null);
+    Meteor.call('addTask', name, priority, date, time, "Hello this is hard assignment");
     $('#addTaskModal').hide('slow');
   },
   // Hide add task modal
@@ -52,43 +51,39 @@ Template.addTaskDisplay.onRendered(function renderContextMenu() {
 });
 
 
-// MUST IMPLEMENT: Have Meteor.call('timeSpent') take two parameters, object + time
 Template.timeSlotBoard.events({
   'click #fifteen-min-opt': function addFifteenMinutes() {
     if( Tasks.find().count() <= 0){
       return;
     }
     let earliestTask = Tasks.findOne({}, { sort: { deadline: -1 }});
-    Session.set('timeSpent', 15);
 
-    //Session.set('onTask', true);
-    //Meteor.call('timeSpent', 15);
+    Session.set('timeSpent', 15);
+    Session.set('currTask', earliestTask);
   },
   'click #thirty-min-opt': function addThirtyMinutes() {
     if( Tasks.find().count() <= 0){
       return;
     }
     let earliestTask = Tasks.findOne({}, { sort: { deadline: -1 }});
-    Session.set('timeSpent', 30);
 
-    //Session.set('onTask', true);
-    //Meteor.call('timeSpent', 30);
+    Session.set('timeSpent', 30);
+    Session.set('currTask', earliestTask); 
   },
   'click #one-hour-opt': function addOneHour() {
     if( Tasks.find().count() <= 0){
       return;
     }
     let earliestTask = Tasks.findOne({}, { sort: { deadline: -1 }});
-    Session.set('timeSpent', 60);
 
-    //Session.set('onTask', true);
-    //Meteor.call('timeSpent', 60);
+    Session.set('timeSpent',60);
+    Session.set('currTask', earliestTask);
   },
 });
 
 Template.receiveTask.events({
   'click #return-to-userBoard': function returnToUserBoard() {
-    Meteor.call('timeSpent', Session.get('timeSpent'));
+    Meteor.call('timeSpent',  Session.get('currTask'), Session.get('timeSpent'));
     Session.set('timeSpent', 0);
     Session.set('displayUserSummary', false);
   },
@@ -162,6 +157,7 @@ Template.userBoard.events({
 });
 
 Template.userBoard.onRendered(function renderFrontPage() {
+  Session.set('displayTaskSummary', true);
   $('[name="addTaskDisplay"]').hide();
   $('#taskList').hide();
   $('.modal-trigger').leanModal();
@@ -177,6 +173,9 @@ Template.registerHelper('timeSpent', function timeSpentSession() {
 });
 Template.registerHelper('timeSpentCompZero', function timeSpentCompZero() {
   return Session.get('timeSpent') > 0;
+});
+Template.registerHelper('currTask', function currentTask() {
+  return new Task(Session.get('currTask'));
 });
 
 // For debugging purposes only; tests Handlebars
