@@ -2,6 +2,7 @@ Meteor.subscribe('tasks');
 
 Meteor.startup( function start() {
   Session.set('displayTaskSummary', true);
+  //Session.set('onTask', false);
 });
 
 // Allows addTask.html to add tasks
@@ -50,15 +51,46 @@ Template.addTaskDisplay.onRendered(function renderContextMenu() {
   });
 });
 
+
+// MUST IMPLEMENT: Have Meteor.call('timeSpent') take two parameters, object + time
 Template.timeSlotBoard.events({
   'click #fifteen-min-opt': function addFifteenMinutes() {
-    Meteor.call('timeSpent', 15);
+    if( Tasks.find().count() <= 0){
+      return;
+    }
+    let earliestTask = Tasks.findOne({}, { sort: { deadline: -1 }});
+    Session.set('timeSpent', 15);
+
+    //Session.set('onTask', true);
+    //Meteor.call('timeSpent', 15);
   },
   'click #thirty-min-opt': function addThirtyMinutes() {
-    Meteor.call('timeSpent', 30);
+    if( Tasks.find().count() <= 0){
+      return;
+    }
+    let earliestTask = Tasks.findOne({}, { sort: { deadline: -1 }});
+    Session.set('timeSpent', 30);
+
+    //Session.set('onTask', true);
+    //Meteor.call('timeSpent', 30);
   },
   'click #one-hour-opt': function addOneHour() {
-    Meteor.call('timeSpent', 60);
+    if( Tasks.find().count() <= 0){
+      return;
+    }
+    let earliestTask = Tasks.findOne({}, { sort: { deadline: -1 }});
+    Session.set('timeSpent', 60);
+
+    //Session.set('onTask', true);
+    //Meteor.call('timeSpent', 60);
+  },
+});
+
+Template.receiveTask.events({
+  'click #return-to-userBoard': function returnToUserBoard() {
+    Meteor.call('timeSpent', Session.get('timeSpent'));
+    Session.set('timeSpent', 0);
+    Session.set('displayUserSummary', false);
   },
 });
 
@@ -84,6 +116,16 @@ Template.taskInfo.events({
   },
   'click #complete-task': function completeTask() {
     Meteor.call('submitTime', this._id, 0);
+  },
+});
+
+// Style overdue tasks in task list
+Template.taskInfo.helpers({
+  taskStyle: function client$taskStyle(task) {
+    if (task.deadline < new Date()) {
+      return 'overdue';
+    }
+    return '';
   },
 });
 
@@ -130,17 +172,14 @@ Template.registerHelper('displayTaskSummary', function displayTaskSummary() {
   return Session.get('displayTaskSummary');
 });
 
-// Style overdue tasks in task list
-Template.taskInfo.helpers({
-  taskStyle: function client$taskStyle(task) {
-    if (task.deadline < new Date()) {
-      return 'overdue';
-    }
-    return '';
-  },
+Template.registerHelper('timeSpent', function timeSpentSession() {
+  return Session.get('timeSpent');
+});
+Template.registerHelper('timeSpentCompZero', function timeSpentCompZero() {
+  return Session.get('timeSpent') > 0;
 });
 
-// For debugging purposes only
+// For debugging purposes only; tests Handlebars
 Template.registerHelper('log', function client$template$log(something) {
   console.log(something);
 });

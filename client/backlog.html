@@ -30,7 +30,11 @@
   {{ > navbar }}
 
   {{#if currentUser}}
-    {{ > userBoard }}
+    {{#if timeSpentCompZero }}
+      {{ > receiveTask }}
+    {{ else }}
+      {{ > userBoard }}
+    {{ /if }}
   {{else}}
     {{ > tutorial }}
   {{/if}}
