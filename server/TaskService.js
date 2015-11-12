@@ -37,13 +37,13 @@ TaskService = {
       });
     }
   },
-  timeSpent: function TaskService$timeSpent(timeToAdd) {
+  timeSpent: function TaskService$timeSpent(task, timeToAdd) {
     const time = parseInt(timeToAdd, 10);
 
-    let earliestTask = Tasks.findOne({}, { sort: { deadline: -1 }});
+    //let earliestTask = Tasks.findOne({}, { sort: { deadline: -1 }});
 
-    if (earliestTask !== undefined ) {
-      Tasks.update({ _id: earliestTask._id },
+    if (task !== undefined ) {
+      Tasks.update({ _id: task._id },
                    { $inc: { 'task._allottedTime': time } });
     }
   },
