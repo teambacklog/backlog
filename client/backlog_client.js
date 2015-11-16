@@ -4,6 +4,7 @@ Meteor.startup( function start() {
   Session.set('displayTaskSummary', true);
 });
 
+
 // Allows addTask.html to add tasks
 Template.addTaskDisplay.events({
   // Submit information for new task
@@ -16,6 +17,45 @@ Template.addTaskDisplay.events({
 
     const date = template.find('[name="date"]').value;
     const time = template.find('[name="est"]').value;
+
+    //the validation code which is messy,
+    //i'll fix this later
+    var validated = true;
+    var msg = "";
+    if (name == "") {
+      msg += "The task name cannot be empty.\n";
+      validated = false;
+    }
+
+    if (priority == "Choose your priority") {
+      msg += "The priority must be chosen.\n";
+      validated = false;
+    }
+
+    console.log(date);
+    if (date == "") {
+      msg += "The date must be specified.\n";
+      validated = false;
+    } else {
+      console.log("fuck");
+      var curDate = new Date();
+      var inDate = new Date(date);
+      if (curDate >= inDate) {
+        msg += "The date must be later than today.\n";
+        validated = false;
+      }
+    }
+
+    if (time == "") {
+      msg += "The time must be estimated.\n";
+      validated = false;
+    }
+    if (!validated) {
+      alert(msg);
+      return;
+    }
+
+    //end of validation code
 
     Meteor.call('addTask', name, priority, date, time, null);
     $('#addTaskModal').hide('slow');
@@ -33,11 +73,7 @@ Template.addTaskDisplay.events({
 });
 
 Template.addTaskDisplay.onRendered(function renderContextMenu() {
-  $('#datepicker').datepicker({
-    minDate: 0,
-    maxDate: +100,
-  });
-
+  //the slider for estimed time
   $('#slider').slider({
     range: 'min',
     value: 15,
@@ -48,6 +84,7 @@ Template.addTaskDisplay.onRendered(function renderContextMenu() {
       $('#task_est_time').val(ui.value);
     },
   });
+
 });
 
 Template.timeSlotBoard.events({
@@ -125,6 +162,7 @@ Template.userBoard.onRendered(function renderFrontPage() {
   $('[name="addTaskDisplay"]').hide();
   $('#taskList').hide();
   $('.modal-trigger').leanModal();
+
 });
 
 // Global function
