@@ -16,7 +16,7 @@ TaskService = {
         _deadline: new Date(date),
         _estTime: Number(estTime),
         _taskDetails: taskDetails,
-        _allottedTime: 0,
+        _timeSpent: 0,
       },
     }, function addTaskError() {
       // TODO: Work on exceptions
@@ -38,15 +38,18 @@ TaskService = {
     }
   },
   timeSpent: function TaskService$timeSpent(timeToAdd) {
+    var allTasks;
+    var earliestTask;
+
     const time = parseInt(timeToAdd, 10);
 
-    let allTasks = Tasks.find({}, { sort: { 'task._deadline': 1 } }).fetch();
+    allTasks = Tasks.find({}, { sort: { 'task._deadline': 1 } }).fetch();
     if (allTasks.length === 0) {
       return 0;
     }
-    let earliestTask = allTasks[0];
+    earliestTask = allTasks[0];
 
     Tasks.update({ _id: earliestTask.taskId },
-                 { $inc: { 'task._allottedTime': time } });
+                 { $inc: { 'task._timeSpent': time } });
   },
 };

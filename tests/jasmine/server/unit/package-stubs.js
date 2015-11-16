@@ -17,31 +17,6 @@ var packageMetadata = {
       "value": "1.4.39"
     }
   },
-  "random": {
-    "Random": {
-      "type": "object",
-      "members": {
-        "createWithSeeds": {
-          "type": "function"
-        },
-        "fraction": {
-          "type": "function"
-        },
-        "hexString": {
-          "type": "function"
-        },
-        "id": {
-          "type": "function"
-        },
-        "secret": {
-          "type": "function"
-        },
-        "choice": {
-          "type": "function"
-        }
-      }
-    }
-  },
   "base64": {
     "Base64": {
       "type": "object",
@@ -93,6 +68,326 @@ var packageMetadata = {
     },
     "EJSONTest": {
       "type": "object"
+    }
+  },
+  "check": {
+    "check": {
+      "type": "function"
+    },
+    "Match": {
+      "type": "object",
+      "members": {
+        "Optional": {
+          "type": "function"
+        },
+        "OneOf": {
+          "type": "function"
+        },
+        "Any": {
+          "type": "array"
+        },
+        "Where": {
+          "type": "function"
+        },
+        "ObjectIncluding": {
+          "type": "function"
+        },
+        "ObjectWithValues": {
+          "type": "function"
+        },
+        "Integer": {
+          "type": "array"
+        },
+        "Error": {
+          "type": "function",
+          "refID": 13,
+          "members": {
+            "captureStackTrace": {
+              "type": "function"
+            },
+            "stackTraceLimit": {
+              "type": "constant",
+              "value": 10
+            },
+            "prepareStackTrace": {
+              "type": "function"
+            },
+            "prototype": {
+              "type": "object",
+              "members": {
+                "constructor": {
+                  "ref": 13
+                }
+              }
+            }
+          }
+        },
+        "test": {
+          "type": "function"
+        }
+      }
+    }
+  },
+  "babel-compiler": {
+    "Babel": {
+      "type": "object",
+      "members": {
+        "getDefaultOptions": {
+          "type": "function"
+        },
+        "validateExtraFeatures": {
+          "type": "function"
+        },
+        "compile": {
+          "type": "function"
+        },
+        "transformMeteor": {
+          "type": "function"
+        },
+        "setCacheDir": {
+          "type": "function"
+        }
+      }
+    },
+    "BabelCompiler": {
+      "type": "function",
+      "members": {
+        "prototype": {
+          "type": "object",
+          "members": {
+            "processFilesForTarget": {
+              "type": "function"
+            },
+            "setDiskCacheDirectory": {
+              "type": "function"
+            }
+          }
+        }
+      }
+    }
+  },
+  "ecmascript": {
+    "ECMAScript": {
+      "type": "object",
+      "members": {
+        "compileForShell": {
+          "type": "function"
+        }
+      }
+    }
+  },
+  "babel-runtime": {
+    "babelHelpers": {
+      "type": "object",
+      "members": {
+        "sanitizeForInObject": {
+          "type": "function"
+        },
+        "taggedTemplateLiteralLoose": {
+          "type": "function"
+        },
+        "classCallCheck": {
+          "type": "function"
+        },
+        "inherits": {
+          "type": "function"
+        },
+        "createClass": {
+          "type": "function"
+        },
+        "objectWithoutProperties": {
+          "type": "function"
+        },
+        "objectDestructuringEmpty": {
+          "type": "function"
+        },
+        "bind": {
+          "type": "function"
+        },
+        "slice": {
+          "type": "function"
+        }
+      }
+    }
+  },
+  "ecmascript-runtime": {
+    "Symbol": {
+      "type": "function"
+    },
+    "Map": {
+      "type": "function"
+    },
+    "Set": {
+      "type": "function"
+    }
+  },
+  "promise": {
+    "Promise": {
+      "type": "function",
+      "members": {
+        "resolve": {
+          "type": "function"
+        },
+        "all": {
+          "type": "function"
+        },
+        "reject": {
+          "type": "function"
+        },
+        "race": {
+          "type": "function"
+        },
+        "denodeify": {
+          "type": "function"
+        },
+        "nodeify": {
+          "type": "function"
+        },
+        "awaitAll": {
+          "type": "function"
+        },
+        "await": {
+          "type": "function"
+        },
+        "async": {
+          "type": "function"
+        },
+        "asyncApply": {
+          "type": "function"
+        },
+        "Fiber": {
+          "type": "function",
+          "members": {
+            "yield": {
+              "type": "function"
+            },
+            "poolSize": {
+              "type": "constant",
+              "value": 120
+            },
+            "fibersCreated": {
+              "type": "constant",
+              "value": 10
+            },
+            "prototype": {
+              "type": "object",
+              "members": {
+                "started": {
+                  "type": "undefined"
+                },
+                "reset": {
+                  "type": "function"
+                },
+                "run": {
+                  "type": "function"
+                },
+                "throwInto": {
+                  "type": "function"
+                }
+              }
+            }
+          }
+        },
+        "prototype": {
+          "type": "object",
+          "members": {
+            "then": {
+              "type": "function"
+            },
+            "done": {
+              "type": "function"
+            },
+            "finally": {
+              "type": "function"
+            },
+            "catch": {
+              "type": "function"
+            },
+            "nodeify": {
+              "type": "function"
+            },
+            "await": {
+              "type": "function"
+            }
+          }
+        }
+      }
+    }
+  },
+  "random": {
+    "Random": {
+      "type": "object",
+      "members": {
+        "type": {
+          "type": "constant",
+          "value": "NODE_CRYPTO"
+        },
+        "createWithSeeds": {
+          "type": "function"
+        },
+        "insecure": {
+          "type": "object",
+          "members": {
+            "type": {
+              "type": "constant",
+              "value": "ALEA"
+            },
+            "alea": {
+              "type": "function",
+              "members": {
+                "uint32": {
+                  "type": "function"
+                },
+                "fract53": {
+                  "type": "function"
+                },
+                "version": {
+                  "type": "constant",
+                  "value": "Alea 0.9"
+                },
+                "args": {
+                  "type": "array"
+                }
+              }
+            },
+            "fraction": {
+              "type": "function",
+              "refID": 11
+            },
+            "hexString": {
+              "type": "function",
+              "refID": 13
+            },
+            "id": {
+              "type": "function",
+              "refID": 15
+            },
+            "secret": {
+              "type": "function",
+              "refID": 17
+            },
+            "choice": {
+              "type": "function",
+              "refID": 19
+            }
+          }
+        },
+        "fraction": {
+          "ref": 11
+        },
+        "hexString": {
+          "ref": 13
+        },
+        "id": {
+          "ref": 15
+        },
+        "secret": {
+          "ref": 17
+        },
+        "choice": {
+          "ref": 19
+        }
+      }
     }
   },
   "id-map": {
@@ -605,64 +900,6 @@ var packageMetadata = {
       }
     }
   },
-  "check": {
-    "check": {
-      "type": "function"
-    },
-    "Match": {
-      "type": "object",
-      "members": {
-        "Optional": {
-          "type": "function"
-        },
-        "OneOf": {
-          "type": "function"
-        },
-        "Any": {
-          "type": "array"
-        },
-        "Where": {
-          "type": "function"
-        },
-        "ObjectIncluding": {
-          "type": "function"
-        },
-        "ObjectWithValues": {
-          "type": "function"
-        },
-        "Integer": {
-          "type": "array"
-        },
-        "Error": {
-          "type": "function",
-          "refID": 13,
-          "members": {
-            "captureStackTrace": {
-              "type": "function"
-            },
-            "stackTraceLimit": {
-              "type": "constant",
-              "value": 10
-            },
-            "prepareStackTrace": {
-              "type": "function"
-            },
-            "prototype": {
-              "type": "object",
-              "members": {
-                "constructor": {
-                  "ref": 13
-                }
-              }
-            }
-          }
-        },
-        "test": {
-          "type": "function"
-        }
-      }
-    }
-  },
   "retry": {
     "Retry": {
       "type": "function",
@@ -881,54 +1118,6 @@ var packageMetadata = {
               }
             }
           }
-        }
-      }
-    }
-  },
-  "babel-compiler": {
-    "Babel": {
-      "type": "object",
-      "members": {
-        "getDefaultOptions": {
-          "type": "function"
-        },
-        "validateExtraFeatures": {
-          "type": "function"
-        },
-        "compile": {
-          "type": "function"
-        },
-        "transformMeteor": {
-          "type": "function"
-        },
-        "setCacheDir": {
-          "type": "function"
-        }
-      }
-    },
-    "BabelCompiler": {
-      "type": "function",
-      "members": {
-        "prototype": {
-          "type": "object",
-          "members": {
-            "processFilesForTarget": {
-              "type": "function"
-            },
-            "setDiskCacheDirectory": {
-              "type": "function"
-            }
-          }
-        }
-      }
-    }
-  },
-  "ecmascript": {
-    "ECMAScript": {
-      "type": "object",
-      "members": {
-        "compileForShell": {
-          "type": "function"
         }
       }
     }
@@ -7587,7 +7776,7 @@ var packageMetadata = {
                 },
                 "version": {
                   "type": "constant",
-                  "value": "74d58add8b5a0b90ff01cc722ee6349daf79cb3e"
+                  "value": "e81d569fe6f65ae9aa72e4bf988c16b5e125848c"
                 },
                 "PUBLIC_SETTINGS": {
                   "type": "object"
@@ -7711,7 +7900,7 @@ var packageMetadata = {
             },
             "connections": {
               "type": "constant",
-              "value": 0
+              "value": 5
             },
             "timeout": {
               "type": "constant",
@@ -7807,141 +7996,6 @@ var packageMetadata = {
           }
         }
       }
-    }
-  },
-  "babel-runtime": {
-    "babelHelpers": {
-      "type": "object",
-      "members": {
-        "sanitizeForInObject": {
-          "type": "function"
-        },
-        "taggedTemplateLiteralLoose": {
-          "type": "function"
-        },
-        "classCallCheck": {
-          "type": "function"
-        },
-        "inherits": {
-          "type": "function"
-        },
-        "createClass": {
-          "type": "function"
-        },
-        "objectWithoutProperties": {
-          "type": "function"
-        },
-        "objectDestructuringEmpty": {
-          "type": "function"
-        },
-        "bind": {
-          "type": "function"
-        },
-        "slice": {
-          "type": "function"
-        }
-      }
-    }
-  },
-  "promise": {
-    "Promise": {
-      "type": "function",
-      "members": {
-        "resolve": {
-          "type": "function"
-        },
-        "all": {
-          "type": "function"
-        },
-        "reject": {
-          "type": "function"
-        },
-        "race": {
-          "type": "function"
-        },
-        "denodeify": {
-          "type": "function"
-        },
-        "nodeify": {
-          "type": "function"
-        },
-        "awaitAll": {
-          "type": "function"
-        },
-        "await": {
-          "type": "function"
-        },
-        "async": {
-          "type": "function"
-        },
-        "asyncApply": {
-          "type": "function"
-        },
-        "Fiber": {
-          "type": "function",
-          "members": {
-            "yield": {
-              "type": "function"
-            },
-            "poolSize": {
-              "type": "constant",
-              "value": 120
-            },
-            "fibersCreated": {
-              "type": "constant",
-              "value": 10
-            },
-            "prototype": {
-              "type": "object",
-              "members": {
-                "started": {
-                  "type": "undefined"
-                },
-                "reset": {
-                  "type": "function"
-                },
-                "run": {
-                  "type": "function"
-                },
-                "throwInto": {
-                  "type": "function"
-                }
-              }
-            }
-          }
-        },
-        "prototype": {
-          "type": "object",
-          "members": {
-            "then": {
-              "type": "function"
-            },
-            "done": {
-              "type": "function"
-            },
-            "finally": {
-              "type": "function"
-            },
-            "catch": {
-              "type": "function"
-            },
-            "nodeify": {
-              "type": "function"
-            },
-            "await": {
-              "type": "function"
-            }
-          }
-        }
-      }
-    }
-  },
-  "ecmascript-collections": {
-    "Map": {
-      "type": "function"
-    },
-    "Set": {
-      "type": "function"
     }
   },
   "ddp-server": {
@@ -10206,7 +10260,7 @@ var packageMetadata = {
             "cache": {
               "type": "object",
               "members": {
-                "1445742090882undefined": {
+                "1447648193833undefined": {
                   "type": "constant",
                   "value": "/Users/lueaon/Desktop/backlog"
                 }
@@ -10698,11 +10752,11 @@ var packageMetadata = {
       "members": {
         "autoupdateVersion": {
           "type": "constant",
-          "value": "ecdbd288fc1e261ab99e6db1020702805347a0eb"
+          "value": "a6e6c77e6d6edb7334dd9a8613b339de64b2dfa8"
         },
         "autoupdateVersionRefreshable": {
           "type": "constant",
-          "value": "c2fede7a68fc707afa0dbaa2d2d63b87a0837813"
+          "value": "0589d8f72beef769b7a645f7ec9c8d49db8f9cc1"
         },
         "autoupdateVersionCordova": {
           "type": "constant",
