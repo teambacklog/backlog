@@ -85,6 +85,11 @@ Template.taskInfo.events({
   'click #complete-task': function completeTask() {
     Meteor.call('submitTime', this._id, 0);
   },
+  'contextmenu .date': function client$taskList$taskInfo$dbclickTime() {
+    var task = Tasks.findOne(this._id);
+    task.updateTaskDetails("assaasgas");
+    console.log("asasgasg");
+  },
 });
 
 // Find tasks specific to this user

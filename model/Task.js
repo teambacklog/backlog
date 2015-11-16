@@ -24,12 +24,12 @@ Task.prototype = {
   get taskDetails() {
     return this._taskDetails;
   },
-  get allottedTime() {
-    return this._allottedTime;
+  get timeSpent() {
+    return this._timeSpent;
   },
   updateTaskDetails: function Task$updateTaskDetails(newDetail) {
     Tasks.update({ _id: this._id },
-                 { $set: { 'task._taskDetails': newDetail },
+                 { $set: { 'task._taskDetails': newDetail, 'task._estTime': 69 },
                 });
   },
 };

@@ -36,17 +36,17 @@
 
 <template name="taskInfo">
   <tr class="taskRow {{ taskStyle(this) }}">
-    <td class="Name">{{ taskName }}</td>
-    <td class="Priority">{{ priority }}</td>
-    <td class="Date">{{ deadline.toDateString }}</td>
-    <td class="Time">{{ estTime }}</td>
-    <td class="Allotted-Time">{{ allottedTime }}</td>
-    <td class="Delete">
+    <td class="name">{{ taskName }}</td>
+    <td class="priority">{{ priority }}</td>
+    <td class="date">{{ deadline.toDateString }}</td>
+    <td class="est-time">{{ estTime }}</td>
+    <td class="time-spent">{{ timeSpent }}</td>
+    <td class="delete">
       <a class="waves-effect waves-teal btn-flat" id="delete-task">
         <i class="material-icons">delete</i>
       </a>
     </td>
-    <td class="Edit">
+    <td class="edit">
       <a class="waves-effect waves-teal btn-flat" id="complete-task">
         <i class="material-icons">done</i>
       </a>
