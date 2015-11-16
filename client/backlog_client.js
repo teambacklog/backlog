@@ -79,16 +79,21 @@ Template.taskList.onRendered(function taskListOnDisplay() {
 // Functions relating to a specific row in task list
 Template.taskInfo.events({
   // Delete button of task
-  'click #delete-task': function deleteTask() {
+  'click .delete-task': function deleteTask() {
     Meteor.call('deleteTask', this._id);
   },
-  'click #complete-task': function completeTask() {
+  'click .complete-task': function completeTask() {
     Meteor.call('submitTime', this._id, 0);
   },
   'contextmenu .date': function client$taskList$taskInfo$dbclickTime() {
     var task = Tasks.findOne(this._id);
-    task.updateTaskDetails("assaasgas");
-    console.log("asasgasg");
+    task.updateTaskDetails('assaasgas');
+    console.log('asasgasg');
+  },
+  'dblclick .priority': function client$taskList$taskInfo$dbclickTime() {
+    var task = Tasks.findOne(this._id);
+    task.updateTaskDetails('assaasgas');
+    console.log('asasgasg');
   },
 });
 

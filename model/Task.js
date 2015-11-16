@@ -29,7 +29,7 @@ Task.prototype = {
   },
   updateTaskDetails: function Task$updateTaskDetails(newDetail) {
     Tasks.update({ _id: this._id },
-                 { $set: { 'task._taskDetails': newDetail, 'task._estTime': 69 },
-                });
+                 { $set: { 'task._taskDetails': newDetail, 'task._estTime': 69 }, }
+                );
   },
 };
