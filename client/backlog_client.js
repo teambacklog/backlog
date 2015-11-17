@@ -27,6 +27,7 @@ Template.addTaskDisplay.events({
   },
   'click #remove-new-task': function shrinkContextMenu(event) {
     event.preventDefault();
+    $("#addTaskForm").data('validator').resetForm();
     $('#addTaskModal').hide('slow');
   },
   'change #slider': function moveSlider(event) {
@@ -55,9 +56,15 @@ Template.addTaskDisplay.onRendered(function renderAddTaskMenu() {
   $('#addTaskForm').validate({
     rules: {
       name: {required: true,},
-      date: {required: true,},
       priority: {required: true,},
+      date: {required: true,},
       est: {required: true,},
+    },
+    messages: {
+      name: '*Task Name required',
+      priority: '*Assign a priority',
+      date: '*Deadline required',
+      est: '*Give the estimated length of the task',
     },
   });
 });

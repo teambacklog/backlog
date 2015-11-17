@@ -8,16 +8,16 @@
          <div class="row">
     <form id="addTaskForm">
       <div class="row">
-        <div class="input-field col s6 center">
-          <input type="text" name="name" id="task_name" class="validate">
-          <label for="name" style="text-align:left">Add Task Name</label>
+        <div class="col s6 center">
+          <input type="text" placeholder="Enter task name" name="name" id="task_name" class="validate">
+          <!--<label for="name">Task Name</label>-->
         </div>
 
       </div>
 
       <div class="row">
         <label for="priority">Priority</label>
-        <div class="input-field col s6">
+        <div class="col s6">
           <select name= "priority" class="browser-default">
             <option value="" disabled selected>Choose your priority</option>
             <option value="1">Low</option>
@@ -28,18 +28,19 @@
       </div>
 
       <div class="row">
-        <div class="input-field col s6">
-          <label for="date">Due Date</label> <input type="text" name="date" id="datepicker"/>
+        <div class="col s6">
+          <input type="text" placeholder="Choose the deadline" name="date" id="datepicker"/>
         </div>
       </div>
 
       <div class="row">
-        <div class="input-field col s6">
+        <div class="col s6">
             <p class="range-field">
-              <!-- <input name="est" type="range" id="task_est_time" min="0" max="300" /> -->
+              <!--<input name="est" type="range" id="task_est_time" min="0" max="300" />-->
               <p>
-                <label>Estimated Time</label>
-                <input type="text"  name="est" id="task_est_time" readonly style="border:0; color:#f6931f; font-weight:bold;">
+<label for="est">Estimated Time</label>
+                <input type="text" name="est" id="task_est_time" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                
               </p>
               <div id="slider"></div>
 
@@ -57,10 +58,6 @@
           </button>
 
         </div>
-      <label class="error" for="name"></label>
-      <label class="error" for="priority"></label>
-      <label class="error" for="date"></label>
-      <label class="error" for="est"></label>
       </form>
 
       </div>
