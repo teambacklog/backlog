@@ -74,9 +74,6 @@ Template.taskList.onRendered(function taskListOnDisplay() {
   $('.scroll').slimScroll({
     height: '250px',
   });
-  $('.task-name').editable("click", function(e){
-    alert(e.value);
-  });
 });
 
 // Functions relating to a specific row in task list
@@ -88,20 +85,21 @@ Template.taskInfo.events({
   'click .complete-task': function completeTask() {
     Meteor.call('submitTime', this._id, 0);
   },
+  /*
   'contextmenu .date': function client$taskList$taskInfo$dbclickDate() {
     var task = Tasks.findOne(this._id);
-    task.updateTaskDetails('test right click date');
-    console.log('contextmenu .date');
+    task.updateTaskName('test right click date');
   },
   'dblclick .priority': function client$taskList$taskInfo$dbclickPriority() {
     var task = Tasks.findOne(this._id);
-    task.updateTaskDetails('test db click priority');
-    console.log('dblclick .priority');
+    task.updateTaskName('test db click priority');
   },
-  'dblclick .task-name': function client$taskList$taskInfo$dbclickTaskName() {
+  */
+  'input .task-name': _.debounce(function client$taskInfo$inputTaskName(e) {
     var task = Tasks.findOne(this._id);
-    task.updateTaskName('test update name');
-  }
+    task.updateTaskName($(e.target).text());
+    $(e.target).text('');
+  }, 750, false),
 });
 
 // Find tasks specific to this user
@@ -157,9 +155,4 @@ Template.taskInfo.helpers({
     }
     return '';
   },
-});
-
-// For debugging purposes only
-Template.registerHelper('log', function client$template$log(something) {
-  console.log(something);
 });

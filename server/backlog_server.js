@@ -34,8 +34,8 @@ Meteor.startup(function start() {
 
   // Not sure this is a good idea, but users can update task collection
   Tasks.allow({
-    'update': function () {
+    update: function Tasks$allow$update() {
       return true;
     },
-  })
+  });
 });
