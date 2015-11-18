@@ -115,14 +115,24 @@ Template.taskList.onRendered(function taskListOnDisplay() {
 
 // Functions relating to a specific row in task list
 Template.taskInfo.events({
+  // Add time spent working on a test
+  'click .add-time-spent': function addTimeSpent() {
+    var task = Tasks.findOne(this._id);
+    task.updateTimeSpent(task.timeSpent + 15);
+  },
+  // Add to the estimated time remaining
+  'click .add-time-est': function addTimeEst() {
+    var task = Tasks.findOne(this._id);
+    task.updateEstTime(task.estTime + 15);
+  },
   // Delete button of task
   'click .delete-task': function deleteTask() {
     Meteor.call('deleteTask', this._id);
   },
   'click .complete-task': function completeTask() {
-    Meteor.call('submitTime', this._id, 0);
+    var task = Tasks.findOne(this._id);
+    task.updateTimeSpent(task.estTime);
   },
-  /*
   'contextmenu .date': function client$taskList$taskInfo$dbclickDate() {
     var task = Tasks.findOne(this._id);
     task.updateTaskName('test right click date');
@@ -131,10 +141,19 @@ Template.taskInfo.events({
     var task = Tasks.findOne(this._id);
     task.updateTaskName('test db click priority');
   },
-  */
   'input .task-name': _.debounce(function client$taskInfo$inputTaskName(e) {
     var task = Tasks.findOne(this._id);
     task.updateTaskName($(e.target).text());
+    $(e.target).text('');
+  }, 750, false),
+  'input .est-time': _.debounce(function client$taskInfo$inputEstTime(e) {
+    var task = Tasks.findOne(this._id);
+    task.updateEstTime($(e.target).text());
+    $(e.target).text('');
+  }, 750, false),
+  'input .time-spent': _.debounce(function client$taskInfo$inputTimeSpent(e) {
+    var task = Tasks.findOne(this._id);
+    task.updateTimeSpent($(e.target).text());
     $(e.target).text('');
   }, 750, false),
 });
@@ -185,10 +204,12 @@ Template.registerHelper('displayTaskSummary', function displayTaskSummary() {
   return Session.get('displayTaskSummary');
 });
 
-// Style overdue tasks in task list
+// Color tasks in task list
 Template.taskInfo.helpers({
   taskStyle: function client$taskStyle(task) {
-    if (task.deadline < new Date()) {
+    if (task.timeRemaining <= 0) {
+      return 'complete';
+    } else if (task.deadline < new Date()) {
       return 'overdue';
     }
     return '';

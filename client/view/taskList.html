@@ -12,7 +12,8 @@
               <th data-field="priority">Priority</th>
               <th data-field="duedate">Due Date</th>
               <th data-field="esttime">Est. Time</th>
-              <th date-field="allottedtime">Time Spent</th>
+              <th date-field="time-spent">Time Spent</th>
+              <th date-field="time-remaining">Work Remaining</th>
               <th data-field="delete">Delete Task</th>
               <th data-field="complete">Complete</th>
             </tr>
@@ -37,33 +38,26 @@
 <template name="taskInfo">
   <tr class="taskRow {{ taskStyle(this) }}">
     <td class="task-name" contentEditable="true">{{ taskName }}</td>
-    <td class="Priority">{{ priority }}</td>
-    <td class="Date">{{ deadline.toDateString }}</td>
-    <td class="Time">
-      <a class="btn-floating waves-effect waves-light blue">
-        <i class="material-icons">remove</i>
-      </a>
-      &nbsp; {{ estTime }} &nbsp;
-      <a class="btn-floating waves-effect waves-light blue">
+    <td class="priority">{{ priority }}</td>
+    <td class="date">{{ deadline.toDateString }}</td>
+    <td class="est-time" contentEditable="true">{{ estTime }}</td>
+    <td class="time-spent" contentEditable="true">{{ timeSpent }}</td>
+    <td class="time-remaining">
+      <a class="btn-floating waves-effect waves-light blue add-time-est">
         <i class="material-icons">add</i>
       </a>
-    </td>
-    <td class="Allotted-Time">
-      <a class="btn-floating waves-effect waves-light blue">
+      &nbsp; {{ timeRemaining }} &nbsp;
+      <a class="btn-floating waves-effect waves-light blue add-time-spent">
         <i class="material-icons">remove</i>
-      </a>
-      &nbsp; {{ allottedTime }} &nbsp;
-      <a class="btn-floating waves-effect waves-light blue">
-        <i class="material-icons">add</i>
       </a>
     </td>
     <td class="Delete">
-      <a class="waves-effect waves-teal btn-flat" id="delete-task">
+      <a class="waves-effect waves-teal btn-flat delete-task">
         <i class="material-icons">delete</i>
       </a>
     </td>
     <td class="Complete">
-      <a class="waves-effect waves-teal btn-flat" id="complete-task">
+      <a class="waves-effect waves-teal btn-flat complete-task">
         <i class="material-icons">done</i>
       </a>
     </td>
