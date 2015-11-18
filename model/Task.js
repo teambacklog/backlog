@@ -1,4 +1,4 @@
-// Todo: Validation
+// extend the BSON-object with 'Task' accessor functions
 Task = function TaskConstructor(doc) {
   _.extend(this, doc);
 };
@@ -8,10 +8,7 @@ Task.prototype = {
 
   get taskId() {
     // Read only
-    return this._id;
-  },
-  get taskName() {
-    return this._taskName;
+    return this._taskId;
   },
   get priority() {
     return this._priority;
@@ -29,7 +26,6 @@ Task.prototype = {
     return this._allottedTime;
   },
   incAllottedTime(time) {
-    // Not used right now
-    this._allottedTime += time;
+    this._allottedTime += time;    
   },
 };
