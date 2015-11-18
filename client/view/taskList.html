@@ -14,7 +14,7 @@
               <th data-field="esttime">Est. Time</th>
               <th date-field="allottedtime">Time Spent</th>
               <th data-field="delete">Delete Task</th>
-              <th data-field="completion">Completion</th>
+              <th data-field="complete">Complete</th>
             </tr>
           </thead>
         <tbody>
@@ -39,19 +39,33 @@
     <td class="Name">{{ taskName }}</td>
     <td class="Priority">{{ priority }}</td>
     <td class="Date">{{ deadline.toDateString }}</td>
-    <td class="Time">{{ estTime }}</td>
-    <td class="Allotted-Time">{{ allottedTime }}</td>
+    <td class="Time">
+      <a class="btn-floating waves-effect waves-light blue">
+        <i class="material-icons">remove</i>
+      </a>
+      &nbsp; {{ estTime }} &nbsp;
+      <a class="btn-floating waves-effect waves-light blue">
+        <i class="material-icons">add</i>
+      </a>
+    </td>
+    <td class="Allotted-Time">
+      <a class="btn-floating waves-effect waves-light blue">
+        <i class="material-icons">remove</i>
+      </a>
+      &nbsp; {{ allottedTime }} &nbsp;
+      <a class="btn-floating waves-effect waves-light blue">
+        <i class="material-icons">add</i>
+      </a>
+    </td>
     <td class="Delete">
       <a class="waves-effect waves-teal btn-flat" id="delete-task">
         <i class="material-icons">delete</i>
       </a>
     </td>
-    <td class="Edit">
+    <td class="Complete">
       <a class="waves-effect waves-teal btn-flat" id="complete-task">
         <i class="material-icons">done</i>
       </a>
-      <!--<a class="waves-effect waves-teal btn-flat" id="delete-task">
-        <i class="material-icons">delete</i></a>-->
     </td>
     <!--<span class="amtTime">Time Left: {{amtTime}}</span>
     <form class="submitTime"><input type="text" name="submitTime" placeholder="submit time"></form>
