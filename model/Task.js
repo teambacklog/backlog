@@ -5,7 +5,6 @@ Task = function TaskConstructor(doc) {
 
 Task.prototype = {
   constructor: Task,
-
   get taskId() {
     // Read only
     return this._id;
@@ -25,11 +24,15 @@ Task.prototype = {
   get taskDetails() {
     return this._taskDetails;
   },
-  get allottedTime() {
-    return this._allottedTime;
+  get timeSpent() {
+    return this._timeSpent;
   },
-  incAllottedTime(time) {
-    // Not used right now
-    this._allottedTime += time;
+  updateTaskDetails: function Task$updateTaskDetails(newDetail) {
+    Tasks.update({ _id: this._id },
+                 { $set: { 'task._taskDetails': newDetail },
+                });
+  },
+  updateTaskName: function Task$updateTaskName(newTaskName) {
+    Tasks.update({ _id: this._id }, { $set: { 'task._taskName': newTaskName}});
   },
 };

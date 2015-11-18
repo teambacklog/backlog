@@ -36,7 +36,7 @@
 
 <template name="taskInfo">
   <tr class="taskRow {{ taskStyle(this) }}">
-    <td class="Name">{{ taskName }}</td>
+    <td class="task-name" contentEditable="true">{{ taskName }}</td>
     <td class="Priority">{{ priority }}</td>
     <td class="Date">{{ deadline.toDateString }}</td>
     <td class="Time">

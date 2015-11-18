@@ -116,12 +116,27 @@ Template.taskList.onRendered(function taskListOnDisplay() {
 // Functions relating to a specific row in task list
 Template.taskInfo.events({
   // Delete button of task
-  'click #delete-task': function deleteTask() {
+  'click .delete-task': function deleteTask() {
     Meteor.call('deleteTask', this._id);
   },
-  'click #complete-task': function completeTask() {
+  'click .complete-task': function completeTask() {
     Meteor.call('submitTime', this._id, 0);
   },
+  /*
+  'contextmenu .date': function client$taskList$taskInfo$dbclickDate() {
+    var task = Tasks.findOne(this._id);
+    task.updateTaskName('test right click date');
+  },
+  'dblclick .priority': function client$taskList$taskInfo$dbclickPriority() {
+    var task = Tasks.findOne(this._id);
+    task.updateTaskName('test db click priority');
+  },
+  */
+  'input .task-name': _.debounce(function client$taskInfo$inputTaskName(e) {
+    var task = Tasks.findOne(this._id);
+    task.updateTaskName($(e.target).text());
+    $(e.target).text('');
+  }, 750, false),
 });
 
 // Find tasks specific to this user
@@ -178,9 +193,4 @@ Template.taskInfo.helpers({
     }
     return '';
   },
-});
-
-// For debugging purposes only
-Template.registerHelper('log', function client$template$log(something) {
-  console.log(something);
 });
