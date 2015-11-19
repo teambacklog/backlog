@@ -1,9 +1,9 @@
 <template name="taskList">
-    <div class="container"  id="taskList">
-      <div class="section s12">
-      <br><br>
-      <h1 class="header center orange-text">Your Work</h1>
-      <div class="scroll">
+    <br><br>
+    <h1 class="header center orange-text">Your Work</h1>
+    <div class="section s12 scroll"  id="taskList">
+
+      <!-- <div class="scroll"> -->
 
         <table class="responsive-table highlight centered">
           <thead>
@@ -22,11 +22,8 @@
             {{ > taskInfo }}
           {{ /each }}
         </tbody>
-
-
-        </table>
-      </div>
-      </div>
+      </table>
+      <!-- </div> -->
 
       <br><br>
   </div>
