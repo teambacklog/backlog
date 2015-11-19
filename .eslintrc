@@ -32,7 +32,9 @@
 /**
  * ES6
  */
-    "no-var": 2,                     // http://eslint.org/docs/rules/no-var
+/*    
+let does not play well with Jasmine
+"no-var": 2,                     // http://eslint.org/docs/rules/no-var */
 
 /**
  * Variables

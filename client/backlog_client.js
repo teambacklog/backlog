@@ -72,15 +72,36 @@ Template.addTaskDisplay.onRendered(function renderAddTaskMenu() {
   });
 });
 
+
+// MUST IMPLEMENT: Have Meteor.call('timeSpent') take two parameters, object + time
 Template.timeSlotBoard.events({
   'click #fifteen-min-opt': function addFifteenMinutes() {
-    Meteor.call('timeSpent', 15);
+    if (Tasks.find().count() <= 0) {
+      return;
+    }
+    Session.set('gettingTask', 15);
   },
   'click #thirty-min-opt': function addThirtyMinutes() {
-    Meteor.call('timeSpent', 30);
+    Session.set('timeToSpent', 30);
+    Session.set('gettingTask', true);
   },
   'click #one-hour-opt': function addOneHour() {
-    Meteor.call('timeSpent', 60);
+  },
+});
+
+Template.receiveTask.events({
+  'click #return-to-userBoard': function returnToUserBoard() {
+    Session.set('gettingTask', false);
+    // Meteor.call('timeSpent', Session.get('timeSpent'));
+    // Session.set('timeSpent', 0);
+    Session.set('displayUserSummary', true);
+  },
+});
+
+Template.receiveTask.helpers({
+  getSchedulerTask: function client$receiveTask$getSchedulerTask() {
+    var timeToSpent = Session.get('timeToSpent');
+    return [TaskScheduler.taskToWorkGivenTime(timeToSpent)];
   },
 });
 
@@ -100,12 +121,56 @@ Template.taskList.onRendered(function taskListOnDisplay() {
 
 // Functions relating to a specific row in task list
 Template.taskInfo.events({
+  // Add time spent working on a test
+  'click .add-time-spent': function addTimeSpent() {
+    var task = Tasks.findOne(this._id);
+    task.updateTimeSpent(task.timeSpent + 15);
+  },
+  // Add to the estimated time remaining
+  'click .add-time-est': function addTimeEst() {
+    var task = Tasks.findOne(this._id);
+    task.updateEstTime(task.estTime + 15);
+  },
   // Delete button of task
-  'click #delete-task': function deleteTask() {
+  'click .delete-task': function deleteTask() {
     Meteor.call('deleteTask', this._id);
   },
-  'click #complete-task': function completeTask() {
-    Meteor.call('submitTime', this._id, 0);
+  'click .complete-task': function completeTask() {
+    var task = Tasks.findOne(this._id);
+    task.updateTimeSpent(task.estTime);
+  },
+  'contextmenu .date': function client$taskList$taskInfo$dbclickDate() {
+    var task = Tasks.findOne(this._id);
+    task.updateTaskName('test right click date');
+  },
+  'dblclick .priority': function client$taskList$taskInfo$dbclickPriority() {
+    var task = Tasks.findOne(this._id);
+    task.updateTaskName('test db click priority');
+  },
+  'input .task-name': _.debounce(function client$taskInfo$inputTaskName(e) {
+    var task = Tasks.findOne(this._id);
+    task.updateTaskName($(e.target).text());
+    $(e.target).text('');
+  }, 750, false),
+  'input .est-time': _.debounce(function client$taskInfo$inputEstTime(e) {
+    var task = Tasks.findOne(this._id);
+    task.updateEstTime($(e.target).text());
+    $(e.target).text('');
+  }, 750, false),
+  'input .time-spent': _.debounce(function client$taskInfo$inputTimeSpent(e) {
+    var task = Tasks.findOne(this._id);
+    task.updateTimeSpent($(e.target).text());
+    $(e.target).text('');
+  }, 750, false),
+});
+
+// Style overdue tasks in task list
+Template.taskInfo.helpers({
+  taskStyle: function client$taskStyle(task) {
+    if (task.deadline < new Date()) {
+      return 'overdue';
+    }
+    return '';
   },
 });
 
@@ -156,17 +221,23 @@ Template.registerHelper('displayTaskSummary', function displayTaskSummary() {
   return Session.get('displayTaskSummary');
 });
 
-// Style overdue tasks in task list
+// Color tasks in task list
 Template.taskInfo.helpers({
   taskStyle: function client$taskStyle(task) {
-    if (task.deadline < new Date()) {
+    if (task.timeRemaining <= 0) {
+      return 'complete';
+    } else if (task.deadline < new Date()) {
       return 'overdue';
     }
     return '';
   },
 });
 
-// For debugging purposes only
-Template.registerHelper('log', function client$template$log(something) {
-  console.log(something);
+Template.registerHelper('gettingTask', function timeSpentCompZero() {
+  return Session.get('gettingTask');
 });
+
+Template.registerHelper('timeToSpent', function timeSpentSession() {
+  return Session.get('timeToSpent');
+});
+

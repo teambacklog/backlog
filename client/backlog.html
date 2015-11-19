@@ -28,17 +28,17 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.mcustomscrollbar/3.1.0/jquery.mCustomScrollbar.min.css">
 
-  <!-- JQuery Validation -->
-  <!--<script type="text/javascript" src="javascripts/jquery.validate.js"></script>-->
-  
-  
 </head>
 
 <body>
   {{ > navbar }}
 
   {{#if currentUser}}
-    {{ > userBoard }}
+    {{#if gettingTask }}
+      {{ > receiveTask }}
+    {{ else }}
+      {{ > userBoard }}
+    {{ /if }}
   {{else}}
     {{ > tutorial }}
   {{/if}}
