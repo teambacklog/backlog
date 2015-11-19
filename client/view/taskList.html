@@ -1,10 +1,8 @@
 <template name="taskList">
-  <div class="section no-pad-bot s12" id="index-banner">
-    <div class="container"  id="taskList">
-      <br><br>
-      <h1 class="header center orange-text">Your Work</h1>
-      <div class="scroll">
-
+    <br><br>
+    <h1 class="header center orange-text">Your Work</h1>
+    <div class="section s12"  id="taskList">
+      <div class=" scroll">
         <table class="responsive-table highlight centered">
           <thead>
           <tr>
@@ -18,17 +16,13 @@
               <th data-field="complete">Complete</th>
             </tr>
           </thead>
-        <tbody>
-          {{ #each tasks }}
-            {{ > taskInfo }}
-          {{ /each }}
-        </tbody>
-
-
+          <tbody>
+            {{ #each tasks }}
+              {{ > taskInfo }}
+            {{ /each }}
+          </tbody>
         </table>
       </div>
-      </div>
-
       <br><br>
   </div>
 

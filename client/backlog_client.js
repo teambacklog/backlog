@@ -1,7 +1,7 @@
 Meteor.subscribe('tasks');
 
 Meteor.startup( function start() {
-  Session.set('displayTaskSummary', true);
+
 });
 
 // allows addTask.html to add tasks
@@ -73,7 +73,6 @@ Template.addTaskDisplay.onRendered(function renderAddTaskMenu() {
 });
 
 
-// MUST IMPLEMENT: Have Meteor.call('timeSpent') take two parameters, object + time
 Template.timeSlotBoard.events({
   'click #fifteen-min-opt': function addFifteenMinutes() {
     if (Tasks.find().count() <= 0) {
@@ -86,6 +85,7 @@ Template.timeSlotBoard.events({
     Session.set('gettingTask', true);
   },
   'click #one-hour-opt': function addOneHour() {
+
   },
 });
 
@@ -235,6 +235,9 @@ Template.taskInfo.helpers({
 
 Template.registerHelper('gettingTask', function timeSpentCompZero() {
   return Session.get('gettingTask');
+});
+Template.registerHelper('currTask', function currentTask() {
+  return new Task(Session.get('currTask'));
 });
 
 Template.registerHelper('timeToSpent', function timeSpentSession() {

@@ -3,21 +3,17 @@
     font-weight:bold;
 }
 
-#contextMenu {
-    position: fixed;
-    z-index:100;
-    top: 0px;
-    left: 0px;
-    height:100%;
-    width:100%;
-    background: #000;
-    display: none;
-}
 
 .error {
   color: red;
 }
-=======
+
 .complete {
     background-color: springgreen;
+}
+
+#backlog-logo{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

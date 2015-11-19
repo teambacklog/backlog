@@ -46,6 +46,7 @@ TaskService = {
     allTasks = Tasks.find({}, { sort: { 'task._deadline': 1 } }).fetch();
     if (allTasks.length === 0) {
       return 0;
+
     }
     earliestTask = allTasks[0];
 
