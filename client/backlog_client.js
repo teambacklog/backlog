@@ -88,28 +88,29 @@ Template.addTaskDisplay.onRendered(function renderContextMenu() {
 });
 
 
-// MUST IMPLEMENT: Have Meteor.call('timeSpent') take two parameters, object + time
 Template.timeSlotBoard.events({
   'click #fifteen-min-opt': function addFifteenMinutes() {
-    if (Tasks.find().count() <= 0) {
-      return;
-    }
-    Session.set('gettingTask', 15);
+    Session.set('timeToSpent', 15);
+    Session.set('gettingTask', true);
   },
   'click #thirty-min-opt': function addThirtyMinutes() {
     Session.set('timeToSpent', 30);
     Session.set('gettingTask', true);
   },
   'click #one-hour-opt': function addOneHour() {
+    Session.set('timeToSpent', 60);
+    Session.set('gettingTask', true);
   },
 });
 
 Template.receiveTask.events({
-  'click #return-to-userBoard': function returnToUserBoard() {
+  'click #did-not-work-on': function returnToUserBoard() {
     Session.set('gettingTask', false);
-    // Meteor.call('timeSpent', Session.get('timeSpent'));
-    // Session.set('timeSpent', 0);
-    Session.set('displayUserSummary', true);
+  },
+  'click #spent-time-to-spent': function client$spentTime() {
+    var timeToSpent = Session.get('timeToSpent');
+    var workingOnTask = TaskScheduler.taskToWorkGivenTime(timeToSpent);
+    workingOnTask.updateTimeSpent(timeToSpent+workingOnTask.timeSpent);
   },
 });
 
@@ -228,7 +229,6 @@ Template.userBoard.onRendered(function renderFrontPage() {
   $('[name="addTaskDisplay"]').hide();
   $('#taskList').hide();
   $('.modal-trigger').leanModal();
-
 });
 
 // Global function
