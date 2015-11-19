@@ -4,12 +4,12 @@ Meteor.startup( function start() {
   Session.set('displayTaskSummary', true);
 });
 
-
-// Allows addTask.html to add tasks
+// allows addTask.html to add tasks
 Template.addTaskDisplay.events({
-  // Submit information for new task
-  'click #submit-new-task': function addTask(event, template) {
+  // submit information for new row
+  /*'click #submit-new-task'*/'submit form': function addTask(event, template) {
     event.preventDefault();
+
     const name = template.find('[name="name"]').value;
 
     const priorityField = template.find('[name="priority"]');
@@ -18,51 +18,18 @@ Template.addTaskDisplay.events({
     const date = template.find('[name="date"]').value;
     const time = template.find('[name="est"]').value;
 
-    //the validation code which is messy,
-    //i'll fix this later
-    var validated = true;
-    var msg = "";
-    if (name == "") {
-      msg += "The task name cannot be empty.\n";
-      validated = false;
-    }
-
-    if (priority == "Choose your priority") {
-      msg += "The priority must be chosen.\n";
-      validated = false;
-    }
-
-    console.log(date);
-    if (date == "") {
-      msg += "The date must be specified.\n";
-      validated = false;
-    } else {
-      console.log("fuck");
-      var curDate = new Date();
-      var inDate = new Date(date);
-      if (curDate >= inDate) {
-        msg += "The date must be later than today.\n";
-        validated = false;
-      }
-    }
-
-    if (time == "") {
-      msg += "The time must be estimated.\n";
-      validated = false;
-    }
-    if (!validated) {
-      alert(msg);
-      return;
-    }
-
-    //end of validation code
-
     Meteor.call('addTask', name, priority, date, time, null);
+
+    template.find('[name="name"]').value = "";
+    template.find('[name="date"]').value = "";
+    template.find('[name="est"]').value = "";
+
     $('#addTaskModal').hide('slow');
   },
   // Hide add task modal
   'click #remove-new-task': function hideAddTaskModal(event) {
     event.preventDefault();
+    $("#addTaskForm").data('validator').resetForm();
     $('#addTaskModal').hide('slow');
   },
   // Update slider value as it changes
@@ -72,19 +39,37 @@ Template.addTaskDisplay.events({
   },
 });
 
-Template.addTaskDisplay.onRendered(function renderContextMenu() {
-  //the slider for estimed time
-  $('#slider').slider({
+Template.addTaskDisplay.onRendered(function renderAddTaskMenu() {
+  $('#datepicker').datepicker({
+    minDate: 0,
+    maxDate: +100,
+  });
+
+  $( '#slider').slider({
     range: 'min',
     value: 15,
     min: 15,
     max: 300,
     step: 15,
-    slide: function updateSlider(event, ui) {
-      $('#task_est_time').val(ui.value);
+    slide: function sliderValue(event, ui) {
+      $('#task_est_time').val( ui.value );
     },
   });
 
+  $('#addTaskForm').validate({
+    rules: {
+      name: {required: true,},
+      priority: {required: true,},
+      date: {required: true,},
+      est: {required: true,},
+    },
+    messages: {
+      name: '*Task Name required',
+      priority: '*Assign a priority',
+      date: '*Deadline required',
+      est: '*Give the estimated length of the task',
+    },
+  });
 });
 
 Template.timeSlotBoard.events({
@@ -159,6 +144,7 @@ Template.userBoard.events({
 });
 
 Template.userBoard.onRendered(function renderFrontPage() {
+  Session.set('displayTaskSummary', true);
   $('[name="addTaskDisplay"]').hide();
   $('#taskList').hide();
   $('.modal-trigger').leanModal();
