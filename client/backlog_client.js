@@ -2,7 +2,6 @@ Meteor.subscribe('tasks');
 
 Meteor.startup( function start() {
   Session.set('displayTaskSummary', true);
-  //Session.set('onTask', false);
 });
 
 // Allows addTask.html to add tasks
@@ -55,42 +54,32 @@ Template.addTaskDisplay.onRendered(function renderContextMenu() {
 // MUST IMPLEMENT: Have Meteor.call('timeSpent') take two parameters, object + time
 Template.timeSlotBoard.events({
   'click #fifteen-min-opt': function addFifteenMinutes() {
-    if( Tasks.find().count() <= 0){
+    if (Tasks.find().count() <= 0) {
       return;
     }
-    let earliestTask = Tasks.findOne({}, { sort: { deadline: -1 }});
-    Session.set('timeSpent', 15);
-
-    //Session.set('onTask', true);
-    //Meteor.call('timeSpent', 15);
+    Session.set('gettingTask', 15);
   },
   'click #thirty-min-opt': function addThirtyMinutes() {
-    if( Tasks.find().count() <= 0){
-      return;
-    }
-    let earliestTask = Tasks.findOne({}, { sort: { deadline: -1 }});
-    Session.set('timeSpent', 30);
-
-    //Session.set('onTask', true);
-    //Meteor.call('timeSpent', 30);
+    Session.set('timeToSpent', 30);
+    Session.set('gettingTask', true);
   },
   'click #one-hour-opt': function addOneHour() {
-    if( Tasks.find().count() <= 0){
-      return;
-    }
-    let earliestTask = Tasks.findOne({}, { sort: { deadline: -1 }});
-    Session.set('timeSpent', 60);
-
-    //Session.set('onTask', true);
-    //Meteor.call('timeSpent', 60);
   },
 });
 
 Template.receiveTask.events({
   'click #return-to-userBoard': function returnToUserBoard() {
-    Meteor.call('timeSpent', Session.get('timeSpent'));
-    Session.set('timeSpent', 0);
-    Session.set('displayUserSummary', false);
+    Session.set('gettingTask', false);
+    // Meteor.call('timeSpent', Session.get('timeSpent'));
+    // Session.set('timeSpent', 0);
+    Session.set('displayUserSummary', true);
+  },
+});
+
+Template.receiveTask.helpers({
+  getSchedulerTask: function client$receiveTask$getSchedulerTask() {
+    var timeToSpent = Session.get('timeToSpent');
+    return [TaskScheduler.taskToWorkGivenTime(timeToSpent)];
   },
 });
 
@@ -177,6 +166,14 @@ Template.registerHelper('timeSpent', function timeSpentSession() {
 });
 Template.registerHelper('timeSpentCompZero', function timeSpentCompZero() {
   return Session.get('timeSpent') > 0;
+});
+
+Template.registerHelper('gettingTask', function timeSpentCompZero() {
+  return Session.get('gettingTask');
+});
+
+Template.registerHelper('timeToSpent', function timeSpentSession() {
+  return Session.get('timeToSpent');
 });
 
 // For debugging purposes only; tests Handlebars

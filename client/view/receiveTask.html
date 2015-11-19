@@ -1,5 +1,27 @@
 <template name="receiveTask">
-You have: {{ timeSpent }}<br>
-{{ taskDetails }} 
-<a class="waves-effect waves-light btn" id="return-to-userBoard">Return</a>
+<div id="receive-task" class="row center">
+  <div>You should work on</div>
+  <div>
+    {{ #each getSchedulerTask }}
+      {{ > schedulerTask}}
+    {{ /each }}
+  </div>
+  <div>You have: {{ timeToSpent }} minutes</div>
+  <a class="waves-effect waves-light btn" id="return-to-userBoard">
+    Return
+  </a>
+  <div class="center">
+    <a id="finished-task" class="waves-effect waves-light btn">I've finish the task</a>
+    <a id="spent-time-to-spent" class="waves-effect waves-light btn">I've spent {{ timeToSpent }} minutes</a>
+    <a id="did-not-spent" class="waves-effect waves-light btn">I goofed</a>
+  </div>
+</div>
+</template>
+
+<template name="schedulerTask">
+  <div class="task-name">{{ taskName }}</div>
+  <div class="priority">{{ priority }}</div>
+  <div class="date">{{ deadline.toDateString }}</div>
+  <div class="time">{{ estTime }}</div>
+  <div class="time-spent">{{ allottedTime }}</div>
 </template>
