@@ -1,7 +1,7 @@
 Meteor.subscribe('tasks');
 
 Meteor.startup( function start() {
-  
+
 });
 
 // Allows addTask.html to add tasks
@@ -57,7 +57,7 @@ Template.timeSlotBoard.events({
       return;
     }
     let earliestTask = Tasks.findOne({}, { sort: { deadline: -1 }});
-
+    console.log(earliestTask);
     Session.set('timeSpent', 15);
     Session.set('currTask', earliestTask);
   },
@@ -68,7 +68,7 @@ Template.timeSlotBoard.events({
     let earliestTask = Tasks.findOne({}, { sort: { deadline: -1 }});
 
     Session.set('timeSpent', 30);
-    Session.set('currTask', earliestTask); 
+    Session.set('currTask', earliestTask);
   },
   'click #one-hour-opt': function addOneHour() {
     if( Tasks.find().count() <= 0){
