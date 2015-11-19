@@ -87,15 +87,36 @@ Template.addTaskDisplay.onRendered(function renderContextMenu() {
 
 });
 
+
+// MUST IMPLEMENT: Have Meteor.call('timeSpent') take two parameters, object + time
 Template.timeSlotBoard.events({
   'click #fifteen-min-opt': function addFifteenMinutes() {
-    Meteor.call('timeSpent', 15);
+    if (Tasks.find().count() <= 0) {
+      return;
+    }
+    Session.set('gettingTask', 15);
   },
   'click #thirty-min-opt': function addThirtyMinutes() {
-    Meteor.call('timeSpent', 30);
+    Session.set('timeToSpent', 30);
+    Session.set('gettingTask', true);
   },
   'click #one-hour-opt': function addOneHour() {
-    Meteor.call('timeSpent', 60);
+  },
+});
+
+Template.receiveTask.events({
+  'click #return-to-userBoard': function returnToUserBoard() {
+    Session.set('gettingTask', false);
+    // Meteor.call('timeSpent', Session.get('timeSpent'));
+    // Session.set('timeSpent', 0);
+    Session.set('displayUserSummary', true);
+  },
+});
+
+Template.receiveTask.helpers({
+  getSchedulerTask: function client$receiveTask$getSchedulerTask() {
+    var timeToSpent = Session.get('timeToSpent');
+    return [TaskScheduler.taskToWorkGivenTime(timeToSpent)];
   },
 });
 
@@ -158,6 +179,16 @@ Template.taskInfo.events({
   }, 750, false),
 });
 
+// Style overdue tasks in task list
+Template.taskInfo.helpers({
+  taskStyle: function client$taskStyle(task) {
+    if (task.deadline < new Date()) {
+      return 'overdue';
+    }
+    return '';
+  },
+});
+
 // Find tasks specific to this user
 Template.taskSummary.helpers({
   taskCount: function getTaskCounts() {
@@ -193,6 +224,7 @@ Template.userBoard.events({
 });
 
 Template.userBoard.onRendered(function renderFrontPage() {
+  Session.set('displayTaskSummary', true);
   $('[name="addTaskDisplay"]').hide();
   $('#taskList').hide();
   $('.modal-trigger').leanModal();
@@ -215,3 +247,12 @@ Template.taskInfo.helpers({
     return '';
   },
 });
+
+Template.registerHelper('gettingTask', function timeSpentCompZero() {
+  return Session.get('gettingTask');
+});
+
+Template.registerHelper('timeToSpent', function timeSpentSession() {
+  return Session.get('timeToSpent');
+});
+
