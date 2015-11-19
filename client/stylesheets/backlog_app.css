@@ -2,3 +2,9 @@
     background-color: tomato;
     font-weight:bold;
 }
+
+#backlog-logo{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

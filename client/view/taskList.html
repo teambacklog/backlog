@@ -1,10 +1,8 @@
 <template name="taskList">
     <br><br>
     <h1 class="header center orange-text">Your Work</h1>
-    <div class="section s12 scroll"  id="taskList">
-
-      <!-- <div class="scroll"> -->
-
+    <div class="section s12"  id="taskList">
+      <div class=" scroll">
         <table class="responsive-table highlight centered">
           <thead>
           <tr>
@@ -17,14 +15,13 @@
               <th data-field="completion">Completion</th>
             </tr>
           </thead>
-        <tbody>
-          {{ #each tasks }}
-            {{ > taskInfo }}
-          {{ /each }}
-        </tbody>
-      </table>
-      <!-- </div> -->
-
+          <tbody>
+            {{ #each tasks }}
+              {{ > taskInfo }}
+            {{ /each }}
+          </tbody>
+        </table>
+      </div>
       <br><br>
   </div>
 
