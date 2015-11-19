@@ -53,13 +53,15 @@ Template.addTaskDisplay.events({
     const date = template.find('[name="date"]').value;
     const time = template.find('[name="est"]').value;
     const taskDetails = template.find('[name="task-details"]').value;
-
+    console.log(taskDetails);
     // add the task to the server 
     Meteor.call('addTask', name, priority, date, time, taskDetails);
 
     template.find('[name="name"]').value = "";
     template.find('[name="date"]').value = "";
     template.find('[name="est"]').value = "";
+
+    $('#addTaskModal').hide('slow');
   },
   // Hide add task modal
   'click #remove-new-task': function Client$addTaskDisplay$hideAddTaskModal(event) {
@@ -74,35 +76,33 @@ Template.addTaskDisplay.events({
   },
 });
 
-Template.addTaskDisplay.onRendered(function renderContextMenu() {
-  //the slider for estimed time
-  $('#slider').slider({
-    range: 'min',
-    value: 15,
-    min: 15,
-    max: 300,
-    step: 15,
-    slide: function updateSlider(event, ui) {
-      $('#task_est_time').val(ui.value);
-    },
-  });
-
-});
-
 // these is for the buttons that retrieve the highest sorted task to work on:
 //   only in 15-minute, 30-minute, 1-hour increments
 Template.timeSlotBoard.events({
   'click #fifteen-min-opt': function Client$timeSlotBoard$addFifteenMinutes() {
+    if( Tasks.find().count() === 0 )
+      return;
     Session.set('timeToSpent', 15);
     Session.set('gettingTask', true);
   },
   'click #thirty-min-opt': function Client$timeSlotBoard$addThirtyMinutes() {
+    if( Tasks.find().count() === 0 )
+      return;
     Session.set('timeToSpent', 30);
     Session.set('gettingTask', true);
   },
   'click #one-hour-opt': function Client$timeSlotBoard$addOneHour() {
+    if( Tasks.find().count() === 0 )
+      return;
     Session.set('timeToSpent', 60);
     Session.set('gettingTask', true);
+  },
+});
+
+Template.receiveTask.helpers({
+  getSchedulerTask: function client$receiveTask$getSchedulerTask() {
+    var timeToSpent = Session.get('timeToSpent');
+    return [TaskScheduler.taskToWorkGivenTime(timeToSpent)];
   },
 });
 
@@ -113,14 +113,8 @@ Template.receiveTask.events({
   'click #spent-time-to-spent': function client$spentTime() {
     var timeToSpent = Session.get('timeToSpent');
     var workingOnTask = TaskScheduler.taskToWorkGivenTime(timeToSpent);
+    console.log(workingOnTask);
     workingOnTask.updateTimeSpent(timeToSpent+workingOnTask.timeSpent);
-  },
-});
-
-Template.receiveTask.helpers({
-  getSchedulerTask: function client$receiveTask$getSchedulerTask() {
-    var timeToSpent = Session.get('timeToSpent');
-    return [TaskScheduler.taskToWorkGivenTime(timeToSpent)];
   },
 });
 
@@ -139,10 +133,12 @@ Template.taskList.helpers({
   },
 });
 
-// Style overdue tasks in task list
+// Color tasks in task list
 Template.taskInfo.helpers({
   taskStyle: function Client$taskStyle(task) {
-    if (task.deadline < new Date()) {
+    if (task.timeRemaining <= 0) {
+      return 'complete';
+    } else if (task.deadline < new Date()) {
       return 'overdue';
     }
     return '';
@@ -194,16 +190,6 @@ Template.taskInfo.events({
   }, 750, false),
 });
 
-// Style overdue tasks in task list
-Template.taskInfo.helpers({
-  taskStyle: function client$taskStyle(task) {
-    if (task.deadline < new Date()) {
-      return 'overdue';
-    }
-    return '';
-  },
-});
-
 // 'taskSummary' has a number of metrics to aggregate info on the tasks
 Template.taskSummary.helpers({
   // returns the number of tasks
@@ -233,6 +219,7 @@ Template.taskSummary.helpers({
 
 // 
 Template.userBoard.onRendered(function Client$userBoard$renderFrontPage() {
+  Session.set('displayTaskSummary', true);
   $('[name="addTaskDisplay"]').hide();
   $('#taskList').hide();
   // sets up the code for 'addTaskDisplay'
@@ -251,28 +238,9 @@ Template.userBoard.events({
   },
 });
 
-Template.userBoard.onRendered(function renderFrontPage() {
-  Session.set('displayTaskSummary', true);
-  $('[name="addTaskDisplay"]').hide();
-  $('#taskList').hide();
-  $('.modal-trigger').leanModal();
-});
-
 // Global function
 Template.registerHelper('displayTaskSummary', function Client$template$displayTaskSummary() {
   return Session.get('displayTaskSummary');
-});
-
-// Color tasks in task list
-Template.taskInfo.helpers({
-  taskStyle: function client$taskStyle(task) {
-    if (task.timeRemaining <= 0) {
-      return 'complete';
-    } else if (task.deadline < new Date()) {
-      return 'overdue';
-    }
-    return '';
-  },
 });
 
 Template.registerHelper('gettingTask', function timeSpentCompZero() {
@@ -285,9 +253,3 @@ Template.registerHelper('currTask', function currentTask() {
 Template.registerHelper('timeToSpent', function timeSpentSession() {
   return Session.get('timeToSpent');
 });
-
-// For debugging purposes only
-Template.registerHelper('log', function Client$template$log(something) {
-  console.log(something);
-});
-
