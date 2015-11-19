@@ -5,9 +5,9 @@ Function: Task related server functions that the client can call
 
 TaskService = {
   // adds a task to the 'Tasks' collection
-  addTask: function addTask(userId, taskName, priority, date, estTime,
+  addTask: function TaskService$addTask(userId, taskName, priority, date, estTime,
                             taskDetails) {
-    // TODO: Input validation
+    // put in a task into the MongoDB Collection
     Tasks.insert({
       user: userId,
       task: {
@@ -23,11 +23,11 @@ TaskService = {
     });
   },
   // Deletes task from 'tasks'
-  deleteTask: function deleteTask(taskId) {
+  deleteTask: function TaskService$deleteTask(taskId) {
     Tasks.remove(taskId);
   },
   // Submits time
-  submitTime: function submitTime(taskId, timeRemaining) {
+  submitTime: function TaskService$submitTime(taskId, timeRemaining) {
     // If no time left, delete row
     if (timeRemaining <= 0) {
       Tasks.remove(taskId);
@@ -37,6 +37,7 @@ TaskService = {
       });
     }
   },
+  // increment timeSpent parameter
   timeSpent: function TaskService$timeSpent(timeToAdd) {
     var allTasks;
     var earliestTask;

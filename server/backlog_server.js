@@ -1,17 +1,19 @@
+// returns only the tasks for one user
 Meteor.publish('tasks', function getTasks() {
   return Tasks.find({ user: this.userId });
 });
 
-// Expose TaskService functions to the client
+// Server methods; these are channeled to TaskService.js
 Meteor.methods({
   // Adds a task to the 'Tasks' collection
-  addTask: function addTask(taskName, priority, date, estTime,
+  addTask: function Server$addTask(taskName, priority, date, estTime,
                             taskDetails) {
+    // add the Meteor ID
     const user = Meteor.userId();
     TaskService.addTask(user, taskName, priority, date, estTime, taskDetails);
   },
   // Deletes task from 'tasks'
-  deleteTask: function deleteTask(taskId) {
+  deleteTask: function Server$deleteTask(taskId) {
     TaskService.deleteTask(taskId);
   },
   // Submits time

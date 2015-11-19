@@ -9,54 +9,59 @@
         <form id="addTaskForm">
           <div class="row">
             <div class="col s6 center">
-              <input type="text" placeholder="Enter task name" name="name" id="task_name" class="validate">
+              <input type="text" placeholder="Enter task name" name="name" id="task-name" class="validate">
               <!--<label for="name">Task Name</label>-->
             </div>
 
           </div>
 
-      <div class="row">
-        <label for="priority">Priority</label>
-        <div class="col s6">
-          <select name= "priority" class="browser-default">
-            <option value="" disabled selected>Choose your priority</option>
-            <option value="1">Low</option>
-            <option value="2">Medium</option>
-            <option value="3">High</option>
-          </select>
-        </div>
-      </div>
+          <div class="row">
+            <label for="priority">Priority</label>
+            <div class="col s6">
+              <select name= "priority" id="task-priority" class="browser-default">
+                <option value="" disabled selected>Choose your priority</option>
+                <option value="1">Low</option>
+                <option value="2">Medium</option>
+                <option value="3">High</option>
+              </select>
+            </div>
+          </div>
 
-      <div class="row">
-        <div class="col s6">
-          <input type="text" placeholder="Choose the deadline" name="date" id="datepicker"/>
-        </div>
-      </div>
+          <div class="row">
+            <div class="col s6">
+              <input type="text" placeholder="Choose the deadline" name="date" id="datepicker"/>
+            </div>
+          </div>
 
-      <div class="row">
-        <div class="col s6">
-            <p class="range-field">
-              <!--<input name="est" type="range" id="task_est_time" min="0" max="300" />-->
-              <p>
-                <label for="est">Estimated Time</label>
-                <input type="text" name="est" id="task_est_time" readonly style="border:0; color:#f6931f; font-weight:bold;">
+          <div class="row">
+            <div class="col s6">
+              <p class="range-field">
+                <p>
+                  <label for="est">Estimated Time</label>
+                  <input type="text" name="est" id="task-est-time" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="slider"></div>
               </p>
-              <div id="slider"></div>
+            </div>
+          </div>
 
-            </p>
-        </div>
-      </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea name="task-details" id="task-details" class="materialize-textarea"></textarea>
+              <label for="task-details">Task Details (Optional)</label>
+            </div>
+          </div>
 
-        <div class="row">
-          <button class="btn waves-effect waves-light" id="submit-new-task" type="submit" name="submit-new-task">Submit
+          <div class="row">
+            <button class="btn waves-effect waves-light" id="submit-new-task" type="submit" name="submit-new-task">Submit
             <i class="material-icons right">send</i>
-          </button>
+            </button>
 
-          <button class="btn waves-effect waves-light" id="remove-new-task" type="submit" name="remove-new-task">Cancel
-            <i class="material-icons right">clear_all</i>
-          </button>
+            <button class="btn waves-effect waves-light" id="remove-new-task" type="submit" name="remove-new-task">Cancel
+              <i class="material-icons right">clear_all</i>
+            </button>
+          </div>
 
-        </div>
       </form>
 
       </div>
