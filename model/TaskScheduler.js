@@ -2,7 +2,7 @@ TaskScheduler = {
   taskToWorkOn: function TaskScheduler$taskToWorkOn() {
     return this._earliestDueDate();
   },
-  taskToWorkGivenTime: function TaskScheduler$taskToWorkGivenTime(timeToSpent) {
+  taskToWorkGivenTime: function TaskScheduler$taskToWorkGivenTime() {
     return this._earliestDueDate();
   },
   _earliestDueDate: function TaskScheduler$earliestDueDate() {

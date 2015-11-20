@@ -5,40 +5,50 @@ Meteor.startup( function Client$Meteor$start() {
 });
 
 // when 'addTaskDisplay' is rendered, set the 'datepicker' and 'slider' elements
-Template.addTaskDisplay.onRendered(function Client$addTaskDisplay$renderContextMenu() {
-  // limits the range of dates to 100 days later
-  $('#datepicker').datepicker({
-    minDate: 0,
-    maxDate: +100,
-  });
+Template.addTaskDisplay.onRendered(
+  function Client$addTaskDisplay$renderContextMenu() {
+    // limits the range of dates to 100 days later
+    $('#datepicker').datepicker({
+      minDate: 0,
+      maxDate: +100,
+    });
 
-  // the slider for estimed time: begins at 15, ends at 300, increments by 15
-  $( '#slider').slider({
-    range: 'min',
-    value: 15,
-    min: 15,
-    max: 300,
-    step: 15,
-    slide: function sliderValue(event, ui) {
-      $('#task-est-time').val( ui.value );
-    },
-  });
+    // the slider for estimed time: begins at 15, ends at 300, increments by 15
+    $( '#slider').slider({
+      range: 'min',
+      value: 15,
+      min: 15,
+      max: 300,
+      step: 15,
+      slide: function sliderValue(event, ui) {
+        $('#task-est-time').val( ui.value );
+      },
+    });
 
-  $('#addTaskForm').validate({
-    rules: {
-      name: {required: true,},
-      priority: {required: true,},
-      date: {required: true,},
-      est: {required: true,},
-    },
-    messages: {
-      name: '*Task Name required',
-      priority: '*Assign a priority',
-      date: '*Deadline required',
-      est: '*Give the estimated length of the task',
-    },
-  });
-});
+    $('#addTaskForm').validate({
+      rules: {
+        name: {
+          required: true,
+        },
+        priority: {
+          required: true,
+        },
+        date: {
+          required: true,
+        },
+        est: {
+          required: true,
+        },
+      },
+      messages: {
+        name: '*Task Name required',
+        priority: '*Assign a priority',
+        date: '*Deadline required',
+        est: '*Give the estimated length of the task',
+      },
+    });
+  }
+);
 
 // allows addTask.html to add tasks
 Template.addTaskDisplay.events({
@@ -53,22 +63,23 @@ Template.addTaskDisplay.events({
     const date = template.find('[name="date"]').value;
     const time = template.find('[name="est"]').value;
     const taskDetails = template.find('[name="task-details"]').value;
-    console.log(taskDetails);
-    // add the task to the server 
+
+    // add the task to the server
     Meteor.call('addTask', name, priority, date, time, taskDetails);
 
-    template.find('[name="name"]').value = "";
-    template.find('[name="date"]').value = "";
-    template.find('[name="est"]').value = "";
+    template.find('[name="name"]').value = '';
+    template.find('[name="date"]').value = '';
+    template.find('[name="est"]').value = '';
 
     $('#addTaskModal').hide('slow');
   },
   // Hide add task modal
-  'click #remove-new-task': function Client$addTaskDisplay$hideAddTaskModal(event) {
-    event.preventDefault();
-    $("#addTaskForm").data('validator').resetForm();
-    $('#addTaskModal').hide('slow');
-  },
+  'click #remove-new-task':
+    function Client$addTaskDisplay$hideAddTaskModal(event) {
+      event.preventDefault();
+      $('#addTaskForm').data('validator').resetForm();
+      $('#addTaskModal').hide('slow');
+    },
   // Update slider value as it changes
   'change #slider': function Client$addTaskDisplay$moveSlider(event) {
     event.preventDefault();
@@ -80,20 +91,23 @@ Template.addTaskDisplay.events({
 //   only in 15-minute, 30-minute, 1-hour increments
 Template.timeSlotBoard.events({
   'click #fifteen-min-opt': function Client$timeSlotBoard$addFifteenMinutes() {
-    if( Tasks.find().count() === 0 )
+    if ( Tasks.find().count() === 0 ) {
       return;
+    }
     Session.set('timeToSpent', 15);
     Session.set('gettingTask', true);
   },
   'click #thirty-min-opt': function Client$timeSlotBoard$addThirtyMinutes() {
-    if( Tasks.find().count() === 0 )
+    if ( Tasks.find().count() === 0 ) {
       return;
+    }
     Session.set('timeToSpent', 30);
     Session.set('gettingTask', true);
   },
   'click #one-hour-opt': function Client$timeSlotBoard$addOneHour() {
-    if( Tasks.find().count() === 0 )
+    if ( Tasks.find().count() === 0 ) {
       return;
+    }
     Session.set('timeToSpent', 60);
     Session.set('gettingTask', true);
   },
@@ -101,7 +115,7 @@ Template.timeSlotBoard.events({
 
 Template.receiveTask.helpers({
   getSchedulerTask: function client$receiveTask$getSchedulerTask() {
-    var timeToSpent = Session.get('timeToSpent');
+    const timeToSpent = Session.get('timeToSpent');
     return [TaskScheduler.taskToWorkGivenTime(timeToSpent)];
   },
 });
@@ -111,10 +125,9 @@ Template.receiveTask.events({
     Session.set('gettingTask', false);
   },
   'click #spent-time-to-spent': function client$spentTime() {
-    var timeToSpent = Session.get('timeToSpent');
-    var workingOnTask = TaskScheduler.taskToWorkGivenTime(timeToSpent);
-    console.log(workingOnTask);
-    workingOnTask.updateTimeSpent(timeToSpent+workingOnTask.timeSpent);
+    const timeToSpent = Session.get('timeToSpent');
+    const workingOnTask = TaskScheduler.taskToWorkGivenTime(timeToSpent);
+    workingOnTask.updateTimeSpent(timeToSpent + workingOnTask.timeSpent);
   },
 });
 
@@ -217,7 +230,7 @@ Template.taskSummary.helpers({
   },
 });
 
-// 
+//
 Template.userBoard.onRendered(function Client$userBoard$renderFrontPage() {
   Session.set('displayTaskSummary', true);
   $('[name="addTaskDisplay"]').hide();
@@ -232,16 +245,18 @@ Template.userBoard.events({
     event.preventDefault();
     Session.set('displayTaskSummary', !Session.get('displayTaskSummary'));
   },
-  // 
+  //
   'click #add-task-button': function Client$userBoard$showContextMenu() {
     $('#add-task-form').trigger('reset');
   },
 });
 
 // Global function
-Template.registerHelper('displayTaskSummary', function Client$template$displayTaskSummary() {
-  return Session.get('displayTaskSummary');
-});
+Template.registerHelper('displayTaskSummary',
+  function Client$template$displayTaskSummary() {
+    return Session.get('displayTaskSummary');
+  }
+);
 
 Template.registerHelper('gettingTask', function timeSpentCompZero() {
   return Session.get('gettingTask');
