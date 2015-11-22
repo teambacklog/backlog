@@ -267,7 +267,7 @@ var packageMetadata = {
             },
             "fibersCreated": {
               "type": "constant",
-              "value": 10
+              "value": 13
             },
             "prototype": {
               "type": "object",
@@ -7776,7 +7776,7 @@ var packageMetadata = {
                 },
                 "version": {
                   "type": "constant",
-                  "value": "e81d569fe6f65ae9aa72e4bf988c16b5e125848c"
+                  "value": "dbb8407f47c1b635ea9eb12b7ba5fc147fc0ed5f"
                 },
                 "PUBLIC_SETTINGS": {
                   "type": "object"
@@ -7900,7 +7900,7 @@ var packageMetadata = {
             },
             "connections": {
               "type": "constant",
-              "value": 5
+              "value": 6
             },
             "timeout": {
               "type": "constant",
@@ -10260,7 +10260,7 @@ var packageMetadata = {
             "cache": {
               "type": "object",
               "members": {
-                "1447648193833undefined": {
+                "1448149283576undefined": {
                   "type": "constant",
                   "value": "/Users/lueaon/Desktop/backlog"
                 }
@@ -10670,6 +10670,7 @@ var packageMetadata = {
       }
     }
   },
+  "themeteorchef:jquery-validation": {},
   "livedata": {
     "DDP": {
       "type": "object",
@@ -10752,11 +10753,11 @@ var packageMetadata = {
       "members": {
         "autoupdateVersion": {
           "type": "constant",
-          "value": "a6e6c77e6d6edb7334dd9a8613b339de64b2dfa8"
+          "value": "cdf886ed4b602f376c06fb7428bf59d2262de1c8"
         },
         "autoupdateVersionRefreshable": {
           "type": "constant",
-          "value": "0589d8f72beef769b7a645f7ec9c8d49db8f9cc1"
+          "value": "bd2c5d87c88f1352f2c045dd38c2ebb2623c7f01"
         },
         "autoupdateVersionCordova": {
           "type": "constant",
