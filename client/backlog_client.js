@@ -4,6 +4,14 @@ Meteor.startup( function Client$Meteor$start() {
 
 });
 
+// Shared functions
+var getNotCompletedTasks = function Client$getNotCompletedTasks() {
+  // Doesn't quite work yet because Meteor does not allow comparison of fields
+  // and subfields, it seems.
+  // return Tasks.find({ $where: 'task._estTime > task._timeSpent' });
+  return Tasks.find();
+}
+
 // when 'addTaskDisplay' is rendered, set the 'datepicker' and 'slider' elements
 Template.addTaskDisplay.onRendered(
   function Client$addTaskDisplay$renderContextMenu() {
@@ -133,6 +141,13 @@ Template.receiveTask.events({
   'click #did-not-work-on': function Client$receiveTask$returnToUserBoard() {
     Session.set('gettingTask', false);
   },
+  // Return to userboard
+  'click #finished-task': function Client$receiveTask$finishedTask() {
+    const timeToSpent = Session.get('timeToSpent');
+    const workingOnTask = TaskScheduler.taskToWorkGivenTime(timeToSpent);
+    workingOnTask.updateTimeSpent(workingOnTask.estTime);
+    Session.set('gettingTask', false);
+  },
   // Update the task with the time user spent on it
   'click #spent-time-to-spent': function Client$receiveTask$spentTime() {
     const timeToSpent = Session.get('timeToSpent');
@@ -200,14 +215,14 @@ Template.taskInfo.events({
   'input .est-time': _.debounce(
     function Client$taskList$taskInfo$inputEstTime(event) {
       var task = Tasks.findOne(this._id);
-      task.updateEstTime($(event.target).text());
+      task.updateEstTime(parseInt($(event.target).text()));
       $(event.target).text('');
     }, 750, false
   ),
   'input .time-spent': _.debounce(
     function Client$taskList$taskInfo$inputTimeSpent(event) {
       var task = Tasks.findOne(this._id);
-      task.updateTimeSpent($(event.target).text());
+      task.updateTimeSpent(parseInt($(event.target).text()));
       $(event.target).text('');
     }, 750, false
     ),
@@ -217,28 +232,25 @@ Template.taskInfo.events({
 Template.taskSummary.helpers({
   // returns the number of tasks
   taskCount: function Client$taskSummary$getTaskCounts() {
-    return Tasks.find().count();
+    return getNotCompletedTasks().count();
   },
   // retrieves the earliest due date
   earliestDue: function Client$taskSummary$getEarliestDue() {
     const MILLI_SEC_PER_DAY = 86400000;
+    var notCompletedTasks = getNotCompletedTasks();
 
-    var allTasks;
-    var earliestTask;
-
-    allTasks = Tasks.find({}, { sort: { 'task._deadline': 1 } }).fetch();
-    if (allTasks.length === 0) {
+    if (notCompletedTasks.count() === 0) {
       return 0;
     }
 
-    earliestTask = allTasks[0];
+    earliestTask = notCompletedTasks.fetch()[0];
     return Math.ceil((earliestTask.deadline - Date.now()) / MILLI_SEC_PER_DAY);
   },
   // returns the amount of work across all tasks in hours
   workLoad: function Client$taskSummary$getWorkLoad() {
-    var total;
-    total = 0;
-    Tasks.find().map(function sumTimes(item) {
+    var total = 0;
+    var notCompletedTasks = getNotCompletedTasks();
+    notCompletedTasks.map(function sumTimes(item) {
       total += item.estTime;
     });
     return total / 60;
@@ -273,11 +285,8 @@ Template.registerHelper('displayTaskSummary',
   }
 );
 
-Template.registerHelper('gettingTask', function timeSpentCompZero() {
+Template.registerHelper('gettingTask', function gettingTask() {
   return Session.get('gettingTask');
-});
-Template.registerHelper('currTask', function currentTask() {
-  return new Task(Session.get('currTask'));
 });
 
 Template.registerHelper('timeToSpent', function timeSpentSession() {
