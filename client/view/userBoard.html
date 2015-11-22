@@ -1,7 +1,20 @@
 <template name="userBoard">
 
-<div class="section no-pad-bot" id="index-banner">
   <div class="container">
+    <br><br>
+    <div class="row">
+      <a class="btn-floating btn-large waves-effect waves-light red right modal-trigger" href="#addTaskModal">
+         <i class="material-icons" id="add-task-button">add</i>
+      </a>
+      <div class="switch">
+        <label>
+          Summary
+          <input type="checkbox" id="switchBox">
+          <span id="switch-summary" class="lever"></span>
+          Tasks
+        </label>
+      </div>
+    </div>
     <div id="add-board">
       {{ > addTaskDisplay }}
     </div>
@@ -12,17 +25,9 @@
       {{ > taskList }}
     {{/if}}
 
-    <div class="switch">
-      <label>
-        Summary
-        <input type="checkbox" id="switchBox">
-        <span id="switch-summary" class="lever"></span>
-        Tasks
-      </label>
-    </div>
 
+    <br><br>
   {{ > timeSlotBoard }}
   </div>
-</div>
 
 </template>
