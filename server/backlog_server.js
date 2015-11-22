@@ -1,14 +1,14 @@
-// returns only the tasks for one user
+// Only returns the tasks that belongs to current user
 Meteor.publish('tasks', function getTasks() {
   return Tasks.find({ user: this.userId });
 });
 
-// Server methods; these are channeled to TaskService.js
+// Methods exposed to the client side
 Meteor.methods({
   // Adds a task to the 'Tasks' collection
   addTask: function Server$addTask(taskName, priority, date, estTime,
-                            taskDetails) {
-    // add the Meteor ID
+                                   taskDetails) {
+    // Fetch the user's ID
     const user = Meteor.userId();
     TaskService.addTask(user, taskName, priority, date, estTime, taskDetails);
   },
@@ -16,17 +16,9 @@ Meteor.methods({
   deleteTask: function Server$deleteTask(taskId) {
     TaskService.deleteTask(taskId);
   },
-  // Submits time
-  submitTime: function Server$submitTime(taskId, timeRemaining) {
-    TaskService.submitTime(taskId, timeRemaining);
-  },
-  timeSpent: function Server$timeSpent(task, timeToAdd) {
-    TaskService.timeSpent(task, timeToAdd);
-  },
 });
 
 Meteor.startup(function start() {
-  // code to run on server at startup
   // Prevents the user from modifying user information
   Meteor.users.deny({
     update: function Server$denyUpdate() {
@@ -34,7 +26,7 @@ Meteor.startup(function start() {
     },
   });
 
-  // Not sure this is a good idea, but users can update task collection
+  // Allows tasks to update themselves on the client side
   Tasks.allow({
     update: function Tasks$allow$update() {
       return true;

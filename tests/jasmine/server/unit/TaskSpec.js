@@ -1,19 +1,6 @@
 describe('TaskSpec', function TaskSpec() {
   beforeEach(function TaskSpec$beforeEach() {
     MeteorStubs.install();
-
-    /*
-    const userId = 'woah';
-    const taskName = 'Math hw#5';
-    const priority = 'High';
-    const date = '05/21/2015';
-    const time = 100;
-    const taskDetail = 'Problems 1, 2, 4 on pg 12';
-    const newDetails = 'New details!';
-    const id = 1;
-    */
-
-    // TaskService.addTask(userId, taskName, priority, date, estTime, taskDetails);
   });
 
   afterEach(function TaskSepc$afterEach() {
@@ -21,23 +8,24 @@ describe('TaskSpec', function TaskSpec() {
   });
 
   describe('updateTaskDetails', function TaskSepc$updateTaskDetails() {
+    const TASK_NAME = 'Math hw#5';
+    const PRIORITY = 'High';
+    const DATE = '05/21/2015';
+    const EST_TIME = 100;
+    const TASK_DETAIL = 'Problems 1, 2, 4 on pg 12';
+    const TASK_ID = 1;
+
     var taskDoc;
     var taskObj;
 
-    const taskName = 'Math hw#5';
-    const priority = 'High';
-    const date = '05/21/2015';
-    const time = 100;
-    const taskDetail = 'Problems 1, 2, 4 on pg 12';
-    const id = 1;
-
-    taskDoc = { _taskName: taskName,
-                  _priority: priority,
-                  _deadline: new Date(date),
-                  _estTime: time,
-                  _taskDetails: taskDetail,
-                  _timeSpent: 0,
-                  _id: id,
+    taskDoc = {
+                _taskName: TASK_NAME,
+                _priority: PRIORITY,
+                _deadline: new Date(DATE),
+                _estTime: EST_TIME,
+                _taskDetails: TASK_DETAIL,
+                _timeSpent: 0,
+                _id: TASK_ID,
               };
 
     taskObj = new Task(taskDoc);
@@ -48,8 +36,9 @@ describe('TaskSpec', function TaskSpec() {
 
       taskObj.updateTaskDetails(newDetails);
 
-      expect(Tasks.update).toHaveBeenCalledWith({ _id: id },
-                                                  { $set: { 'task._taskDetails': newDetails},
+      expect(Tasks.update).toHaveBeenCalledWith({ _id: TASK_ID },
+                                                  { $set:
+                                                    { 'task._taskDetails': newDetails},
                                                 });
     });
 
@@ -58,8 +47,9 @@ describe('TaskSpec', function TaskSpec() {
       const newName = 'New name!';
       taskObj.updateTaskName(newName);
 
-      expect(Tasks.update).toHaveBeenCalledWith({ _id: id },
-                                                  { $set: { 'task._taskName': newName},
+      expect(Tasks.update).toHaveBeenCalledWith({ _id: TASK_ID },
+                                                { $set:
+                                                  { 'task._taskName': newName},
                                                 });
     });
 
@@ -68,8 +58,9 @@ describe('TaskSpec', function TaskSpec() {
       const newTime = 10;
       taskObj.updateEstTime(newTime);
 
-      expect(Tasks.update).toHaveBeenCalledWith({ _id: id },
-                                                  { $set: { 'task._estTime': newTime},
+      expect(Tasks.update).toHaveBeenCalledWith({ _id: TASK_ID },
+                                                  { $set:
+                                                    { 'task._estTime': newTime},
                                                 });
     });
 
@@ -78,10 +69,10 @@ describe('TaskSpec', function TaskSpec() {
       const newTime = 10;
       taskObj.updateTimeSpent(newTime);
 
-      expect(Tasks.update).toHaveBeenCalledWith({ _id: id },
-                                                  { $set: { 'task._timeSpent': newTime},
+      expect(Tasks.update).toHaveBeenCalledWith({ _id: TASK_ID },
+                                                  { $set:
+                                                    { 'task._timeSpent': newTime},
                                                 });
     });
   });
-
 });

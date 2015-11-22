@@ -11,21 +11,22 @@ describe('TaskService', function TaskServiceSpec() {
     it('should add a task to the user', function TaskServiceSpec$addTaskFunc() {
       // SETUP
       spyOn(Tasks, 'insert');
-      const userName = Meteor.userId();
-      const taskName = 'Math hw#5';
-      const priority = 'High';
-      const date = '05/21/2015';
-      const time = 100;
-      const taskDetail = 'Problems 1, 2, 4 on pg 12';
+      const USER_ID = "Tester";
+      const TASK_NAME = 'Math hw#5';
+      const PRIORITY = 'High';
+      const DATE = '05/21/2015';
+      const EST_TIME = 100;
+      const TASK_DETAIL = 'Problems 1, 2, 4 on pg 12';
+      const TASK_ID = 1;
       // EXECUTE
-      TaskService.addTask(userName, taskName, priority, date, time, taskDetail);
+      TaskService.addTask(USER_ID, TASK_NAME, PRIORITY, DATE, EST_TIME, TASK_DETAIL);
       // VERIFY
-      expect(Tasks.insert).toHaveBeenCalledWith({ user: userName,
-                                                  task: { _taskName: taskName,
-                                                          _priority: priority,
-                                                          _deadline: new Date(date),
-                                                          _estTime: time,
-                                                          _taskDetails: taskDetail,
+      expect(Tasks.insert).toHaveBeenCalledWith({ user: USER_ID,
+                                                  task: { _taskName: TASK_NAME,
+                                                          _priority: PRIORITY,
+                                                          _deadline: new Date(DATE),
+                                                          _estTime: EST_TIME,
+                                                          _taskDetails: TASK_DETAIL,
                                                           _timeSpent: 0,
                                                         },
                                                 }, jasmine.any(Function));
@@ -35,10 +36,10 @@ describe('TaskService', function TaskServiceSpec() {
   describe('deleteTask', function TaskServiceSpec$deleteTask() {
     it('should delete a task given the task id', function TaskServiceSpec$deleteTaskFunc() {
       spyOn(Tasks, 'remove');
-      const taskId = 1;
-      TaskService.deleteTask(taskId);
+      const TASK_ID = 1;
+      TaskService.deleteTask(TASK_ID);
 
-      expect(Tasks.remove).toHaveBeenCalledWith(1);
+      expect(Tasks.remove).toHaveBeenCalledWith(TASK_ID);
     });
   });
 });

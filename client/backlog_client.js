@@ -13,18 +13,20 @@ Template.addTaskDisplay.onRendered(
       maxDate: +100,
     });
 
-    // the slider for estimed time: begins at 15, ends at 300, increments by 15
+    // the slider for estimed time: begins at 15 minutes, ends at 300 minutes,
+    //  with increments of 15
     $( '#slider').slider({
       range: 'min',
       value: 15,
       min: 15,
       max: 300,
       step: 15,
-      slide: function sliderValue(event, ui) {
+      slide: function Client$addTaskDisplay$sliderValue(event, ui) {
         $('#task-est-time').val( ui.value );
       },
     });
 
+    // Form validation using jQuery validation for add task form
     $('#addTaskForm').validate({
       rules: {
         name: {
@@ -50,7 +52,7 @@ Template.addTaskDisplay.onRendered(
   }
 );
 
-// allows addTask.html to add tasks
+// Listeners for events in addTaskDisplay
 Template.addTaskDisplay.events({
   // submit information for new row
   'submit form': function Client$addTaskDisplay$addTask(event, template) {
@@ -67,10 +69,12 @@ Template.addTaskDisplay.events({
     // add the task to the server
     Meteor.call('addTask', name, priority, date, time, taskDetails);
 
+    // Resets the fields
     template.find('[name="name"]').value = '';
     template.find('[name="date"]').value = '';
     template.find('[name="est"]').value = '';
 
+    // Hide the display
     $('#addTaskModal').hide('slow');
   },
   // Hide add task modal
@@ -91,6 +95,7 @@ Template.addTaskDisplay.events({
 //   only in 15-minute, 30-minute, 1-hour increments
 Template.timeSlotBoard.events({
   'click #fifteen-min-opt': function Client$timeSlotBoard$addFifteenMinutes() {
+    // If there are no tasks to work on, do nothing.
     if ( Tasks.find().count() === 0 ) {
       return;
     }
@@ -98,6 +103,7 @@ Template.timeSlotBoard.events({
     Session.set('gettingTask', true);
   },
   'click #thirty-min-opt': function Client$timeSlotBoard$addThirtyMinutes() {
+    // If there are no tasks to work on, do nothing.
     if ( Tasks.find().count() === 0 ) {
       return;
     }
@@ -105,6 +111,7 @@ Template.timeSlotBoard.events({
     Session.set('gettingTask', true);
   },
   'click #one-hour-opt': function Client$timeSlotBoard$addOneHour() {
+    // If there are no tasks to work on, do nothing.
     if ( Tasks.find().count() === 0 ) {
       return;
     }
@@ -114,17 +121,20 @@ Template.timeSlotBoard.events({
 });
 
 Template.receiveTask.helpers({
-  getSchedulerTask: function client$receiveTask$getSchedulerTask() {
+  // Returns a list of tasks to work on
+  getSchedulerTask: function Client$receiveTask$getSchedulerTask() {
     const timeToSpent = Session.get('timeToSpent');
     return [TaskScheduler.taskToWorkGivenTime(timeToSpent)];
   },
 });
 
 Template.receiveTask.events({
-  'click #did-not-work-on': function returnToUserBoard() {
+  // Return to userboard
+  'click #did-not-work-on': function Client$receiveTask$returnToUserBoard() {
     Session.set('gettingTask', false);
   },
-  'click #spent-time-to-spent': function client$spentTime() {
+  // Update the task with the time user spent on it
+  'click #spent-time-to-spent': function Client$receiveTask$spentTime() {
     const timeToSpent = Session.get('timeToSpent');
     const workingOnTask = TaskScheduler.taskToWorkGivenTime(timeToSpent);
     workingOnTask.updateTimeSpent(timeToSpent + workingOnTask.timeSpent);
@@ -146,9 +156,9 @@ Template.taskList.helpers({
   },
 });
 
-// Color tasks in task list
+// Add classes to tasks in task list
 Template.taskInfo.helpers({
-  taskStyle: function Client$taskStyle(task) {
+  taskStyle: function Client$taskList$taskInfo$taskStyle(task) {
     if (task.timeRemaining <= 0) {
       return 'complete';
     } else if (task.deadline < new Date()) {
@@ -161,46 +171,46 @@ Template.taskInfo.helpers({
 // Functions relating to a specific row in task list
 Template.taskInfo.events({
   // Add time spent working on a test
-  'click .add-time-spent': function Client$taskList$addTimeSpent() {
+  'click .add-time-spent': function Client$taskList$taskInfo$addTimeSpent() {
     var task = Tasks.findOne(this._id);
     task.updateTimeSpent(task.timeSpent + 15);
   },
   // Add to the estimated time remaining
-  'click .add-time-est': function Client$taskList$addTimeEst() {
+  'click .add-time-est': function Client$taskList$taskInfo$addTimeEst() {
     var task = Tasks.findOne(this._id);
     task.updateEstTime(task.estTime + 15);
   },
   // Delete button of task
-  'click .delete-task': function Client$taskList$deleteTask() {
+  'click .delete-task': function Client$taskList$taskInfo$deleteTask() {
     Meteor.call('deleteTask', this._id);
   },
-  'click .complete-task': function Client$taskList$completeTask() {
+  'click .complete-task': function Client$taskList$taskInfo$completeTask() {
     var task = Tasks.findOne(this._id);
     task.updateTimeSpent(task.estTime);
   },
-  'contextmenu .date': function Client$taskList$taskInfo$dbclickDate() {
-    var task = Tasks.findOne(this._id);
-    task.updateTaskName('test right click date');
-  },
-  'dblclick .priority': function Client$taskList$taskInfo$dbclickPriority() {
-    var task = Tasks.findOne(this._id);
-    task.updateTaskName('test db click priority');
-  },
-  'input .task-name': _.debounce(function Client$taskInfo$inputTaskName(e) {
-    var task = Tasks.findOne(this._id);
-    task.updateTaskName($(e.target).text());
-    $(e.target).text('');
-  }, 750, false),
-  'input .est-time': _.debounce(function Client$taskInfo$inputEstTime(e) {
-    var task = Tasks.findOne(this._id);
-    task.updateEstTime($(e.target).text());
-    $(e.target).text('');
-  }, 750, false),
-  'input .time-spent': _.debounce(function Client$taskInfo$inputTimeSpent(e) {
-    var task = Tasks.findOne(this._id);
-    task.updateTimeSpent($(e.target).text());
-    $(e.target).text('');
-  }, 750, false),
+  // Debounce is an underscorejs function that only calls the nested function
+  //  once within a certain amount of time
+  'input .task-name': _.debounce(
+    function Client$taskList$taskInfo$inputTaskName(event) {
+      var task = Tasks.findOne(this._id);
+      task.updateTaskName($(event.target).text());
+      $(event.target).text('');
+    }, 750, false
+  ),
+  'input .est-time': _.debounce(
+    function Client$taskList$taskInfo$inputEstTime(event) {
+      var task = Tasks.findOne(this._id);
+      task.updateEstTime($(event.target).text());
+      $(event.target).text('');
+    }, 750, false
+  ),
+  'input .time-spent': _.debounce(
+    function Client$taskList$taskInfo$inputTimeSpent(event) {
+      var task = Tasks.findOne(this._id);
+      task.updateTimeSpent($(event.target).text());
+      $(event.target).text('');
+    }, 750, false
+    ),
 });
 
 // 'taskSummary' has a number of metrics to aggregate info on the tasks
@@ -213,16 +223,21 @@ Template.taskSummary.helpers({
   earliestDue: function Client$taskSummary$getEarliestDue() {
     const MILLI_SEC_PER_DAY = 86400000;
 
-    let allTasks = Tasks.find({}, { sort: { 'task._deadline': 1 } }).fetch();
+    var allTasks;
+    var earliestTask;
+
+    allTasks = Tasks.find({}, { sort: { 'task._deadline': 1 } }).fetch();
     if (allTasks.length === 0) {
       return 0;
     }
-    let earliestTask = allTasks[0];
+
+    earliestTask = allTasks[0];
     return Math.ceil((earliestTask.deadline - Date.now()) / MILLI_SEC_PER_DAY);
   },
   // returns the amount of work across all tasks in hours
   workLoad: function Client$taskSummary$getWorkLoad() {
-    let total = 0;
+    var total;
+    total = 0;
     Tasks.find().map(function sumTimes(item) {
       total += item.estTime;
     });

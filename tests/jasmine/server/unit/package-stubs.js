@@ -267,7 +267,7 @@ var packageMetadata = {
             },
             "fibersCreated": {
               "type": "constant",
-              "value": 13
+              "value": 14
             },
             "prototype": {
               "type": "object",
@@ -7776,7 +7776,7 @@ var packageMetadata = {
                 },
                 "version": {
                   "type": "constant",
-                  "value": "dbb8407f47c1b635ea9eb12b7ba5fc147fc0ed5f"
+                  "value": "e5ce1815ec0a455b0705dec407011a2a75c6aa19"
                 },
                 "PUBLIC_SETTINGS": {
                   "type": "object"
@@ -7900,7 +7900,7 @@ var packageMetadata = {
             },
             "connections": {
               "type": "constant",
-              "value": 6
+              "value": 1
             },
             "timeout": {
               "type": "constant",
@@ -10260,7 +10260,7 @@ var packageMetadata = {
             "cache": {
               "type": "object",
               "members": {
-                "1448149283576undefined": {
+                "1448224508626undefined": {
                   "type": "constant",
                   "value": "/Users/lueaon/Desktop/backlog"
                 }
@@ -10753,7 +10753,7 @@ var packageMetadata = {
       "members": {
         "autoupdateVersion": {
           "type": "constant",
-          "value": "cdf886ed4b602f376c06fb7428bf59d2262de1c8"
+          "value": "58f3a8d8ef424fdbca414594c0b2c9fb2c161591"
         },
         "autoupdateVersionRefreshable": {
           "type": "constant",
