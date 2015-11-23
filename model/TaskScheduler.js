@@ -10,7 +10,17 @@ TaskScheduler = {
     if (allTasks.length === 0) {
       return 0;
     }
-    let earliestTask = allTasks[0];
+    var earliestTask = null;
+    for (var i = 0; i < allTasks.length; i += 1) {
+      if (allTasks[i].timeRemaining !== 0) {
+        earliestTask = allTasks[i];
+        break;
+      }
+    }
+    if (earliestTask === null) {
+      return 0;
+    }
+    console.log(earliestTask.timeRemaining);
     return earliestTask;
   },
 };
