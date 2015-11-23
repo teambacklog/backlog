@@ -253,10 +253,12 @@ Template.taskSummary.helpers({
   },
   // returns the amount of work across all tasks in hours
   workLoad: function Client$taskSummary$getWorkLoad() {
+    var timeLeft;
     var total = 0;
     var notCompletedTasks = getNotCompletedTasks();
-    notCompletedTasks.map(function sumTimes(item) {
-      total += item.estTime;
+    notCompletedTasks.map(function sumTimes(task) {
+      timeLeft = Math.max(task.estTime - task.timeSpent, 0);
+      total += task.estTime;
     });
     return total / 60;
   },
