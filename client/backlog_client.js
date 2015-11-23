@@ -258,7 +258,7 @@ Template.taskSummary.helpers({
     var notCompletedTasks = getNotCompletedTasks();
     notCompletedTasks.map(function sumTimes(task) {
       timeLeft = Math.max(task.estTime - task.timeSpent, 0);
-      total += task.estTime;
+      total += timeLeft;
     });
     return total / 60;
   },
