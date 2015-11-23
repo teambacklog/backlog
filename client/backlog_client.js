@@ -1,3 +1,7 @@
+const timeBeforeUpdating = 750;
+
+var getNotCompletedTasks;
+
 Meteor.subscribe('tasks');
 
 Meteor.startup( function Client$Meteor$start() {
@@ -5,12 +9,12 @@ Meteor.startup( function Client$Meteor$start() {
 });
 
 // Shared functions
-var getNotCompletedTasks = function Client$getNotCompletedTasks() {
+getNotCompletedTasks = function Client$getNotCompletedTasks() {
   // Doesn't quite work yet because Meteor does not allow comparison of fields
   // and subfields, it seems.
   // return Tasks.find({ $where: 'task._estTime > task._timeSpent' });
   return Tasks.find();
-}
+};
 
 // when 'addTaskDisplay' is rendered, set the 'datepicker' and 'slider' elements
 Template.addTaskDisplay.onRendered(
@@ -132,7 +136,8 @@ Template.receiveTask.helpers({
   // Returns a list of tasks to work on
   getSchedulerTask: function Client$receiveTask$getSchedulerTask() {
     const timeToSpent = Session.get('timeToSpent');
-    return [TaskScheduler.taskToWorkGivenTime(timeToSpent)];
+    const taskToWorkOn = TaskScheduler.taskToWorkGivenTime(timeToSpent);
+    return [taskToWorkOn];
   },
 });
 
@@ -210,22 +215,22 @@ Template.taskInfo.events({
       var task = Tasks.findOne(this._id);
       task.updateTaskName($(event.target).text());
       $(event.target).text('');
-    }, 750, false
+    }, timeBeforeUpdating, false
   ),
   'input .est-time': _.debounce(
     function Client$taskList$taskInfo$inputEstTime(event) {
       var task = Tasks.findOne(this._id);
-      task.updateEstTime(parseInt($(event.target).text()));
+      task.updateEstTime(parseInt($(event.target).text(), 10));
       $(event.target).text('');
-    }, 750, false
+    }, timeBeforeUpdating, false
   ),
   'input .time-spent': _.debounce(
     function Client$taskList$taskInfo$inputTimeSpent(event) {
       var task = Tasks.findOne(this._id);
-      task.updateTimeSpent(parseInt($(event.target).text()));
+      task.updateTimeSpent(parseInt($(event.target).text(), 10));
       $(event.target).text('');
-    }, 750, false
-    ),
+    }, timeBeforeUpdating, false
+  ),
 });
 
 // 'taskSummary' has a number of metrics to aggregate info on the tasks
