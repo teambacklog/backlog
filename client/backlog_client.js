@@ -13,7 +13,7 @@ getNotCompletedTasks = function Client$getNotCompletedTasks() {
   // Doesn't quite work yet because Meteor does not allow comparison of fields
   // and subfields, it seems.
   // return Tasks.find({ $where: 'task._estTime > task._timeSpent' });
-  return Tasks.find();
+  return Tasks.find({}, { sort: { 'task._deadline': 1 } });
 };
 
 // when 'addTaskDisplay' is rendered, set the 'datepicker' and 'slider' elements
