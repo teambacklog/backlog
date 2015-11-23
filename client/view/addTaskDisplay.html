@@ -1,19 +1,14 @@
 <template name="addTaskDisplay">
   <div id="addTaskModal" class="modal center">
     <div class="modal-content">
-      <div class="row offset-s3 s6 center">
+
         <form id="addTaskForm">
-          <div class="row">
-            <div class="col s6 center">
+            <div class="col offset-s1 s10 center">
               <input type="text" placeholder="Enter task name" name="name" id="task-name" class="validate">
-              <!--<label for="name">Task Name</label>-->
             </div>
 
-          </div>
 
-          <div class="row">
-            <label for="priority">Priority</label>
-            <div class="col s6">
+            <div class="col offset-s1 s10 center">
               <select name= "priority" id="task-priority" class="browser-default">
                 <option value="" disabled selected>Choose your priority</option>
                 <option value="1">Low</option>
@@ -21,16 +16,16 @@
                 <option value="3">High</option>
               </select>
             </div>
-          </div>
 
-          <div class="row">
-            <div class="col s6">
+
+
+            <div class="col offset-s1 s10 center">
               <input type="text" placeholder="Choose the deadline" name="date" id="datepicker"/>
             </div>
-          </div>
 
-          <div class="row">
-            <div class="col s6">
+
+
+            <div class="col offset-s1 s10 center">
               <p class="range-field">
                 <p>
                   <label for="est">Estimated Time</label>
@@ -39,28 +34,28 @@
                 <div id="slider"></div>
               </p>
             </div>
-          </div>
 
-          <div class="row">
-            <div class="input-field col s12">
+
+            <div class="col offset-s1 s10 center">
+              <label for="task-details" class="left">Task Details (Optional)</label>
               <textarea name="task-details" id="task-details" class="materialize-textarea"></textarea>
-              <label for="task-details">Task Details (Optional)</label>
             </div>
-          </div>
 
-          <div class="row">
-            <button class="btn waves-effect waves-light" id="submit-new-task" type="submit" name="submit-new-task">Submit
-            <i class="material-icons right">send</i>
-            </button>
 
-            <button class="btn waves-effect waves-light" id="remove-new-task" type="submit" name="remove-new-task">Cancel
-              <i class="material-icons right">clear_all</i>
-            </button>
-          </div>
+            <div class="col offset-s1 s10 center">
+              <button class="btn waves-effect waves-light" id="submit-new-task" type="submit" name="submit-new-task">Submit
+              <i class="material-icons right">send</i>
+              </button>
+
+              <button class="btn waves-effect waves-light" id="remove-new-task" type="submit" name="remove-new-task">Cancel
+                <i class="material-icons right">clear_all</i>
+              </button>
+            </div>
 
       </form>
 
-      </div>
+
+
     </div>
 
   </div>
