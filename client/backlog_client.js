@@ -4,8 +4,8 @@ var getNotCompletedTasks;
 
 Meteor.subscribe('tasks');
 
-Meteor.startup( function Client$Meteor$start() {
-
+Meteor.startup(function Client$Meteor$start() {
+  $(".button-collapse").sideNav();
 });
 
 // Shared functions
