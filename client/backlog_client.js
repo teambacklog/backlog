@@ -170,11 +170,38 @@ Template.taskList.onRendered(function Client$taskList$taskListOnDisplay() {
 
 // Get a list of task that belong to this user:
 //   sorts by earliest deadline
+/*
 Template.taskList.helpers({
   tasks: function Client$taskList$getTasks() {
     return Tasks.find({}, { sort: { 'task._deadline': 1 } });
   },
 });
+*/
+
+// Get a list of task that belong to this user:
+// Sorts by priority and time remaining
+Template.taskList.helpers({
+  tasks: function Client$taskList$getTasks() {
+    var tasks = Tasks.find().fetch();
+    return _.sortBy(tasks, function (task) {
+        // Send completed tasks to the bottom
+        if (task.timeRemaining == 0) {
+          return Infinity;
+        }
+        // Get priority weight
+        var priorityInt = 0;
+        if (task._priority == 'Low') {
+          priorityInt = 1;
+        } else if (task._priority == 'Medium') {
+          priorityInt = 2;
+        } else if (task._priority == 'High') {
+          priorityInt = 3;
+        }
+        return (task._deadline - new Date()) / priorityInt;
+    });
+  },
+});
+
 
 // Add classes to tasks in task list
 Template.taskInfo.helpers({
