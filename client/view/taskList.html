@@ -35,7 +35,12 @@
   <tr class="taskRow {{ taskStyle(this) }}">
     <td class="task-name" contentEditable="true">{{ taskName }}</td>
     <td class="priority">{{ priority }}</td>
-    <td class="date">{{ deadline.toDateString }}</td>
+
+    <td class="date" contentEditable="false">    
+      <div style="height:0px; overflow:hidden">
+        <input class="datepicker-input" type="date"/>
+      </div>
+    {{ deadline.toDateString }}</td>
     <td class="est-time" contentEditable="true">{{ estTime }}</td>
     <td class="time-spent" contentEditable="true">{{ timeSpent }}</td>
     <td class="time-remaining">

@@ -38,6 +38,9 @@ Task.prototype = {
   updateTaskName: function Task$updateTaskName(newTaskName) {
     Tasks.update({ _id: this._id }, { $set: { 'task._taskName': newTaskName}});
   },
+  updateTaskDate: function Task$updateTaskDate(newDeadline) {
+    Tasks.update({ _id: this._id }, { $set: { 'task._deadline': newDeadline}});
+  },
   updateEstTime: function Task$updateEstTime(time) {
     Tasks.update({ _id: this._id }, { $set: { 'task._estTime': time}});
   },

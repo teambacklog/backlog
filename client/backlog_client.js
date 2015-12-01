@@ -237,6 +237,31 @@ Template.taskInfo.events({
   },
   // Debounce is an underscorejs function that only calls the nested function
   //  once within a certain amount of time
+
+///////////
+  'click .date': _.debounce(
+    function Client$taskList$taskInfo$clickDate(event) {
+      const this_id = this._id;;
+      $('.datepicker-input').datepicker({
+        minDate: 0,
+        maxDate: +100,
+        onSelect: function Client$taskList$taskInfo$updateDeadline(){
+          var task = Tasks.findOne(this_id);
+          console.log(this.value);
+          task.updateTaskDate( new Date(this.value) );          
+        },
+      });
+      $('.datepicker-input').focus();
+    }, timeBeforeUpdating, false
+  ),
+/*
+  'click .datepicker-input': _.debounce(
+    function Client$taskList$taskInfo$inputDate(event) {
+      var task = Tasks.findOne(this._id);
+      task.updateTaskDate($(event.target).value);
+    }, timeBeforeUpdating, false
+  ),*/
+///////////
   'input .task-name': _.debounce(
     function Client$taskList$taskInfo$inputTaskName(event) {
       var task = Tasks.findOne(this._id);
