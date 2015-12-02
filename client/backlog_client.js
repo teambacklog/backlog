@@ -8,6 +8,24 @@ Meteor.startup( function Client$Meteor$start() {
 
 });
 
+Accounts.onLogin( function Client$Meteor$LogIn() {
+  const currDate = new Date();
+  const earDate = TaskScheduler._earliestDueDate();
+  const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+  const year = earDate.deadline.getFullYear();
+  const month = earDate.deadline.getMonth();
+  const date = earDate.deadline.getDate();
+
+  const utc1 = Date.UTC(currDate.getFullYear(), currDate.getMonth(), currDate.getDate());
+  const utc2 = Date.UTC(year, month, date);
+  //console.log(Math.floor((currDat - earDate) / _MS_PER_DAY));
+  if( Math.floor((utc1 - utc2) / _MS_PER_DAY) < 5 ) {
+    Materialize.toast('Incoming Deadline!\n'
+      +'"'+earDate.taskName+'": '+month+'/'+date+'/'+year, 5000);
+  }
+});
+
 // Shared functions
 getNotCompletedTasks = function Client$getNotCompletedTasks() {
   // Doesn't quite work yet because Meteor does not allow comparison of fields
@@ -132,6 +150,25 @@ Template.timeSlotBoard.events({
   },
 });
 
+Template.schedulerTask.onRendered( function Client$schedulerTask$onRendered() {
+  Session.set("initTime", new Date());
+  Session.set("timeElapsed", 0);
+  var interval = Meteor.setInterval( function Client$receiveTask$elapseTime() {
+    if( Session.get('initTime') === undefined ) Meteor.clearInterval(interval);
+    Session.set("timeElapsed", Math.floor( ( new Date() - Session.get('initTime') )/60000 ) );
+  }, 1000);
+});
+ 
+Template.schedulerTask.onDestroyed( function Client$schedulerTask$onDestroyed() {
+  Session.set('initTime', undefined);
+});
+
+Template.schedulerTask.helpers({
+  timeElapsed: function Client$schedulerTask$getTimeElapsed() {
+    return Session.get("timeElapsed");
+  },
+});
+
 Template.receiveTask.helpers({
   // Returns a list of tasks to work on
   getSchedulerTask: function Client$receiveTask$getSchedulerTask() {
@@ -202,7 +239,6 @@ Template.taskList.helpers({
   },
 });
 
-
 // Add classes to tasks in task list
 Template.taskInfo.helpers({
   taskStyle: function Client$taskList$taskInfo$taskStyle(task) {
@@ -237,9 +273,7 @@ Template.taskInfo.events({
   },
   // Debounce is an underscorejs function that only calls the nested function
   //  once within a certain amount of time
-
-///////////
-  'click .date': _.debounce(
+  'click .date-editable': _.debounce(
     function Client$taskList$taskInfo$clickDate(event) {
       const this_id = this._id;;
       $('.datepicker-input').datepicker({
@@ -247,39 +281,16 @@ Template.taskInfo.events({
         maxDate: +100,
         onSelect: function Client$taskList$taskInfo$updateDeadline(){
           var task = Tasks.findOne(this_id);
-          console.log(this.value);
           task.updateTaskDate( new Date(this.value) );          
         },
       });
       $('.datepicker-input').focus();
     }, timeBeforeUpdating, false
   ),
-/*
-  'click .datepicker-input': _.debounce(
-    function Client$taskList$taskInfo$inputDate(event) {
-      var task = Tasks.findOne(this._id);
-      task.updateTaskDate($(event.target).value);
-    }, timeBeforeUpdating, false
-  ),*/
-///////////
   'input .task-name': _.debounce(
     function Client$taskList$taskInfo$inputTaskName(event) {
       var task = Tasks.findOne(this._id);
       task.updateTaskName($(event.target).text());
-      $(event.target).text('');
-    }, timeBeforeUpdating, false
-  ),
-  'input .est-time': _.debounce(
-    function Client$taskList$taskInfo$inputEstTime(event) {
-      var task = Tasks.findOne(this._id);
-      task.updateEstTime(parseInt($(event.target).text(), 10));
-      $(event.target).text('');
-    }, timeBeforeUpdating, false
-  ),
-  'input .time-spent': _.debounce(
-    function Client$taskList$taskInfo$inputTimeSpent(event) {
-      var task = Tasks.findOne(this._id);
-      task.updateTimeSpent(parseInt($(event.target).text(), 10));
       $(event.target).text('');
     }, timeBeforeUpdating, false
   ),

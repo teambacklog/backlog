@@ -5,7 +5,6 @@ TaskScheduler = {
   taskToWorkGivenTime: function TaskScheduler$taskToWorkGivenTime() {
     return this._nextTask();
   },
-  /*
   _earliestDueDate: function TaskScheduler$earliestDueDate() {
     var earliestTask;
     var allTasks;
@@ -28,7 +27,6 @@ TaskScheduler = {
     }
     return earliestTask;
   },
-  */
   _nextTask: function TaskScheduler$nextTask() {
     var allTasks = Tasks.find().fetch();
     var nextTask = null;

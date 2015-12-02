@@ -30,7 +30,6 @@
 
 </template>
 
-
 <template name="taskInfo">
   <tr class="taskRow {{ taskStyle(this) }}">
     <td class="task-name" contentEditable="true">{{ taskName }}</td>
@@ -41,10 +40,10 @@
         <input class="datepicker-input" type="date"/>
       </div>
     {{ deadline.toDateString }}
-      <button type="button">...</button>
+      <button class="date-editable" type="button">...</button>
     </td>
-    <td class="est-time" contentEditable="true">{{ estTime }}</td>
-    <td class="time-spent" contentEditable="true">{{ timeSpent }}</td>
+    <td class="est-time">{{ estTime }}</td>
+    <td class="time-spent">{{ timeSpent }}</td>
     <td class="time-remaining">
       &nbsp; {{ timeRemaining }} &nbsp;
     </td>
@@ -58,6 +57,5 @@
         <i class="material-icons">done</i>
       </a>
     </td>
-
   </tr>
 </template>
