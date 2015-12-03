@@ -15,6 +15,10 @@ getNotCompletedTasks = function Client$getNotCompletedTasks() {
   // return Tasks.find({ $where: 'task._estTime > task._timeSpent' });
   return Tasks.find({}, { sort: { 'task._deadline': 1 } });
 };
+//when navbar is rendered, add the side nav bar to enable mobile log in
+Template.navbar.onRendered(function() {
+  $(".button-collapse").sideNav();
+});
 
 // when 'addTaskDisplay' is rendered, set the 'datepicker' and 'slider' elements
 Template.addTaskDisplay.onRendered(
