@@ -310,6 +310,10 @@ Template.userBoard.events({
     event.preventDefault();
     Session.set('displayTaskSummary', !Session.get('displayTaskSummary'));
   },
+  'click #switchBtn': function() {
+    event.preventDefault();
+    Session.set('displayTaskSummary', !Session.get('displayTaskSummary'));
+  },
   //
   'click #add-task-button': function Client$userBoard$showContextMenu() {
     $('#add-task-form').trigger('reset');
