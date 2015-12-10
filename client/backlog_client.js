@@ -8,21 +8,128 @@ Meteor.startup( function Client$Meteor$start() {
 
 });
 
-Accounts.onLogin( function Client$Meteor$LogIn() {
-  const currDate = new Date();
-  const earDate = TaskScheduler._earliestDueDate();
-  const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+/*
+Router.configure({
+  layoutTemplate: 'siteLayout'
+});
+*/
 
-  const year = earDate.deadline.getFullYear();
-  const month = earDate.deadline.getMonth();
-  const date = earDate.deadline.getDate();
+Router.route('Home', {
+  path: '/',
+  controller: 'BacklogController',
+  action: function Client$Router$Home() {
+    this.redirect('/tutorial');
+  }, 
+});
 
-  const utc1 = Date.UTC(currDate.getFullYear(), currDate.getMonth(), currDate.getDate());
-  const utc2 = Date.UTC(year, month, date);
-  //console.log(Math.floor((currDat - earDate) / _MS_PER_DAY));
-  if( Math.floor((utc1 - utc2) / _MS_PER_DAY) < 5 ) {
-    Materialize.toast('Incoming Deadline!\n'
-      +'"'+earDate.taskName+'": '+month+'/'+date+'/'+year, 5000);
+Router.route('tutorial', {
+  path: '/tutorial',
+  controller: 'BacklogController',
+  action: function Client$Router$Tutorial() {
+    if( Meteor.userId() !== null) {
+      this.redirect('/user');
+      return;
+    }
+    this.render('tutorial');
+  },
+});
+
+Router.route('user', {
+  path: '/user',
+  controller: 'BacklogController',
+  action: function Client$Router$UserBoard() {
+    if( Meteor.userId() === null ) {
+      this.redirect('/tutorial');
+      return;
+    }
+    if( this.state.get('displayTaskSummary') === true ) {
+      this.redirect('/user/taskSummary');
+    } else {
+      this.redirect('/user/taskList');
+    }
+  },
+});
+
+Router.route('/user/taskSummary', {
+  path: 'user.taskSummary',
+  controller: 'BacklogController',
+  action: function Client$Router$UserBoard$TaskSummary() {
+    if( Meteor.userId() === null ) {
+      this.redirect('/tutorial');
+      return;
+    }
+    if ( this.state.get('displayTaskSummary') === false ) {
+      this.redirect('/user/taskList');
+      return;
+    }
+    this.render('taskSummary');
+  },
+});
+
+Router.route('user.taskList', {
+  path: '/user/taskList',
+  controller: 'BacklogController',
+  action: function Client$Router$UserBoard$TaskList() {
+    //const controller = Iron.controller();
+    if( Meteor.userId() === null ) {
+      this.redirect('/tutorial');
+      return;
+    }
+    if ( this.state.get('displayTaskSummary') === true ) {
+      this.redirect('/user/taskSummary');
+      return;
+    }
+    this.render('taskList');
+  }
+});
+
+Router.route('task', {
+  path: '/task',
+  controller: 'BacklogController',
+  action: function Client$Router$ReceiveTask() {
+    this.render('receiveTask');
+  },
+});
+
+BacklogController = RouteController.extend({
+  layoutTemplate: 'siteLayout',
+  action: function Client$RouteController$ExtendController() {
+    this.state.set('displayTaskSummary', true);
+    //this.render();
+  }
+});
+
+Meteor.autorun(function Client$Meteor$trackLogInOut() {
+  if (Meteor.userId()) {
+    Router.go('user');
+    const currDate = new Date();
+    const earDate = TaskScheduler._earliestDueDate();
+    if( earDate === 0 )
+      return;
+    const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+    const year = earDate.deadline.getFullYear();
+    const month = earDate.deadline.getMonth();
+    const date = earDate.deadline.getDate();
+
+    const utc1 = Date.UTC(currDate.getFullYear(), currDate.getMonth(), currDate.getDate());
+    const utc2 = Date.UTC(year, month, date);
+
+    if( Math.floor((utc1 - utc2) / _MS_PER_DAY) < 5 ) {
+      Materialize.toast('Incoming Deadline!\n'
+        +'"'+earDate.taskName+'": '+month+'/'+date+'/'+year, 5000);
+    }    
+  } else {
+    Router.go('tutorial');
+  }
+});
+
+Meteor.autorun(function Client$Meteor$displayTaskForm() {
+  console.log(Session.get('displayTaskSummary'));
+  if ( Session.get('displayTaskSummary') === true ) {
+    Router.go('/user/taskSummary');
+  } else {
+    Router.go('/user/taskList');
   }
 });
 
@@ -33,6 +140,8 @@ getNotCompletedTasks = function Client$getNotCompletedTasks() {
   // return Tasks.find({ $where: 'task._estTime > task._timeSpent' });
   return Tasks.find({}, { sort: { 'task._deadline': 1 } });
 };
+
+//////////////// addTaskDisplay //////////////////
 
 // when 'addTaskDisplay' is rendered, set the 'datepicker' and 'slider' elements
 Template.addTaskDisplay.onRendered(
@@ -121,6 +230,8 @@ Template.addTaskDisplay.events({
   },
 });
 
+//////////////// timeSlotBoard //////////////////
+
 // these is for the buttons that retrieve the highest sorted task to work on:
 //   only in 15-minute, 30-minute, 1-hour increments
 Template.timeSlotBoard.events({
@@ -150,6 +261,8 @@ Template.timeSlotBoard.events({
   },
 });
 
+//////////////// schedulerTask //////////////////
+
 Template.schedulerTask.onRendered( function Client$schedulerTask$onRendered() {
   Session.set("initTime", new Date());
   Session.set("timeElapsed", 0);
@@ -168,6 +281,8 @@ Template.schedulerTask.helpers({
     return Session.get("timeElapsed");
   },
 });
+
+//////////////// receiveTask //////////////////
 
 Template.receiveTask.helpers({
   // Returns a list of tasks to work on
@@ -197,6 +312,8 @@ Template.receiveTask.events({
     workingOnTask.updateTimeSpent(timeToSpent + workingOnTask.timeSpent);
   },
 });
+
+//////////////// taskList //////////////////
 
 // when 'taskList' is rendered, allow the table to be scrolled through
 Template.taskList.onRendered(function Client$taskList$taskListOnDisplay() {
@@ -238,6 +355,8 @@ Template.taskList.helpers({
     });
   },
 });
+
+//////////////// taskInfo //////////////////
 
 // Add classes to tasks in task list
 Template.taskInfo.helpers({
@@ -296,6 +415,8 @@ Template.taskInfo.events({
   ),
 });
 
+//////////////// taskSummary //////////////////
+
 // 'taskSummary' has a number of metrics to aggregate info on the tasks
 Template.taskSummary.helpers({
   // returns the number of tasks
@@ -327,8 +448,12 @@ Template.taskSummary.helpers({
   },
 });
 
+
+//////////////// userBoard //////////////////
+
 //
 Template.userBoard.onRendered(function Client$userBoard$renderFrontPage() {
+  //console.log("userBoard.onRendered");
   Session.set('displayTaskSummary', true);
   $('[name="addTaskDisplay"]').hide();
   $('#taskList').hide();
@@ -340,7 +465,10 @@ Template.userBoard.events({
   // allows switching between 'taskSummary' and 'taskList'
   'change #switchBox': function Client$userBoard$toggleSummary(event) {
     event.preventDefault();
-    Session.set('displayTaskSummary', !Session.get('displayTaskSummary'));
+    //const controller = 
+    const displaySummary = this.state.get('displayTaskSummary');
+    this.state.set('displayTaskSummary', !displaySummary);
+    console.log( this.state.get('displayTaskSummary') );
   },
   //
   'click #add-task-button': function Client$userBoard$showContextMenu() {

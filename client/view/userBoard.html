@@ -18,6 +18,12 @@
 
     {{ > addTaskDisplay }}
 
+    {{ > yield }}  
+
+    {{ > timeSlotBoard }}
+    <!--
+    {{ > addTaskDisplay }}
+
 
     {{#if displayTaskSummary}}
       {{ > taskSummary }}
@@ -25,7 +31,7 @@
       {{ > taskList }}
     {{/if}}
 
-    {{ > timeSlotBoard }}
+    {{ > timeSlotBoard }}-->
   </div>
 
 </template>
