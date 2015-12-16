@@ -52,6 +52,6 @@ TaskScheduler = {
           nextTask = allTasks[i];
         }
     }
-    return nextTask
+    return nextTask;
   }
 };

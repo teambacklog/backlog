@@ -1,5 +1,3 @@
-const timeBeforeUpdating = 750;
-
 var getNotCompletedTasks;
 
 Meteor.subscribe('tasks');
@@ -8,6 +6,9 @@ Meteor.startup( function Client$Meteor$start() {
 
 });
 
+/* calculate the earliest deadline, and if it is due in
+ *   five days, warn the user
+ */ 
 Accounts.onLogin( function Client$Meteor$LogIn() {
   const currDate = new Date();
   const earDate = TaskScheduler._earliestDueDate();
@@ -85,7 +86,7 @@ Template.addTaskDisplay.onRendered(
 // Listeners for events in addTaskDisplay
 Template.addTaskDisplay.events({
   // submit information for new row
-  'submit form': function Client$addTaskDisplay$addTask(event, template) {
+  'submit #addTaskForm': function Client$addTaskDisplay$addTask(event, template) {
     event.preventDefault();
     const name = template.find('[name="name"]').value;
 
@@ -200,6 +201,8 @@ Template.receiveTask.events({
 
 // when 'taskList' is rendered, allow the table to be scrolled through
 Template.taskList.onRendered(function Client$taskList$taskListOnDisplay() {
+  Session.set('Query', '');
+
   $('.scroll').slimScroll({
     height: '250px',
   });
@@ -219,23 +222,32 @@ Template.taskList.helpers({
 // Sorts by priority and time remaining
 Template.taskList.helpers({
   tasks: function Client$taskList$getTasks() {
-    var tasks = Tasks.find().fetch();
+    // receive tasks based on the substring given
+    var tasks = Tasks.find( { 'task._taskName': { $regex: Session.get('Query')} }).fetch();
     return _.sortBy(tasks, function (task) {
         // Send completed tasks to the bottom
-        if (task.timeRemaining == 0) {
+        if (task.timeRemaining === 0) {
           return Infinity;
         }
         // Get priority weight
         var priorityInt = 0;
         if (task._priority == 'Low') {
-          priorityInt = 1;
+          priorityInt = PRIORITY_LOW;
         } else if (task._priority == 'Medium') {
-          priorityInt = 2;
+          priorityInt = PRIORITY_MEDIUM;
         } else if (task._priority == 'High') {
-          priorityInt = 3;
+          priorityInt = PRIORITY_HIGH;
         }
         return (task._deadline - new Date()) / priorityInt;
     });
+  },
+});
+
+
+Template.taskList.events({
+  // to find certain tasks based on a substring
+  'input #search': function Client$taskList$searchQuery(event, template) {
+    Session.set('Query', event.currentTarget.value);
   },
 });
 
@@ -275,7 +287,7 @@ Template.taskInfo.events({
   //  once within a certain amount of time
   'click .date-editable': _.debounce(
     function Client$taskList$taskInfo$clickDate(event) {
-      const this_id = this._id;;
+      const this_id = this._id;
       $('.datepicker-input').datepicker({
         minDate: 0,
         maxDate: +100,
@@ -285,14 +297,14 @@ Template.taskInfo.events({
         },
       });
       $('.datepicker-input').focus();
-    }, timeBeforeUpdating, false
+    }, TIME_BEFORE_UPDATING, false
   ),
   'input .task-name': _.debounce(
     function Client$taskList$taskInfo$inputTaskName(event) {
       var task = Tasks.findOne(this._id);
       task.updateTaskName($(event.target).text());
       $(event.target).text('');
-    }, timeBeforeUpdating, false
+    }, TIME_BEFORE_UPDATING, false
   ),
 });
 
