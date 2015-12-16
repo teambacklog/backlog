@@ -8,7 +8,7 @@ Meteor.startup( function Client$Meteor$start() {
 
 /* calculate the earliest deadline, and if it is due in
  *   five days, warn the user
- */ 
+ */
 Accounts.onLogin( function Client$Meteor$LogIn() {
   const currDate = new Date();
   const earDate = TaskScheduler._earliestDueDate();
@@ -20,10 +20,10 @@ Accounts.onLogin( function Client$Meteor$LogIn() {
 
   const utc1 = Date.UTC(currDate.getFullYear(), currDate.getMonth(), currDate.getDate());
   const utc2 = Date.UTC(year, month, date);
-  //console.log(Math.floor((currDat - earDate) / _MS_PER_DAY));
-  if( Math.floor((utc1 - utc2) / _MS_PER_DAY) < 5 ) {
+
+  if (Math.floor((utc1 - utc2) / _MS_PER_DAY) < 5) {
     Materialize.toast('Incoming Deadline!\n'
-      +'"'+earDate.taskName+'": '+month+'/'+date+'/'+year, 5000);
+      + '"' + earDate.taskName + '": ' + month + '/' + date + '/' + year, 5000);
   }
 });
 
@@ -152,21 +152,26 @@ Template.timeSlotBoard.events({
 });
 
 Template.schedulerTask.onRendered( function Client$schedulerTask$onRendered() {
-  Session.set("initTime", new Date());
-  Session.set("timeElapsed", 0);
-  var interval = Meteor.setInterval( function Client$receiveTask$elapseTime() {
-    if( Session.get('initTime') === undefined ) Meteor.clearInterval(interval);
-    Session.set("timeElapsed", Math.floor( ( new Date() - Session.get('initTime') )/60000 ) );
+  var interval;
+  var elapsedTimeMilliSecs;
+  Session.set('initTime', new Date());
+  Session.set('timeElapsed', 0);
+  interval = Meteor.setInterval(function Client$receiveTask$elapseTime() {
+    if (Session.get('initTime') === undefined) {
+      Meteor.clearInterval(interval);
+    }
+    elapsedTimeMilliSecs = new Date() - Session.get('initTime');
+    Session.set('timeElapsed', Math.floor(elapsedTimeMilliSecs / MillisecInAnHour));
   }, 1000);
 });
- 
-Template.schedulerTask.onDestroyed( function Client$schedulerTask$onDestroyed() {
+
+Template.schedulerTask.onDestroyed(function Client$schedulerTask$onDestroyed() {
   Session.set('initTime', undefined);
 });
 
 Template.schedulerTask.helpers({
   timeElapsed: function Client$schedulerTask$getTimeElapsed() {
-    return Session.get("timeElapsed");
+    return Session.get('timeElapsed');
   },
 });
 
@@ -222,23 +227,23 @@ Template.taskList.helpers({
 // Sorts by priority and time remaining
 Template.taskList.helpers({
   tasks: function Client$taskList$getTasks() {
+    var priorityInt;
     // receive tasks based on the substring given
     var tasks = Tasks.find( { 'task._taskName': { $regex: Session.get('Query')} }).fetch();
-    return _.sortBy(tasks, function (task) {
-        // Send completed tasks to the bottom
-        if (task.timeRemaining === 0) {
-          return Infinity;
-        }
-        // Get priority weight
-        var priorityInt = 0;
-        if (task._priority === 'Low') {
-          priorityInt = PRIORITY_LOW;
-        } else if (task._priority === 'Medium') {
-          priorityInt = PRIORITY_MEDIUM;
-        } else if (task._priority === 'High') {
-          priorityInt = PRIORITY_HIGH;
-        }
-        return (task._deadline - new Date()) / priorityInt;
+    return _.sortBy(tasks, function taskListSorter(task) {
+      // Send completed tasks to the bottom
+      if (task.timeRemaining === 0) {
+        return Infinity;
+      }
+      // Get priority weight
+      if (task._priority === 'Low') {
+        priorityInt = PRIORITY_LOW;
+      } else if (task._priority === 'Medium') {
+        priorityInt = PRIORITY_MEDIUM;
+      } else if (task._priority === 'High') {
+        priorityInt = PRIORITY_HIGH;
+      }
+      return (task._deadline - new Date()) / priorityInt;
     });
   },
 });
@@ -246,7 +251,7 @@ Template.taskList.helpers({
 
 Template.taskList.events({
   // to find certain tasks based on a substring
-  'input #search': function Client$taskList$searchQuery(event, template) {
+  'input #search': function Client$taskList$searchQuery(event) {
     Session.set('Query', event.currentTarget.value);
   },
 });
@@ -286,14 +291,14 @@ Template.taskInfo.events({
   // Debounce is an underscorejs function that only calls the nested function
   //  once within a certain amount of time
   'click .date-editable': _.debounce(
-    function Client$taskList$taskInfo$clickDate(event) {
-      const this_id = this._id;
+    function Client$taskList$taskInfo$clickDate() {
+      const currentTaskId = this._id;
       $('.datepicker-input').datepicker({
         minDate: 0,
         maxDate: +100,
-        onSelect: function Client$taskList$taskInfo$updateDeadline(){
-          var task = Tasks.findOne(this_id);
-          task.updateTaskDate( new Date(this.value) );          
+        onSelect: function Client$taskList$taskInfo$updateDeadline() {
+          var task = Tasks.findOne(currentTaskId);
+          task.updateTaskDate(new Date(this.value));
         },
       });
       $('.datepicker-input').focus();
