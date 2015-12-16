@@ -1,4 +1,4 @@
-var getNotCompletedTasks;
+//var getNotCompletedTasks;
 
 Meteor.subscribe('tasks');
 
@@ -21,9 +21,14 @@ Accounts.onLogin( function Client$Meteor$LogIn() {
   const utc1 = Date.UTC(currDate.getFullYear(), currDate.getMonth(), currDate.getDate());
   const utc2 = Date.UTC(year, month, date);
 
+  const numOverdueTasks = TaskScheduler.getOverdueTasks().count();
+
   if (Math.floor((utc1 - utc2) / _MS_PER_DAY) < 5) {
     Materialize.toast('Incoming Deadline!\n'
       + '"' + earDate.taskName + '": ' + month + '/' + date + '/' + year, 5000);
+  }
+  if (numOverdueTasks > 0) {
+    Materialize.toast('Overdue tasks!: ' + numOverdueTasks + ' tasks');
   }
 });
 
@@ -32,13 +37,8 @@ Accounts.onLogin( function Client$Meteor$LogIn() {
  * Summary: Functions here can be used in multiple function wrappers/functions
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-// returns all the tasks that have not been completed
-getNotCompletedTasks = function Client$getNotCompletedTasks() {
-  // Doesn't quite work yet because Meteor does not allow comparison of fields
-  // and subfields, it seems.
-  // return Tasks.find({ $where: 'task._estTime > task._timeSpent' });
-  return Tasks.find({}, { sort: { 'task._deadline': 1 } });
-};
+
+
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * addTaskDisplay template functions
@@ -136,6 +136,7 @@ Template.addTaskDisplay.events({
  * timeSlotBoard template
  * Summary: The options bar for user to select how much they have to spend
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 // these is for the buttons that retrieve the highest sorted task to work on:
 //   only in 15-minute, 30-minute, 1-hour increments
 Template.timeSlotBoard.events({
@@ -198,6 +199,7 @@ Template.schedulerTask.helpers({
  * Summary: The page directed from timeSlotBoard, populated with a task to
  * work on
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 Template.receiveTask.helpers({
   // Returns a list of tasks to work on
   getSchedulerTask: function Client$receiveTask$getSchedulerTask() {
@@ -232,6 +234,7 @@ Template.receiveTask.events({
  * taskList template
  * Summary: Display for user trying to look at all of his/her tasks.
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 // when 'taskList' is rendered, allow the table to be scrolled through
 Template.taskList.onRendered(function Client$taskList$taskListOnDisplay() {
   Session.set('Query', '');
@@ -241,43 +244,14 @@ Template.taskList.onRendered(function Client$taskList$taskListOnDisplay() {
   });
 });
 
-// Get a list of task that belong to this user:
-//   sorts by earliest deadline
-/*
-Template.taskList.helpers({
-  tasks: function Client$taskList$getTasks() {
-    return Tasks.find({}, { sort: { 'task._deadline': 1 } });
-  },
-});
-*/
+
+// ENSURE IT WORKS WITH SEARCHING TASKS
 
 // Get a list of task that belong to this user:
 // Sorts by priority and time remaining
 Template.taskList.helpers({
   tasks: function Client$taskList$getTasks() {
-    var priorityInt;
-    // receive tasks based on the substring given
-
-    // convert string into a MongoDB data type
-    const query = new RegExp('^'+Session.get('Query')+'.*');
-
-    var tasks = Tasks.find( { 'task._taskName': query}).fetch();
-
-    return _.sortBy(tasks, function (task) {
-        // Send completed tasks to the bottom
-        if (task.timeRemaining === 0) {
-          return Infinity;
-        }
-        // Get priority weight
-        if (task._priority === 'Low') {
-          priorityInt = PRIORITY_LOW;
-        } else if (task._priority === 'Medium') {
-          priorityInt = PRIORITY_MEDIUM;
-        } else if (task._priority === 'High') {
-          priorityInt = PRIORITY_HIGH;
-        }
-        return (task._deadline - new Date()) / priorityInt;
-    });
+    return TaskScheduler.getCalculatedTasks();
   },
 });
 
@@ -352,16 +326,17 @@ Template.taskInfo.events({
  * taskSummary template
  * Summary: Display for the front page, a summary of user's tasks.
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 // 'taskSummary' has a number of metrics to aggregate info on the tasks
 Template.taskSummary.helpers({
   // returns the number of tasks
   taskCount: function Client$taskSummary$getTaskCounts() {
-    return getNotCompletedTasks().count();
+    return TaskScheduler.getNotCompletedTasks().count();
   },
   // retrieves the earliest due date
   earliestDue: function Client$taskSummary$getEarliestDue() {
     const MILLI_SEC_PER_DAY = 86400000;
-    var notCompletedTasks = getNotCompletedTasks();
+    var notCompletedTasks = TaskScheduler.getNotCompletedTasks();
 
     if (notCompletedTasks.count() === 0) {
       return 0;
@@ -374,7 +349,7 @@ Template.taskSummary.helpers({
   workLoad: function Client$taskSummary$getWorkLoad() {
     var timeLeft;
     var total = 0;
-    var notCompletedTasks = getNotCompletedTasks();
+    var notCompletedTasks = TaskScheduler.getNotCompletedTasks();
     notCompletedTasks.map(function sumTimes(task) {
       timeLeft = Math.max(task.estTime - task.timeSpent, 0);
       total += timeLeft;
@@ -387,6 +362,7 @@ Template.taskSummary.helpers({
 *  userBoard template
 *  Summary: The container template for taskList and taskSummary.
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 Template.userBoard.onRendered(function Client$userBoard$renderFrontPage() {
   Session.set('displayTaskSummary', true);
   $('[name="addTaskDisplay"]').hide();
@@ -412,6 +388,7 @@ Template.userBoard.events({
  *  Global functions
  *  Summary: Helpers functions used in the template HTML
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 Template.registerHelper('displayTaskSummary',
   function Client$template$displayTaskSummary() {
     return Session.get('displayTaskSummary');
