@@ -27,7 +27,12 @@ Accounts.onLogin( function Client$Meteor$LogIn() {
   }
 });
 
-// Shared functions
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Shared functions
+ * Summary: Functions here can be used in multiple function wrappers/functions
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+// returns all the tasks that have not been completed
 getNotCompletedTasks = function Client$getNotCompletedTasks() {
   // Doesn't quite work yet because Meteor does not allow comparison of fields
   // and subfields, it seems.
@@ -35,8 +40,13 @@ getNotCompletedTasks = function Client$getNotCompletedTasks() {
   return Tasks.find({}, { sort: { 'task._deadline': 1 } });
 };
 
-// when 'addTaskDisplay' is rendered, set the 'datepicker' and 'slider' elements
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * addTaskDisplay template functions
+ * Summary: addTaskDisplay modal functionalities such as validation and adding
+ * new task.
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 Template.addTaskDisplay.onRendered(
+  // Set the 'datepicker' and 'slider' elements
   function Client$addTaskDisplay$renderContextMenu() {
     // limits the range of dates to 100 days later
     $('#datepicker').datepicker({
@@ -122,6 +132,10 @@ Template.addTaskDisplay.events({
   },
 });
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * timeSlotBoard template
+ * Summary: The options bar for user to select how much they have to spend
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 // these is for the buttons that retrieve the highest sorted task to work on:
 //   only in 15-minute, 30-minute, 1-hour increments
 Template.timeSlotBoard.events({
@@ -151,6 +165,10 @@ Template.timeSlotBoard.events({
   },
 });
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *  schedulerTask template
+ *  Summary: ??????? TBD
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 Template.schedulerTask.onRendered( function Client$schedulerTask$onRendered() {
   var interval;
   var elapsedTimeMilliSecs;
@@ -175,6 +193,11 @@ Template.schedulerTask.helpers({
   },
 });
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * receiveTask template
+ * Summary: The page directed from timeSlotBoard, populated with a task to
+ * work on
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 Template.receiveTask.helpers({
   // Returns a list of tasks to work on
   getSchedulerTask: function Client$receiveTask$getSchedulerTask() {
@@ -204,6 +227,11 @@ Template.receiveTask.events({
   },
 });
 
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * taskList template
+ * Summary: Display for user trying to look at all of his/her tasks.
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 // when 'taskList' is rendered, allow the table to be scrolled through
 Template.taskList.onRendered(function Client$taskList$taskListOnDisplay() {
   Session.set('Query', '');
@@ -261,6 +289,10 @@ Template.taskList.events({
   },
 });
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * taskInfo template
+ * Summary: Helper for taskList on how to display specific tasks
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 // Add classes to tasks in task list
 Template.taskInfo.helpers({
   taskStyle: function Client$taskList$taskInfo$taskStyle(task) {
@@ -316,6 +348,10 @@ Template.taskInfo.events({
   ),
 });
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * taskSummary template
+ * Summary: Display for the front page, a summary of user's tasks.
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 // 'taskSummary' has a number of metrics to aggregate info on the tasks
 Template.taskSummary.helpers({
   // returns the number of tasks
@@ -347,7 +383,10 @@ Template.taskSummary.helpers({
   },
 });
 
-//
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*  userBoard template
+*  Summary: The container template for taskList and taskSummary.
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 Template.userBoard.onRendered(function Client$userBoard$renderFrontPage() {
   Session.set('displayTaskSummary', true);
   $('[name="addTaskDisplay"]').hide();
@@ -368,7 +407,11 @@ Template.userBoard.events({
   },
 });
 
-// Global function
+// 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *  Global functions
+ *  Summary: Helpers functions used in the template HTML
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 Template.registerHelper('displayTaskSummary',
   function Client$template$displayTaskSummary() {
     return Session.get('displayTaskSummary');
