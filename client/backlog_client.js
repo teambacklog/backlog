@@ -231,11 +231,11 @@ Template.taskList.helpers({
         }
         // Get priority weight
         var priorityInt = 0;
-        if (task._priority == 'Low') {
+        if (task._priority === 'Low') {
           priorityInt = PRIORITY_LOW;
-        } else if (task._priority == 'Medium') {
+        } else if (task._priority === 'Medium') {
           priorityInt = PRIORITY_MEDIUM;
-        } else if (task._priority == 'High') {
+        } else if (task._priority === 'High') {
           priorityInt = PRIORITY_HIGH;
         }
         return (task._deadline - new Date()) / priorityInt;
