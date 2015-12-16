@@ -222,8 +222,14 @@ Template.taskList.helpers({
 // Sorts by priority and time remaining
 Template.taskList.helpers({
   tasks: function Client$taskList$getTasks() {
+
     // receive tasks based on the substring given
-    var tasks = Tasks.find( { 'task._taskName': { $regex: Session.get('Query')} }).fetch();
+
+    // convert string into a MongoDB data type
+    const query = new RegExp('^'+Session.get('Query')+'.*');
+
+    var tasks = Tasks.find( { 'task._taskName': query}).fetch();
+
     return _.sortBy(tasks, function (task) {
         // Send completed tasks to the bottom
         if (task.timeRemaining === 0) {
@@ -283,22 +289,20 @@ Template.taskInfo.events({
     var task = Tasks.findOne(this._id);
     task.updateTimeSpent(task.estTime);
   },
+  'click .date-editable': function Client$taskList$taskInfo$clickDate(event) {
+    const this_id = this._id;
+    $('.datepicker-input').datepicker({
+      minDate: 0,
+      maxDate: +100,
+      onSelect: function Client$taskList$taskInfo$updateDeadline(){
+        var task = Tasks.findOne(this_id);
+        task.updateTaskDate( new Date(this.value) );          
+      },
+    });
+    $('.datepicker-input').focus();
+  },
   // Debounce is an underscorejs function that only calls the nested function
   //  once within a certain amount of time
-  'click .date-editable': _.debounce(
-    function Client$taskList$taskInfo$clickDate(event) {
-      const this_id = this._id;
-      $('.datepicker-input').datepicker({
-        minDate: 0,
-        maxDate: +100,
-        onSelect: function Client$taskList$taskInfo$updateDeadline(){
-          var task = Tasks.findOne(this_id);
-          task.updateTaskDate( new Date(this.value) );          
-        },
-      });
-      $('.datepicker-input').focus();
-    }, TIME_BEFORE_UPDATING, false
-  ),
   'input .task-name': _.debounce(
     function Client$taskList$taskInfo$inputTaskName(event) {
       var task = Tasks.findOne(this._id);
