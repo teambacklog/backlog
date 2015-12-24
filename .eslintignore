@@ -1,3 +1,4 @@
 tests/jasmine/*/*/*Spec.js
 tests/jasmine/*/*/*-stubs.js
 public/javascripts/*
+packages/*

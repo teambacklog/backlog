@@ -3,9 +3,8 @@
 // TODO: change it into a singleton class.
 TaskService = {
   // adds a task to the 'Tasks' collection
-  addTask:
-    function TaskService$addTask(userId, taskName, priority, date, estTime,
-                                 taskDetails) {
+  addTask: function TaskService$addTask(userId, taskName, priority, date,
+                                        estTime, taskDetails) {
     // put in a task into the MongoDB Collection
     Tasks.insert({
       userId: userId,
@@ -25,5 +24,5 @@ TaskService = {
   modifyTask: function TaskService$modiftTask(userId, taskId, taskJson) {
     // Make sure it is the right userId
     // some kind of task update
-  }
+  },
 };

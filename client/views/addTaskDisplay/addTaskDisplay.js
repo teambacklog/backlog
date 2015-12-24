@@ -1,7 +1,7 @@
 Template.addTaskDisplay.onRendered(
   // Set the 'datepicker' and 'slider' elements
   function Client$addTaskDisplay$renderContextMenu() {
-   $('.modal-trigger').leanModal();
+    $('.modal-trigger').leanModal();
 
     // limits the range of dates to 100 days later
     $('#datepicker').datepicker({

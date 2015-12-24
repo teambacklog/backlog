@@ -10,7 +10,7 @@ TaskScheduler = {
     var allTasks;
     var i;
 
-    allTasks = Tasks.find({}, { sort: { 'deadline': 1 } }).fetch();
+    allTasks = Tasks.find({}, { sort: { deadline: 1 } }).fetch();
     if (allTasks.length === 0) {
       return 0;
     }

@@ -1,10 +1,10 @@
 Tasks = new Mongo.Collection('tasks');
 
 Tasks.helpers({
-  timeRemaining: function() {
+  timeRemaining: function Collection$Task$Helper$timeRemaining() {
     return Math.max(this.estTime - this.timeSpent, 0);
-  }
-})
+  },
+});
 
 /*
 var Schemas = {};

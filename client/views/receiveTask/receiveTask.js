@@ -18,14 +18,14 @@ Template.receiveTask.onRendered( function Client$schedulerTask$onRendered() {
   const minIntervals = 5;
   var intervalId;
   Session.set('timeElapsed', 0);
-  intervalId = Meteor.setInterval(function() {
+  intervalId = Meteor.setInterval(function Client$receiveTask$elapsedInterv() {
     Session.set('timeElapsed', Session.get('timeElapsed') + minIntervals);
-  }, minIntervals*millisecInMin);
+  }, minIntervals * millisecInMin);
   Session.set('intervalId', intervalId);
 });
 
 Template.receiveTask.onDestroyed(function Client$schedulerTask$onDestroyed() {
-  Meteor.clearTimeout(Session.get('intervalId'))
+  Meteor.clearTimeout(Session.get('intervalId'));
 });
 
 Template.receiveTask.helpers({

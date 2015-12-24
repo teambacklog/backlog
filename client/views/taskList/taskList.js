@@ -15,24 +15,24 @@ Template.taskList.helpers({
     // receive tasks based on the substring given
 
     // convert string into a MongoDB data type
-    const query = new RegExp('^'+Session.get('Query')+'.*');
+    const query = new RegExp('^' + Session.get('Query') + '.*');
 
-    var tasks = Tasks.find({ 'taskName': query }).fetch();
+    var tasks = Tasks.find({ taskName: query }).fetch();
 
-    return _.sortBy(tasks, function (task) {
-        // Send completed tasks to the bottom
-        if (task.timeRemaining === 0) {
-          return Infinity;
-        }
-        // Get priority weight
-        if (task._priority === 'Low') {
-          priorityInt = PRIORITY_LOW;
-        } else if (task._priority === 'Medium') {
-          priorityInt = PRIORITY_MEDIUM;
-        } else if (task._priority === 'High') {
-          priorityInt = PRIORITY_HIGH;
-        }
-        return (task._deadline - new Date()) / priorityInt;
+    return _.sortBy(tasks, function Client$taskList$taskSorter(task) {
+      // Send completed tasks to the bottom
+      if (task.timeRemaining === 0) {
+        return Infinity;
+      }
+      // Get priority weight
+      if (task._priority === 'Low') {
+        priorityInt = PRIORITY_LOW;
+      } else if (task._priority === 'Medium') {
+        priorityInt = PRIORITY_MEDIUM;
+      } else if (task._priority === 'High') {
+        priorityInt = PRIORITY_HIGH;
+      }
+      return (task._deadline - new Date()) / priorityInt;
     });
   },
 });
