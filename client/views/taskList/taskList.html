@@ -1,6 +1,7 @@
 <template name="taskList">
-  <div class="section">
+  <div class="section animated slideInLeft">
     <br><br>
+    <input placeholder="Search Task" id="search" type="text">
     <h1 class="header center orange-text">Your Work</h1>
     <div class="section s12"  id="taskList">
       <div class=" scroll">
@@ -19,7 +20,7 @@
           </thead>
           <tbody>
             {{ #each tasks }}
-              {{ > taskInfo }}
+              {{> taskRow }}
             {{ /each }}
           </tbody>
         </table>
@@ -27,25 +28,17 @@
       <br><br>
     </div>
   </div>
-
 </template>
 
-
-<template name="taskInfo">
+<template name="taskRow">
   <tr class="taskRow {{ taskStyle(this) }}">
-    <td class="task-name" contentEditable="true">{{ taskName }}</td>
-    <td class="priority">{{ priority }}</td>
-    <td class="date">{{ deadline.toDateString }}</td>
-    <td class="est-time" contentEditable="true">{{ estTime }}</td>
-    <td class="time-spent" contentEditable="true">{{ timeSpent }}</td>
+    <td class="task-name"> {{ taskName }} </td>
+    <td class="priority"> {{ priority }} </td>
+    <td class="date"> {{ deadline.toDateString }} </td>
+    <td class="est-time"> {{ estTime }} </td>
+    <td class="time-spent"> {{ timeSpent }} </td>
     <td class="time-remaining">
-      <a class="btn-floating waves-effect waves-light blue add-time-est">
-        <i class="material-icons">add</i>
-      </a>
-      &nbsp; {{ timeRemaining }} &nbsp;
-      <a class="btn-floating waves-effect waves-light blue add-time-spent">
-        <i class="material-icons">remove</i>
-      </a>
+      {{ timeRemaining }}
     </td>
     <td class="Delete">
       <a class="waves-effect waves-teal btn-flat delete-task">
@@ -57,6 +50,5 @@
         <i class="material-icons">done</i>
       </a>
     </td>
-
   </tr>
 </template>

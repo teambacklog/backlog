@@ -16,10 +16,15 @@ standard-minifiers      # JS/CSS minifiers run for production mode
 es5-shim                # ECMAScript 5 compatibility for older browsers.
 ecmascript              # Enable ECMAScript2015+ syntax in app code
 
+aldeed:collection2
+materialize:materialize
 accounts-password
+iron:router
+mrt:moment
 accounts-ui
-sanjo:jasmine
-velocity:html-reporter
-velocity:console-reporter
+sacha:spin
+
+
+zimme:active-route
+dburles:collection-helpers
 underscore
-themeteorchef:jquery-validation

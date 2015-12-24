@@ -1,0 +1,62 @@
+<template name="receiveTask">
+  <div class="container">
+        <br><br>
+        <div class="col s12 center">
+          <div class="card-panel z-depth-3">
+            <div class="row">
+              <h2 class="center teal-text"> {{ taskName }} </h2>
+            </div>
+
+            <div class="row">
+
+              <div class="col s3">
+                <!-- Promo Content 1 goes here -->
+                <h2 class="center teal-text"><i class="large material-icons">snooze</i></h2>
+                <h5>Due on:</h5>
+                <h5> <span class="teal-text text-accent-3"> {{ deadline.toDateString }} </span>.</h5>
+              </div>
+              <div class="col s6">
+                <!-- Promo Content 2 goes here -->
+                <h2 class="center teal-text"><i class="large material-icons">dashboard</i></h2>
+                <h5>Estimated <span class="teal-text text-accent-3"> {{ estTime }} </span> mins. </h5>
+                <h5><span class="teal-text text-accent-3"> {{timeToGo}} </span> mins to go in this session. </h5>
+              </div>
+
+              <div class="col s3">
+                <!-- Promo Content 3 goes here -->
+                <h2 class="center teal-text"><i class="large material-icons">stars</i></h2>
+                <h5>The priority is <span class="teal-text text-accent-3"> {{ priority }}</span>.</h5>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="progress">
+                <div class="indeterminate"></div>
+              </div>
+            </div>
+
+            <div class="row">
+              <h2> {{ taskDetails }} </h2>
+            </div>
+
+              <div class="row center">
+                <a id="finished-task" class="waves-effect waves-light btn-large">Task Completed
+                <i class="material-icons right">done</i>
+                </a>
+                <a id="spent-time-to-spent" class="waves-effect waves-light btn-large"> {{ timeElapsed }} mins Spent
+                <i class="material-icons right">replay</i>
+                </a>
+                <a id="did-not-work-on" class="waves-effect waves-light btn-large">Task Summary
+                <i class="material-icons right">skip_previous</i>
+                </a>
+              </div>
+
+          </div>
+        </div>
+        <br>
+  </div>
+</template>
+
+<template name="schedulerTask">
+  
+</template>

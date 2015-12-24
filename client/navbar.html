@@ -1,17 +1,18 @@
 <template name="navbar">
   <nav class="light-blue lighten-1" role="navigation">
     <div class="nav-wrapper container">
-      <a id="logo-container" class="brand-logo">
+      <a id="logo-container" class="brand-logo" href="/">
         <div>
-            <img class="responsive-img" id="backlog-logo" src="logo.png" alt="BacklogLogo" width="45%">
+            <img class="responsive-img" id="backlog-logo" src="/imgs/transparent_logo.png" alt="BacklogLogo" width="45%">
         </div>
       </a>
       <ul class="right hide-on-med-and-down">
         <li>{{> loginButtons}}</li>
+        <!--<li>{{> atNavButton}}</li>-->
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
-        <li>{{> loginButtons}}</li>
+        <li><a href="#">Navbar Link</a></li>
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>

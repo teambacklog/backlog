@@ -1,0 +1,26 @@
+<template name="interactiveLayout">
+  {{> navbar }}
+  <div class="container">
+    <br><br>
+    <div class="row">
+      <a class="btn-floating btn-large waves-effect waves-light red right modal-trigger" href="#addTaskModal">
+         <i class="material-icons" id="add-task-button">add</i>
+      </a>
+      <div class="row">
+        <div class="col s5 section scrollspy">
+          <ul class="tabs">
+            <li class="tab col s3"><a class="active" href="/">Task Summary</a></li>
+            <li class="tab col s3"><a href="/taskList">Task List</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    {{> addTaskDisplay }}
+
+    {{> yield }}
+
+    {{> timeSlotBoard }}
+  </div>
+  {{> footer }}
+</template>
